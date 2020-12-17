@@ -1,3 +1,4 @@
+all: vw0 vw1 vw2
 vw0: clean
 	iverilog -DVW_IVLOG_GO2UVM -DIVL_UVM -g2012 -I../../ivl_uvm_src -o vw_ivl_go2uvm.vvp  -f flist.t0 2>&1 | tee go2uvm_comp.log 	
 	vvp -l go2uvm_run.log vw_ivl_go2uvm.vvp
@@ -10,10 +11,6 @@ vw1: clean
 
 vw2: clean
 	iverilog -DVW_IVLOG_GO2UVM -DIVL_UVM -g2012 -I../../ivl_uvm_src -o vw_ivl_go2uvm.vvp  -f flist.t2 2>&1 | tee go2uvm_comp.log 	
-	vvp -l go2uvm_run.log vw_ivl_go2uvm.vvp
-
-t: clean
-	iverilog -DVW_IVLOG_GO2UVM -DIVL_UVM -g2012 -I../../ivl_uvm_src -o vw_ivl_go2uvm.vvp  -f f.t 2>&1 | tee go2uvm_comp.log 	
 	vvp -l go2uvm_run.log vw_ivl_go2uvm.vvp
 
 

@@ -27,7 +27,7 @@
   `define IVL_UVM_PKG
 
   `define IVL_UVM
-
+  `define UVM_CMDLINE_NO_DPI
 
 package ivl_uvm_pkg;
   `include "ivl_uvm_types.svh"
@@ -40,7 +40,7 @@ package ivl_uvm_pkg;
 endpackage : ivl_uvm_pkg
 import ivl_uvm_pkg::*;
 
-// `include "ivl_uvm_clp.svh"
+`include "ivl_uvm_clp.svh"
 
 `endif //  IVL_UVM_PKG
 

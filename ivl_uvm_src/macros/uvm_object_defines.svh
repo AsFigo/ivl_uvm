@@ -170,16 +170,10 @@
        /* Allow objects in same hierarchy to be copied/compared */ \
        if(!$cast(local_data__, tmp_data__)) return;
 
-       // IVL_UVM moved this comment from inside the macro to outside
-     // IVL issue 435
-    // remove all scopes recorded (through super and other objects visited before) \
 `define uvm_field_utils_end \
      if(what__ inside {UVM_SETINT,UVM_SETSTR,UVM_SETOBJ}) begin \
-	`ifdef IVL_UVM \
-          __current_scopes.pop_back()); \
-	`else \
-          void'(__current_scopes.pop_back()); \
-        `endif \
+        // remove all scopes recorded (through super and other objects visited before) \
+        void'(__current_scopes.pop_back()); \
         __m_uvm_status_container.m_uvm_cycle_scopes = __current_scopes; \
      end \
      end \
@@ -787,6 +781,7 @@ endfunction \
           end \
           else if(ARG!=null && ((FLAG)&UVM_READONLY) == 0) begin \
             int cnt; \
+            //Only traverse if there is a possible match. \
             for(cnt=0; cnt<str__.len(); ++cnt) begin \
               if(str__[cnt] == "." || str__[cnt] == "*") break; \
             end \
@@ -1026,12 +1021,14 @@ endfunction \
         end \
       UVM_PACK: \
         if(!((FLAG)&UVM_NOPACK)) begin \
+          // Events aren't packed or unpacked  \
         end \
       UVM_UNPACK: \
         if(!((FLAG)&UVM_NOPACK)) begin \
         end \
       UVM_RECORD: \
         begin \
+          // Events are not recorded  \
         end \
       UVM_PRINT: \
         if(!((FLAG)&UVM_NOPRINT)) begin \
@@ -1039,6 +1036,7 @@ endfunction \
         end \
       UVM_SETINT: \
         begin \
+          // Events are not configurable via set_config \
         end \
     endcase \
   end
@@ -1240,6 +1238,7 @@ endfunction \
               end \
               else if(ARG[i]!=null && !((FLAG)&UVM_REFERENCE)) begin \
                 int cnt; \
+                //Only traverse if there is a possible match. \
                 for(cnt=0; cnt<str__.len(); ++cnt) begin \
                   if(str__[cnt] == "." || str__[cnt] == "*") break; \
                 end \
@@ -1267,6 +1266,7 @@ endfunction \
               end \
               else if(ARG[i]!=null && !((FLAG)&UVM_REFERENCE)) begin \
                 int cnt; \
+                //Only traverse if there is a possible match. \
                 for(cnt=0; cnt<str__.len(); ++cnt) begin \
                   if(str__[cnt] == "." || str__[cnt] == "*") break; \
                 end \
@@ -1294,6 +1294,7 @@ endfunction \
               end \
               else if(ARG[i]!=null && !((FLAG)&UVM_REFERENCE)) begin \
                 int cnt; \
+                //Only traverse if there is a possible match. \
                 for(cnt=0; cnt<str__.len(); ++cnt) begin \
                   if(str__[cnt] == "." || str__[cnt] == "*") break; \
                 end \
@@ -1800,6 +1801,7 @@ endfunction \
               end \
               else if(ARG[i]!=null && !((FLAG)&UVM_REFERENCE)) begin \
                 int cnt; \
+                //Only traverse if there is a possible match. \
                 for(cnt=0; cnt<str__.len(); ++cnt) begin \
                   if(str__[cnt] == "." || str__[cnt] == "*") break; \
                 end \
@@ -1834,6 +1836,7 @@ endfunction \
               end \
               else if(ARG[i]!=null && !((FLAG)&UVM_REFERENCE)) begin \
                 int cnt; \
+                //Only traverse if there is a possible match. \
                 for(cnt=0; cnt<str__.len(); ++cnt) begin \
                   if(str__[cnt] == "." || str__[cnt] == "*") break; \
                 end \
@@ -1882,6 +1885,7 @@ endfunction \
                 if (ARG[i]!=null) begin \
                   string s; \
                   $swrite(s,`"ARG[%0d]`",i); \
+                //Only traverse if there is a possible match. \
                 for(cnt=0; cnt<str__.len(); ++cnt) begin \
                   if(str__[cnt] == "." || str__[cnt] == "*") break; \
                 end \
@@ -2852,6 +2856,7 @@ endfunction \
                 end while(ARG.next(aa_key)); \
             end \
             p__.print_array_footer(ARG.num()); \
+            //p__.print_footer(); \
           end \
       endcase \
     end \
@@ -2885,9 +2890,11 @@ endfunction \
                 lhs = ARG[string_aa_key]; \
                 rhs = local_data__.ARG[string_aa_key]; \
                 __m_uvm_status_container.scope.down({"[",string_aa_key,"]"}); \
+                //if the object are the same then don't need to do a deep compare \
                 if(rhs != lhs) begin \
                   bit refcmp; \
                   refcmp = ((FLAG)& UVM_SHALLOW) && !(__m_uvm_status_container.comparer.policy == UVM_DEEP); \
+                  //do a deep compare here  \
                   if(!refcmp && !(__m_uvm_status_container.comparer.policy == UVM_REFERENCE)) begin \
                     if(((rhs == null) && (lhs != null)) || ((lhs==null) && (rhs!=null))) begin \
                       __m_uvm_status_container.comparer.print_msg_object(lhs, rhs); \
@@ -2897,7 +2904,7 @@ endfunction \
                         void'(lhs.compare(rhs, __m_uvm_status_container.comparer)); \
                     end \
                   end \
-                  else begin \
+                  else begin //reference compare \
                     __m_uvm_status_container.comparer.print_msg_object(lhs, rhs); \
                   end \
                 end \
@@ -2964,6 +2971,7 @@ endfunction \
                   if(rhs != lhs) begin \
                     bit refcmp; \
                     refcmp = ((FLAG)& UVM_SHALLOW) && !(__m_uvm_status_container.comparer.policy == UVM_DEEP); \
+                    //do a deep compare here  \
                     if(!refcmp && !(__m_uvm_status_container.comparer.policy == UVM_REFERENCE)) begin \
                       if(((rhs == null) && (lhs != null)) || ((lhs==null) && (rhs!=null))) begin \
                         __m_uvm_status_container.comparer.print_msg_object(lhs, rhs); \
@@ -2973,7 +2981,7 @@ endfunction \
                           void'(lhs.compare(rhs, __m_uvm_status_container.comparer)); \
                       end \
                     end \
-                    else begin \
+                    else begin //reference compare \
                       __m_uvm_status_container.comparer.print_msg_object(lhs, rhs); \
                     end \
                   end \

@@ -38,7 +38,9 @@ package ivl_uvm_pkg;
   `include "ivl_uvm_comps.svh"
 
 endpackage : ivl_uvm_pkg
+import ivl_uvm_pkg::*;
 
+// `include "ivl_uvm_clp.svh"
 
 `endif //  IVL_UVM_PKG
 

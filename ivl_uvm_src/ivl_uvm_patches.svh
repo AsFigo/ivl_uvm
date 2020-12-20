@@ -122,6 +122,5 @@
   endfunction : get_report_verbosity_level
 
 
-
 `endif // __IVL_UVM_PATCHES__
 

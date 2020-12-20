@@ -25,6 +25,7 @@
 `ifndef IVL_UVM_MACROS
   `define IVL_UVM_MACROS
 
+  /*
 `ifdef UVM_REPORT_DISABLE_FILE_LINE
   `define UVM_REPORT_DISABLE_FILE
   `define UVM_REPORT_DISABLE_LINE
@@ -83,7 +84,7 @@
      $finish(1); \
    end
 
-
+  */
  `define g2u_display(MSG, VERBOSITY=UVM_MEDIUM) \
    begin \
      string msg; \
@@ -98,4 +99,6 @@
 
 
 `endif //  IVL_UVM_MACROS
+
+`include "uvm_macros.svh"
 

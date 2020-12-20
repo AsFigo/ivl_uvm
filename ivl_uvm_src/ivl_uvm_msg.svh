@@ -24,16 +24,9 @@
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 
-  function uvm_count_info();
-    uvm_info_counter++;
-  endfunction : uvm_count_info
-
-  /*
-
   function void uvm_count_info();
     uvm_info_counter++;
   endfunction : uvm_count_info
-  */
 
   function void uvm_count_warn();
     uvm_warn_counter++;
@@ -85,22 +78,110 @@
                                   int verbosity,
                                   string filename = "",
                                   int line = 0);
-    // ivl_uvm_compose_message(UVM_INFO, "", id, message, filename, line); 
+    string msg_str;
+
+    `ifndef IVL_UVM 
+        m_rh.report(UVM_INFO, get_full_name(), id, message, verbosity,
+                filename, line, this);
+    `else
+      msg_str = ivl_uvm_compose_message(UVM_INFO, id, message, filename, line); 
+      uvm_count_info(); 
+      $display (msg_str);
+    `endif // IVL_UVM 
 
   endfunction : uvm_report_info
+  // Function: uvm_report_warning
+
+  function void uvm_report_warning( string id,
+                                            string message,
+                                            int verbosity = UVM_MEDIUM,
+                                            string filename = "",
+                                            int line = 0);
+
+    string msg_str;
+    `ifndef IVL_UVM 
+      m_rh.report(UVM_WARNING, get_full_name(), id, message, verbosity, 
+                 filename, line, this);
+    `else
+      msg_str = ivl_uvm_compose_message(UVM_WARNING, id, message, filename, line); 
+      uvm_count_warn(); 
+      $display (msg_str);
+    `endif // IVL_UVM 
 
 
+  endfunction
 
+  // Function: uvm_report_error
+
+  function void uvm_report_error( string id,
+                                          string message,
+                                          int verbosity = UVM_LOW,
+                                          string filename = "",
+                                          int line = 0);
+    string msg_str;
+    `ifndef IVL_UVM 
+      m_rh.report(UVM_ERROR, get_full_name(), id, message, verbosity, 
+                 filename, line, this);
+    `else
+      msg_str = ivl_uvm_compose_message(UVM_ERROR, id, message, filename, line); 
+      uvm_count_err (); 
+      $display (msg_str);
+    `endif // IVL_UVM 
+
+  endfunction
+
+  // Function: uvm_report_fatal
+  //
+  // These are the primary reporting methods in the UVM. Using these instead
+  // of ~$display~ and other ad hoc approaches ensures consistent output and
+  // central control over where output is directed and any actions that
+  // result. All reporting methods have the same arguments, although each has
+  // a different default verbosity:
+  //
+  //   id        - a unique id for the report or report group that can be used
+  //               for identification and therefore targeted filtering. You can
+  //               configure an individual report's actions and output file(s)
+  //               using this id string.
+  //
+  //   message   - the message body, preformatted if necessary to a single
+  //               string.
+  //
+  //   verbosity - the verbosity of the message, indicating its relative
+  //               importance. If this number is less than or equal to the
+  //               effective verbosity level, see <set_report_verbosity_level>,
+  //               then the report is issued, subject to the configured action
+  //               and file descriptor settings.  Verbosity is ignored for 
+  //               warnings, errors, and fatals. However, if a warning, error
+  //               or fatal is demoted to an info message using the
+  //               <uvm_report_catcher>, then the verbosity is taken into
+  //               account.
+  //
+  //   filename/line - (Optional) The location from which the report was issued.
+  //               Use the predefined macros, `__FILE__ and `__LINE__.
+  //               If specified, it is displayed in the output.
+
+  function void uvm_report_fatal( string id,
+                                          string message,
+                                          int verbosity = UVM_NONE,
+                                          string filename = "",
+                                          int line = 0);
+    string msg_str;
+    `ifndef IVL_UVM 
+      m_rh.report(UVM_FATAL, get_full_name(), id, message, verbosity, 
+                 filename, line, this);
+    `else
+      msg_str = ivl_uvm_compose_message(UVM_FATAL, id, message, filename, line); 
+      uvm_count_fatal (); 
+      $display (msg_str);
+      report_summarize ();
+      $finish (1);
+    `endif // IVL_UVM 
+
+  endfunction
+
+
+  
 function string ivl_uvm_compose_message(
-      uvm_severity severity,
-      string id,
-      string message,
-      string filename,
-      int    line
-      );
-endfunction : ivl_uvm_compose_message
-
-function string ivl_uvm_compose_message1(
       uvm_severity severity,
       string id,
       string message,
@@ -131,5 +212,5 @@ function string ivl_uvm_compose_message1(
 	         return {sv, " ", filename, "(", line_str, ")", " @ ", time_str, ": ", name, " [", id, "] ", message};
            end
     endcase
-  endfunction : ivl_uvm_compose_message1
+  endfunction : ivl_uvm_compose_message
 

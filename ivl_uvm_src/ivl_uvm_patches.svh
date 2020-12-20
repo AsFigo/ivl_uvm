@@ -46,7 +46,7 @@
     end
   endfunction : uvm_report_enabled
 
-  function m_check_verbosity();
+  function void m_check_verbosity();
     string verb_string;
     int verb_count;
     int plusarg;

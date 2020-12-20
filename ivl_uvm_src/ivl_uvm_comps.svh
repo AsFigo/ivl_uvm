@@ -27,12 +27,6 @@ virtual class uvm_void;
   function new ();
   endfunction : new 
 
-  `ifdef IVL_UVM_I419
-  // IVL_UVM issue 416,418 etc.
-  function void uvm_count_info();
-    uvm_info_counter++;
-  endfunction : uvm_count_info
-  `endif
  
 endclass : uvm_void
 
@@ -40,6 +34,11 @@ class uvm_object extends uvm_void;
   function new ();
     super.new ();
   endfunction : new 
+
+  `ifdef IVL_UVM_I419
+  // IVL_UVM issue 416,418 etc.
+  `include "ivl_uvm_msg.svh"
+  `endif
 
   virtual function void print ();
     `uvm_info (log_id, "Print", UVM_MEDIUM);

@@ -272,10 +272,10 @@ class uvm_blocking_master_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
   typedef RSP_IMP this_rsp_type; \
   `UVM_MS_IMP_COMMON(`UVM_TLM_BLOCKING_MASTER_MASK,`"uvm_blocking_master_imp``SFX`") \
   \
-  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t)  \
+  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
   \
-  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
-  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
+  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
+  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
   \
 endclass
 
@@ -295,10 +295,10 @@ class uvm_nonblocking_master_imp``SFX #(type REQ=int, type RSP=int, type IMP=int
   typedef RSP_IMP this_rsp_type; \
   `UVM_MS_IMP_COMMON(`UVM_TLM_NONBLOCKING_MASTER_MASK,`"uvm_nonblocking_master_imp``SFX`") \
   \
-  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t)  \
+  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
   \
-  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
-  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
+  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
+  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
   \
 endclass
 
@@ -319,13 +319,13 @@ class uvm_master_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
   typedef RSP_IMP this_rsp_type; \
   `UVM_MS_IMP_COMMON(`UVM_TLM_MASTER_MASK,`"uvm_master_imp``SFX`") \
   \
-  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t)  \
-  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t)  \
+  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
+  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
   \
-  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
-  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
-  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
-  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
+  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
+  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
+  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
+  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
   \
 endclass
 
@@ -345,10 +345,10 @@ class uvm_blocking_slave_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
   typedef RSP_IMP this_rsp_type; \
   `UVM_MS_IMP_COMMON(`UVM_TLM_BLOCKING_SLAVE_MASK,`"uvm_blocking_slave_imp``SFX`") \
   \
-  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
+  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
   \
-  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t) \
-  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t)  \
+  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
+  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
   \
 endclass
 
@@ -368,10 +368,10 @@ class uvm_nonblocking_slave_imp``SFX #(type REQ=int, type RSP=int, type IMP=int,
   typedef RSP_IMP this_rsp_type; \
   `UVM_MS_IMP_COMMON(`UVM_TLM_NONBLOCKING_SLAVE_MASK,`"uvm_nonblocking_slave_imp``SFX`") \
   \
-  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
+  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
   \
-  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t)  \
-  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t)  \
+  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
+  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
   \
 endclass
 
@@ -392,13 +392,13 @@ class uvm_slave_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
   typedef RSP_IMP this_rsp_type; \
   `UVM_MS_IMP_COMMON(`UVM_TLM_SLAVE_MASK,`"uvm_slave_imp``SFX`") \
   \
-  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
-  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t)  \
+  `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
+  `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_rsp_imp, RSP, t) // rsp \
   \
-  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t)  \
-  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t)  \
-  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t)  \
-  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t)  \
+  `UVM_BLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
+  `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
+  `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
+  `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_req_imp, REQ, t) // req \
   \
 endclass
 

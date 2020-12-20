@@ -112,6 +112,7 @@
     if(P!=null) p__ = P; \
     else p__ = uvm_default_printer; \
     foreach(F[i]) max__ = i+1; \
+//    max__=$size(F); \
     p__.print_array_header (`"F`", max__,`"T``(integral)`"); \
     k__ = p__.knobs; \
     if((p__.knobs.depth == -1) || (p__.m_scope.depth() < p__.knobs.depth+1)) \
@@ -135,6 +136,7 @@
       end \
     end \
     p__.print_array_footer(max__); \
+    //p__.print_footer(); \
   end
  
 `define uvm_print_qda_enum(F, P, T, ET) \
@@ -145,6 +147,7 @@
     if(P!=null) p__ = P; \
     else p__ = uvm_default_printer; \
     foreach(F[i]) max__ = i+1; \
+    //max__=$size(F); \
     p__.print_array_header (`"F`", max__,`"T``(``ET``)`"); \
     k__ = p__.knobs; \
     if((p__.knobs.depth == -1) || (p__.m_scope.depth() < p__.knobs.depth+1)) \
@@ -168,6 +171,7 @@
       end \
     end \
     p__.print_array_footer(max__); \
+    //p__.print_footer(); \
   end
  
 `define uvm_print_queue_int(F, R) \
@@ -195,8 +199,10 @@
     max__=0; curr=0; \
     if(P!=null) p__ = P; \
     else p__ = uvm_default_printer; \
+    //max__=$size(F); \
     foreach(F[i]) max__ = i+1; \
 \
+    //p__.print_header();\
 \
     p__.m_scope.set_arg(`"F`");\
     p__.print_array_header(`"F`", max__, `"T``(object)`");\
@@ -225,6 +231,7 @@
     end \
 \
     p__.print_array_footer(max__); \
+    //p__.print_footer(); \
   end while(0);
  
 `define uvm_print_object_queue(F,FLAG) \
@@ -249,10 +256,12 @@
     int curr, max__; \
     uvm_printer p__; \
     max__=0; curr=0; \
+    //max__=$size(F); \
     foreach(F[i]) max__ = i+1; \
     if(P!=null) p__ = P; \
     else p__ = uvm_default_printer; \
 \
+    //p__.print_header();\
 \
     p__.m_scope.set_arg(`"F`");\
     p__.print_array_header(`"F`", max__, `"T``(string)`");\
@@ -274,6 +283,7 @@
     end \
 \
     p__.print_array_footer(max__); \
+    //p__.print_footer(); \
   end while(0);
  
 `define uvm_print_string_queue(F) \
@@ -308,6 +318,7 @@
                                 {"[", string_aa_key, "]"}, p__) \
     end \
     p__.print_array_footer(F.num()); \
+    //p__.print_footer(); \
   end
 
 `define uvm_print_aa_string_object(F,FLAG) \
@@ -332,6 +343,7 @@
       end \
     end \
     p__.print_array_footer(F.num()); \
+    //p__.print_footer(); \
   end
 
 `define uvm_print_aa_string_string(F) \
@@ -351,6 +363,7 @@
           p__.print_string({"[", string_aa_key, "]"}, F[string_aa_key], "["); \
     end \
     p__.print_array_footer(F.num()); \
+    //p__.print_footer(); \
   end
 
 `define uvm_print_aa_int_object(F,FLAG) \
@@ -377,6 +390,7 @@
       end \
     end \
     p__.print_array_footer(F.num()); \
+    //p__.print_footer(); \
   end
 
 `define uvm_print_aa_int_key4(KEY, F, R, P) \
@@ -399,6 +413,7 @@
       end \
     end \
     p__.print_array_footer(F.num()); \
+    //p__.print_footer(); \
   end
 
 `endif

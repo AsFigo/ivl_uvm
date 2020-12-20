@@ -25,78 +25,35 @@
 `ifndef IVL_UVM_MACROS
   `define IVL_UVM_MACROS
 
-  /*
-`ifdef UVM_REPORT_DISABLE_FILE_LINE
-  `define UVM_REPORT_DISABLE_FILE
-  `define UVM_REPORT_DISABLE_LINE
-`endif
-
-`ifdef UVM_REPORT_DISABLE_FILE
-  `define uvm_file ""
-`else
-  `define uvm_file `__FILE__
-`endif
-
-`ifdef UVM_REPORT_DISABLE_LINE
-  `define uvm_line 0
-`else
-  `define uvm_line `__LINE__
-`endif
-
-
- `define uvm_info(ID, MSG, VERBOSITY) \
-   begin \
-     string msg; \
-     static string sev_s = "UVM_INFO"; \
-     if (uvm_report_enabled(VERBOSITY,UVM_INFO,ID)) begin \
-       $swrite(msg, "%s %s(%0d) @%0t [%s] %s ", sev_s, `uvm_file, `uvm_line, $realtime, ID, MSG); \
-       uvm_count_info(); \
-       $display(msg); \
-     end \
-   end
-
- `define uvm_warning(ID, MSG) \
-   begin \
-     string msg; \
-     static string sev_s = "UVM_WARNING"; \
-     $swrite(msg, "%s %s(%0d) @%0t [%s] %s ", sev_s, `uvm_file, `uvm_line, $realtime, ID, MSG); \
-     uvm_count_warn(); \
-     $display(msg); \
-   end
-
- `define uvm_error(ID, MSG) \
-   begin \
-     string msg; \
-     static string sev_s = "UVM_ERROR"; \
-     $swrite(msg, "%s %s(%0d) @%0t [%s] %s ", sev_s, `uvm_file, `uvm_line, $realtime, ID, MSG); \
-     uvm_count_err(); \
-     $display(msg); \
-   end
-
- `define uvm_fatal(ID, MSG) \
-   begin \
-     string msg; \
-     static string sev_s = "UVM_FATAL"; \
-     $swrite(msg, "%s %s(%0d) @%0t [%s] %s ", sev_s, `uvm_file, `uvm_line, $realtime, ID, MSG); \
-     uvm_count_fatal(); \
-     $display(msg); \
-     report_summarize (); \
-     $finish(1); \
-   end
-
-  */
  `define g2u_display(MSG, VERBOSITY=UVM_MEDIUM) \
    begin \
-     string msg; \
-     static string sev_s = "UVM_INFO"; \
-     if (uvm_report_enabled(VERBOSITY,UVM_INFO,log_id)) begin \
-       $swrite(msg, "%s %s(%0d) @%0t [%s] %s ", sev_s, `uvm_file, `uvm_line, $realtime, log_id, MSG); \
+     if (uvm_report_enabled(VERBOSITY,UVM_INFO,get_name())) begin \
+       uvm_report_info (get_name(), MSG, VERBOSITY, `uvm_file, `uvm_line); \
        uvm_count_info(); \
-       $display(msg); \
      end \
    end
 
-
+  `define g2u_rand(obj, CNST = {} ) \
+    begin \
+      int rval; \
+      rval = obj.randomize() with CNST ; \
+      if (!rval) \
+        $error ("Randomization failed"); \
+    end 
+  
+  
+  `define g2u_printf(FORMAT_MSG,VERBOSITY=UVM_MEDIUM) \
+     begin \
+       if (uvm_report_enabled(VERBOSITY,UVM_INFO,get_name())) \
+         uvm_report_info (get_name(), $sformatf FORMAT_MSG, VERBOSITY, `uvm_file, `uvm_line); \
+     end
+  
+  
+  `define GO2UVM_DISP_ARG(arg) `"arg`"
+  
+  `define IVL_UVM_VPA $value$plusargs
+   
+  
 
 `endif //  IVL_UVM_MACROS
 

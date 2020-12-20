@@ -47,12 +47,15 @@ endclass
 //
 
 module ivl_uvm_cmdline_processor;
+  import ivl_uvm_pkg::*;
 
   string m_argv[$]; 
   string m_plus_argv[$];
   string m_uvm_argv[$];
 
   string ivl_uvm_clp_args [$];
+
+  //`include "ivl_uvm_msg.svh"
 
   function string uvm_dpi_get_tool_version (); 
     return "Icarus Verilog version 12.0 (devel)";
@@ -445,6 +448,55 @@ module ivl_uvm_cmdline_processor;
       default      : begin                         return 0; end
     endcase
   endfunction
+
+    // m_do_timeout_settings
+  // ---------------------
+  
+  function void m_do_timeout_settings();
+    string timeout_settings[$];
+    string timeout;
+    string split_timeout[$];
+    int timeout_count;
+    time timeout_int;
+    string override_spec;
+    int lv_int;
+
+    timeout_count = `IVL_UVM_VPA ("UVM_TIMEOUT=%d", timeout_int);
+
+    if (timeout_count ==  0)
+      return;
+    else begin
+      timeout = timeout_settings[0];
+      timeout = $sformatf ("%0d", timeout_int);
+      if (timeout_count > 1) begin
+        string timeout_list;
+        string sep;
+        for (int i = 0; i < timeout_settings.size(); i++) begin
+          if (i != 0)
+            sep = "; ";
+          timeout_list = {timeout_list, sep, timeout_settings[i]};
+        end
+        uvm_report_warning("MULTTIMOUT", 
+          $sformatf("Multiple (%0d) +UVM_TIMEOUT arguments provided on the command line.  '%s' will be used.  Provided list: %s.", 
+          timeout_count, timeout, timeout_list), UVM_NONE);
+      end
+      uvm_report_info("TIMOUTSET",
+        $sformatf("'+UVM_TIMEOUT=%s' provided on the command line is being applied.", timeout), UVM_NONE);
+	/*
+        lv_int = $sscanf(timeout,"%d,%s",timeout_int,override_spec);
+      case(override_spec)
+        "YES"   : set_timeout(timeout_int, 1);
+        "NO"    : set_timeout(timeout_int, 0);
+        default : set_timeout(timeout_int, 1);
+      endcase
+      */
+    end
+  endfunction : m_do_timeout_settings
+
+  initial begin
+    `g2u_display ("CLP")
+    m_do_timeout_settings();
+  end
 
 endmodule : ivl_uvm_cmdline_processor
 

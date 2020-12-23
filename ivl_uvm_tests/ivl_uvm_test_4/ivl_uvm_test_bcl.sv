@@ -1,9 +1,8 @@
 // ========== Copyright Header Begin ==========================
 // 
 // Project: IVL_UVM
-// File: ivl_uvm_pkg.sv
-// Author(s): Anirudh Pradyumnan (apseng03@gmail.com)
-//            Srinivasan Venkataramanan 
+// File: ivl_uvm_run_test.sv
+// Author(s): Srinivasan Venkataramanan 
 //
 // Copyright (c) VerifWorks 2016-2020  All Rights Reserved.
 // Contact us via: support@verifworks.com
@@ -23,25 +22,37 @@
 // 
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
-`ifndef IVL_UVM_PKG
-  `define IVL_UVM_PKG
+package test_pkg;
+  import ivl_uvm_pkg::*;
 
-  `define IVL_UVM
-  `define UVM_CMDLINE_NO_DPI
+  /*
+  class sanity_test extends uvm_test;
+    function new (string name = "sanity_test");
+      super.new(name);
+      `g2u_display ("%m");
+    endfunction : new
+  endclass : sanity_test 
+*/
+endpackage : test_pkg
 
-package ivl_uvm_pkg;
-  `include "ivl_uvm_types.svh"
-  `include "ivl_uvm_macros.svh"
+module ivl_uvm_run_test;
+  import ivl_uvm_pkg::*;
+  import test_pkg::*;
+  uvm_object u0;
+  uvm_component uc_0;
+  
+   initial begin : test
+     #100;
+     `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
+     u0 = new ();
+     u0.print();
 
-  `include "ivl_uvm_patches.svh"
-  `include "ivl_uvm_msg.svh"
-  `include "ivl_uvm_comps.svh"
+     uc_0 = new();
+     uc_0.ivl_uvm_run_all_phases ();
 
-endpackage : ivl_uvm_pkg
-import ivl_uvm_pkg::*;
+ 
 
-`include "ivl_uvm_clp.svh"
-`include "ivl_uvm_top.svh"
+     report_summarize ();
+   end : test
 
-`endif //  IVL_UVM_PKG
-
+endmodule : ivl_uvm_run_test

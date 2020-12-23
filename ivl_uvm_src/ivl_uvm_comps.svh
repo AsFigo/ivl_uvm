@@ -112,3 +112,20 @@ virtual class uvm_component extends uvm_report_object;
 
 endclass : uvm_component
 
+virtual class uvm_test extends uvm_component;
+  function new (string name = "uvm_test");
+    `g2u_display ("%m");
+  endfunction : new 
+endclass : uvm_test 
+
+  class sanity_test extends uvm_test;
+    function new (string name = "sanity_test");
+      super.new(name);
+      `g2u_display ("%m");
+    endfunction : new
+  endclass : sanity_test 
+
+`ifndef UVM_TESTNAME
+  `define UVM_TESTNAME uvm_test
+`endif // UVM_TESTNAME
+

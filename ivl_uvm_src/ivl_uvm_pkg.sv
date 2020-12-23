@@ -41,6 +41,7 @@ endpackage : ivl_uvm_pkg
 import ivl_uvm_pkg::*;
 
 `include "ivl_uvm_clp.svh"
+`include "ivl_uvm_top.svh"
 
 `endif //  IVL_UVM_PKG
 

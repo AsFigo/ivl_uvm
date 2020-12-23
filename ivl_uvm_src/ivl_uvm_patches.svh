@@ -122,5 +122,9 @@
   endfunction : get_report_verbosity_level
 
 
+  function string get_name ();
+    return "IVL_GO2UVM";
+  endfunction : get_name 
+
 `endif // __IVL_UVM_PATCHES__
 

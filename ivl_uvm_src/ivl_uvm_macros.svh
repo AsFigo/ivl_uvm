@@ -53,6 +53,9 @@
   
   `define IVL_UVM_VPA $value$plusargs
    
+  `ifndef UVM_TESTNAME
+    `define UVM_TESTNAME uvm_test
+  `endif // UVM_TESTNAME
   
 
 `endif //  IVL_UVM_MACROS

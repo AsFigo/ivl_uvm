@@ -25,14 +25,13 @@
 package test_pkg;
   import ivl_uvm_pkg::*;
 
-  /*
   class sanity_test extends uvm_test;
     function new (string name = "sanity_test");
       super.new(name);
       `g2u_display ("%m");
     endfunction : new
   endclass : sanity_test 
-*/
+
 endpackage : test_pkg
 
 module ivl_uvm_run_test;

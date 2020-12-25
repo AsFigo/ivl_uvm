@@ -1,7 +1,7 @@
 // ========== Copyright Header Begin ==========================
 // 
 // Project: IVL_UVM
-// File: ivl_uvm_types.svh
+// File: ivl_uvm_run_test.sv
 // Author(s): Srinivasan Venkataramanan 
 //
 // Copyright (c) VerifWorks 2016-2020  All Rights Reserved.
@@ -22,23 +22,32 @@
 // 
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
-`ifndef __IVL_UVM_TYPES__
-`define __IVL_UVM_TYPES__
+package test_pkg;
+  import ivl_uvm_pkg::*;
 
-`include "uvm_object_globals.svh"
+  class sanity_test extends uvm_test;
+  endclass : sanity_test 
 
+endpackage : test_pkg
 
-int uvm_info_counter;
-int uvm_warn_counter;
-int uvm_err_counter;
-int uvm_fatal_counter;
-int ivl_uvm_glb_verb;
+module ivl_uvm_run_test;
+  import ivl_uvm_pkg::*;
+  import test_pkg::*;
+  uvm_object u0;
+  uvm_component uc_0;
+  
+   initial begin : test
+     #100;
+     `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
+     u0 = new ();
+     u0.print();
 
-time ivl_uvm_glb_timeout;
-int ivl_uvm_max_quit_count;
+     uc_0 = new();
+     uc_0.ivl_uvm_run_all_phases ();
 
-string log_id = "IVL_GO2UVM";
+ 
 
+     report_summarize ();
+   end : test
 
-`endif // __IVL_UVM_TYPES__
-
+endmodule : ivl_uvm_run_test

@@ -22,17 +22,9 @@
 // 
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
-package test_pkg;
-  import ivl_uvm_pkg::*;
-
-  class sanity_test extends uvm_test;
-  endclass : sanity_test 
-
-endpackage : test_pkg
 
 module ivl_uvm_run_test;
   import ivl_uvm_pkg::*;
-  import test_pkg::*;
   uvm_object u0;
   uvm_component uc_0;
   
@@ -44,8 +36,9 @@ module ivl_uvm_run_test;
 
      uc_0 = new();
      uc_0.ivl_uvm_run_all_phases ();
-
- 
+     `g2u_display ("Expect a UVM_TIMEOUT error in this test")
+     #10ms;
+     `g2u_display ("DO not expect to see this print due to UVM_TIMEOUT error in this test")
 
      report_summarize ();
    end : test

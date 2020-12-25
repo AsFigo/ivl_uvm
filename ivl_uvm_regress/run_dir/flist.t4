@@ -1,0 +1,5 @@
++define+UVM_TESTNAME=test_pkg::sanity_test
+../../ivl_uvm_src/ivl_uvm_pkg.sv
+../../ivl_uvm_tests/ivl_uvm_test_4/ivl_uvm_test_bcl.sv
+../../ivl_uvm_src/ivl_uvm_top.svh
+

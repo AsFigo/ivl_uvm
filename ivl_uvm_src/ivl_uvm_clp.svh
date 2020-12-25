@@ -463,11 +463,14 @@ module ivl_uvm_cmdline_processor;
 
     timeout_count = `IVL_UVM_VPA ("UVM_TIMEOUT=%d", timeout_int);
 
-    if (timeout_count ==  0)
-      return;
-    else begin
+    if (timeout_count ==  0) begin
+      ivl_uvm_glb_timeout = 1ms;
+      timeout_int = 1;
+    end else begin
       timeout = timeout_settings[0];
       timeout = $sformatf ("%0d", timeout_int);
+      ivl_uvm_glb_timeout = timeout_int * 1ms;
+
       if (timeout_count > 1) begin
         string timeout_list;
         string sep;
@@ -491,6 +494,15 @@ module ivl_uvm_cmdline_processor;
       endcase
       */
     end
+    //ivl_uvm_glb_timeout = timeout_int * ivl_uvm_glb_timeout;
+    ivl_uvm_glb_timeout = 10ns;
+    
+      uvm_report_info("TIMOUTSET",
+        $sformatf("'+UVM_TIMEOUT=%0d' Global Timeout: %0t", timeout_int, ivl_uvm_glb_timeout), UVM_NONE);
+      /*
+    uvm_report_info("TIMOUTSET",
+        $sformatf("ivl_uvm_glb_timeout: %0d", ivl_uvm_glb_timeout), UVM_NONE)
+*/
   endfunction : m_do_timeout_settings
 
   initial begin

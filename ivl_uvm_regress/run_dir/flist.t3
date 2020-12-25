@@ -1,2 +1,2 @@
 +define+UVM_CMDLINE_NO_DPI
-../../ivl_uvm_src/ivl_uvm_pkg.sv
+${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv

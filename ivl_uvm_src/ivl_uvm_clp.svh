@@ -494,8 +494,7 @@ module ivl_uvm_cmdline_processor;
       endcase
       */
     end
-    //ivl_uvm_glb_timeout = timeout_int * ivl_uvm_glb_timeout;
-    ivl_uvm_glb_timeout = 10ns;
+    ivl_uvm_glb_timeout = timeout_int * ivl_uvm_glb_timeout;
     
       uvm_report_info("TIMOUTSET",
         $sformatf("'+UVM_TIMEOUT=%0d' Global Timeout: %0t", timeout_int, ivl_uvm_glb_timeout), UVM_NONE);
@@ -506,8 +505,15 @@ module ivl_uvm_cmdline_processor;
   endfunction : m_do_timeout_settings
 
   initial begin
+    #1;
     `g2u_display ("CLP")
     m_do_timeout_settings();
+    #(ivl_uvm_glb_timeout);
+    `uvm_error ("IVL_UVM", 
+        $sformatf ("Reached Timeout value of: %0t ", ivl_uvm_glb_timeout))
+    `g2u_display ("Ending the Simulation; Check for hanging threads/inactivity in your simulation run")	
+    report_summarize();
+    $finish (1);
   end
 
 endmodule : ivl_uvm_cmdline_processor

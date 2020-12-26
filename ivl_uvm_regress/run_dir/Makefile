@@ -24,7 +24,7 @@ vw2: clean
 
 vw3: clean
 	$(IVL_UVM_CMD) -f flist.t3 2>&1 | tee ivl_uvm_comp_3.log 	
-	vvp -l ivl_uvm_run_3.log vw_ivl_ivl_uvm.vvp
+	vvp -l ivl_uvm_run_3.log vw_ivl_ivl_uvm.vvp +UVM_TIMEOUT=1 
 
 vw4: clean
 	$(IVL_UVM_CMD) -f flist.t4 2>&1 | tee ivl_uvm_comp_4.log 	

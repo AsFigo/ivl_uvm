@@ -126,5 +126,30 @@
     return "IVL_GO2UVM";
   endfunction : get_name 
 
+  typedef class uvm_report_object;
+
+  class uvm_object_wrapper;
+  endclass : uvm_object_wrapper
+  
+  class uvm_objection;
+  endclass
+  class uvm_printer;
+  endclass
+  class uvm_recorder;
+  endclass
+  class uvm_comparer;
+  endclass
+  class uvm_packer;
+  endclass
+  class uvm_copy_map;
+  endclass
+  
+  // typedef bit uvm_bitstream_t;
+  
+  class uvm_status_container;
+  endclass : uvm_status_container
+
+`define IVL_UVM_REF 
+
 `endif // __IVL_UVM_PATCHES__
 

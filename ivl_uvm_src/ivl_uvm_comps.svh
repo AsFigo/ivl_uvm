@@ -23,13 +23,7 @@
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 
-virtual class uvm_void;
-  function new ();
-  endfunction : new 
-
- 
-endclass : uvm_void
-
+/*
 class uvm_object extends uvm_void;
   function new ();
     super.new ();
@@ -45,6 +39,7 @@ class uvm_object extends uvm_void;
   endfunction : print 
 
 endclass : uvm_object
+*/
 
 class uvm_report_object extends uvm_object;
   function new ();

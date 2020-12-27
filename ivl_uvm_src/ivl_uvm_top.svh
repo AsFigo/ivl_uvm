@@ -9,5 +9,9 @@ module ivl_uvm_top;
     uvm_test_top = new();
 
   end : m_top
+
+  final begin
+    //report_summarize();
+  end
 endmodule : ivl_uvm_top
 

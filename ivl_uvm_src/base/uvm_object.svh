@@ -59,7 +59,7 @@ virtual class uvm_object extends uvm_void;
 // new
 // ---
 
-function new (string name="");
+function new (string name = "uvm_object");
 
   m_inst_id = m_inst_count++;
   m_leaf_name = name;

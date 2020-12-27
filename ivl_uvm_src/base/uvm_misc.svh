@@ -35,7 +35,7 @@
 //------------------------------------------------------------------------------
 
 virtual class uvm_void;
-endclass
+endclass : uvm_void
 
 `ifndef IVL_UVM
 // Append/prepend symbolic values for order-dependent APIs

@@ -23,41 +23,24 @@
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 
-/*
-class uvm_object extends uvm_void;
-  function new ();
-    super.new ();
-  endfunction : new 
-
-  `ifdef IVL_UVM_I419
-  // IVL_UVM issue 416,418 etc.
-  `include "ivl_uvm_msg.svh"
-  `endif
-
-  virtual function void print ();
-    `uvm_info (log_id, "Print", UVM_MEDIUM);
-  endfunction : print 
-
-endclass : uvm_object
-*/
 
 class uvm_report_object extends uvm_object;
-  function new ();
-    super.new ();
+  function new (string name = "uvm_report_object");
+    super.new (name);
   endfunction : new 
 
 endclass : uvm_report_object 
 
 class uvm_phase extends uvm_object;
-  function new ();
-    super.new ();
+  function new (string name = "uvm_phase");
+    super.new (name);
   endfunction : new 
 
 endclass : uvm_phase 
 
 virtual class uvm_component extends uvm_report_object;
-  function new ();
-    super.new ();
+  function new (string name = "uvm_component", uvm_component parent = null);
+    super.new (name);
   endfunction : new 
 
   virtual function void build_phase(uvm_phase phase);
@@ -75,8 +58,7 @@ virtual class uvm_component extends uvm_report_object;
     `g2u_display ("start_of_simulation_phase")
   endfunction : start_of_simulation_phase
 
-  //virtual task run_phase (uvm_phase phase);
-  virtual task run_phase ();
+  virtual task run_phase (uvm_phase phase);
     `g2u_display ("run_phase")
     this.print ();
   endtask : run_phase 
@@ -98,7 +80,7 @@ virtual class uvm_component extends uvm_report_object;
     this.connect_phase (u_ph_0);
     this.end_of_elaboration_phase (u_ph_0);
     this.start_of_simulation_phase (u_ph_0);
-    this.run_phase ();
+    this.run_phase (u_ph_0);
     this.extract_phase (u_ph_0);
     this.check_phase (u_ph_0);
     this.report_phase (u_ph_0);
@@ -108,7 +90,8 @@ virtual class uvm_component extends uvm_report_object;
 endclass : uvm_component
 
 virtual class uvm_test extends uvm_component;
-  function new (string name = "uvm_test");
+  function new (string name = "uvm_test", uvm_component parent = null);
+    super.new (name, parent);
     `g2u_display ("%m");
   endfunction : new 
 endclass : uvm_test 

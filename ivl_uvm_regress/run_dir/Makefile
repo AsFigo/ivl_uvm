@@ -1,6 +1,6 @@
 
-ifndef IVL_UVM_HOME
-  IVL_UVM_HOME = ../../
+ifeq ($(IVL_UVM_HOME),)
+  export IVL_UVM_HOME=../..
 endif
 
 IVL_UVM_OPTS = -c $(IVL_UVM_HOME)/scripts/ivl_uvm_cmds.f
@@ -29,6 +29,10 @@ vw3: clean
 vw4: clean
 	$(IVL_UVM_CMD) -f flist.t4 2>&1 | tee ivl_uvm_comp_4.log 	
 	vvp -l ivl_uvm_run_4.log vw_ivl_ivl_uvm.vvp
+
+vw5: clean
+	$(IVL_UVM_CMD) -f flist.t5 2>&1 | tee ivl_uvm_comp_5.log 	
+	vvp -l ivl_uvm_run_5.log vw_ivl_ivl_uvm.vvp
 
 
 clean:

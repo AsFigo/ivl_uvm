@@ -45,6 +45,7 @@ module ivl_uvm_run_test;
   task do_puts();
     repeat (10) begin
       lv_put_val = $urandom();
+      `g2u_printf (("Test MBX: Put: 0x%0h", lv_put_val))
       i_mbx_0.put (lv_put_val);
       #10;
     end
@@ -52,8 +53,8 @@ module ivl_uvm_run_test;
 
   task do_gets();
     repeat (10) begin
-      i_mbx_0.get (lv_get_val);
       #5;
+      i_mbx_0.get (lv_get_val);
       `g2u_printf (("Test MBX: Get: 0x%0h", lv_get_val))
     end
   endtask : do_gets

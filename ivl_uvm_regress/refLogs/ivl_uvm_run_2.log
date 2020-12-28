@@ -1,22 +1,22 @@
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_clp.svh(509) @ 0 [IVL_GO2UVM] CLP
- @ 0 [TIMOUTSET] '+UVM_TIMEOUT=1' Global Timeout: 1000
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_tests/ivl_uvm_test_2/ivl_uvm_run_test.sv(38) @ 10000 [IVL_UVM] UVM_MEDIUM: Hello World
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(44) @ 10000 [IVL_GO2UVM] Print
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(69) @ 10000 [IVL_GO2UVM] build_phase
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(73) @ 10000 [IVL_GO2UVM] connect_phase
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(77) @ 10000 [IVL_GO2UVM] end_of_elaboration_phase
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(80) @ 10000 [IVL_GO2UVM] start_of_simulation_phase
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(85) @ 10000 [IVL_GO2UVM] run_phase
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(44) @ 10000 [IVL_GO2UVM] Print
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_top.svh(8) @ 0.000 ns [IVL_GO2UVM] Using UVM_TESTNAME: uvm_test
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_comps.svh(95) @ 0.000 ns [IVL_GO2UVM] ivl_uvm_pkg.uvm_object.uvm_report_info
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_clp.svh(509) @ 1.000 ns [IVL_GO2UVM] CLP
+UVM_INFO @ 1.000 ns [TIMOUTSET] '+UVM_TIMEOUT=1' Global Timeout: 1000000.000 ns
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_1/ivl_uvm_test_class.sv(33) @ 100.000 ns [IVL_UVM] UVM_MEDIUM: Hello World
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_comps.svh(47) @ 100.000 ns [IVL_GO2UVM] build_phase
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_comps.svh(51) @ 100.000 ns [IVL_GO2UVM] connect_phase
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_comps.svh(55) @ 100.000 ns [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_comps.svh(58) @ 100.000 ns [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_comps.svh(62) @ 100.000 ns [IVL_GO2UVM] run_phase
 
 --- UVM Report Summary ---
 
 ** Report counts by severity
-UVM_INFO : 16
+UVM_INFO : 17
 UVM_WARNING : 0
 UVM_ERROR : 0
 UVM_FATAL : 0
 [5;34m
 *** Congratulations! Test PASSED with NO UVM_ERRORs ***
 [0m
- /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_msg.svh(72) @ 10000 [IVL_GO2UVM] Thanks for using IVL_UVM Package
+UVM_INFO ../../ivl_uvm_src/ivl_uvm_msg.svh(74) @ 100.000 ns [IVL_GO2UVM] Thanks for using IVL_UVM Package

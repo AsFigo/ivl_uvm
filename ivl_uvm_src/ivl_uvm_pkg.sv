@@ -30,9 +30,8 @@
   `define UVM_CMDLINE_NO_DPI
 
 package ivl_uvm_pkg;
-  `include "ivl_uvm_types.svh"
   `include "ivl_uvm_macros.svh"
-  typedef class `UVM_TESTNAME;
+  `include "ivl_uvm_types.svh"
 
   `include "ivl_uvm_patches.svh"
   `include "ivl_uvm_msg.svh"

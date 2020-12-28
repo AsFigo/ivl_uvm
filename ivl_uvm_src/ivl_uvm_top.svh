@@ -11,7 +11,7 @@ module ivl_uvm_top;
   end : m_top
 
   final begin
-    //report_summarize();
+    report_summarize();
   end
 endmodule : ivl_uvm_top
 

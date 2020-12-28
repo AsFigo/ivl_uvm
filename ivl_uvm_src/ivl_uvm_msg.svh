@@ -44,32 +44,35 @@
   function void report_summarize ();
     int num_errs;
 
-    $display("");
-    $display("--- UVM Report Summary ---");
-    $display("");
-    $display("** Report counts by severity");
-    $display ("UVM_INFO : %0d", uvm_info_counter);
-    $display ("UVM_WARNING : %0d", uvm_warn_counter);
-    $display ("UVM_ERROR : %0d", uvm_err_counter);
-    $display ("UVM_FATAL : %0d", uvm_fatal_counter);
-
-    num_errs = uvm_err_counter;
-
-    if(num_errs > 0) begin : fail
-      $display ( "%c[1;31m",27 ) ; // RED color
-      $display ("Test FAILED with %0d error(s), look for UVM_ERROR in log file",
-                 num_errs);
-      $display ( "%c[0m",27 ) ;
-    end : fail
-    else begin : pass
-      $display ( "%c[5;34m",27 ) ; // BLUE color
-      $display ( "*** Congratulations! Test PASSED with NO UVM_ERRORs ***" ) ;
-      $display ( "%c[0m",27 ) ;
-    end : pass
-
-  `uvm_info (log_id, 
-    "Thanks for using IVL_UVM Package",
-    UVM_NONE)
+    if (!report_summarize_done) begin : do_it_only_once
+      report_summarize_done = 1;
+      $display("");
+      $display("--- UVM Report Summary ---");
+      $display("");
+      $display("** Report counts by severity");
+      $display ("UVM_INFO : %0d", uvm_info_counter);
+      $display ("UVM_WARNING : %0d", uvm_warn_counter);
+      $display ("UVM_ERROR : %0d", uvm_err_counter);
+      $display ("UVM_FATAL : %0d", uvm_fatal_counter);
+  
+      num_errs = uvm_err_counter;
+  
+      if(num_errs > 0) begin : fail
+        $display ( "%c[1;31m",27 ) ; // RED color
+        $display ("Test FAILED with %0d error(s), look for UVM_ERROR in log file",
+                   num_errs);
+        $display ( "%c[0m",27 ) ;
+      end : fail
+      else begin : pass
+        $display ( "%c[5;34m",27 ) ; // BLUE color
+        $display ( "*** Congratulations! Test PASSED with NO UVM_ERRORs ***" ) ;
+        $display ( "%c[0m",27 ) ;
+      end : pass
+  
+    `uvm_info (log_id, 
+      "Thanks for using IVL_UVM Package",
+      UVM_NONE)
+    end : do_it_only_once
 
   endfunction : report_summarize
 
@@ -179,6 +182,17 @@
 
   endfunction
 
+  function string get_uvm_severity_type_str (uvm_severity severity);
+    string res;
+
+    case (severity)
+      0 : res = "UVM_INFO";
+      1 : res = "UVM_WARNING";
+      2 : res = "UVM_ERROR";
+      3 : res = "UVM_FATAL";
+    endcase 
+    return (res);
+  endfunction : get_uvm_severity_type_str 
 
   
 function string ivl_uvm_compose_message(
@@ -188,12 +202,14 @@ function string ivl_uvm_compose_message(
       string filename,
       int    line
       );
-    uvm_severity_type sv;
+    string sv;
     string time_str;
     string line_str;
     string name;
 
     
+    // sv = uvm_severity_type'(severity);
+    sv = get_uvm_severity_type_str (severity);
     $swrite(time_str, "%0t", $realtime);
  
     case(1)

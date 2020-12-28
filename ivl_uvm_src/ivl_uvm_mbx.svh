@@ -43,7 +43,12 @@ class ivl_uvm_mbx extends uvm_object;
   endtask : get 
 
   virtual task peek (output `IVL_UVM_MBX_T out_xn);
-    get(out_xn);
+    //wait (is_empty == 0);
+    while (is_empty == 1) begin
+      #1;
+    end
+    out_xn = m_mbx_val;
+    //`g2u_printf (("MBX: Peek: 0x%0h", out_xn))
   endtask : peek 
 
   virtual function int num ();

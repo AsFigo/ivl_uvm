@@ -31,15 +31,14 @@ module ivl_uvm_test_msg;
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
-     u0 = new ();
+     u0 = new ("u_0");
      u0.print();
 
-     uc_0 = new();
-     uc_0.run_phase ();
+     uc_0 = new("uc_0", null);
+     uc_0.ivl_uvm_run_all_phases ();
 
- 
+     $finish (1);
 
-     report_summarize ();
    end : test
 
 endmodule : ivl_uvm_test_msg

@@ -71,7 +71,7 @@ module ivl_uvm_run_test;
 
 
 
-     report_summarize ();
+     $finish (1);
    end : test
 
 endmodule : ivl_uvm_run_test

@@ -327,7 +327,7 @@ endfunction
   // must override the <do_print> method and use the provided printer policy
   // class to format the output.
 
-function void print(uvm_printer printer); // IVL_UVM TBD =null);
+function void print(uvm_printer printer = null);
   if (printer==null)
     printer = uvm_default_printer;
   if (printer == null)
@@ -348,7 +348,7 @@ endfunction
   // class to format the output. The printer policy will manage all string
   // concatenations and provide the string to ~sprint~ to return to the caller.
 
-function string sprint(uvm_printer printer); // IVL_UVM TBD =null);
+function string sprint(uvm_printer printer =null);
   bit p;
 
   if(printer==null)
@@ -491,7 +491,7 @@ endfunction
   // via a common interface, the uvm_recorder policy provides vendor-independent
   // access to a simulator's recording capabilities.
 
-  function void record (uvm_recorder recorder); // IVL_UVM TBD =null);
+  function void record (uvm_recorder recorder =null);
 
     /* IVL_UVM TBD
   if(recorder == null) 
@@ -622,7 +622,7 @@ endfunction
   // then the global ~uvm_default_comparer~ policy is used. See <uvm_comparer> 
   // for more information.
 
-  function bit compare (uvm_object rhs, uvm_comparer comparer); // IVL_UVM TBD =null);
+  function bit compare (uvm_object rhs, uvm_comparer comparer = null);
     /* IVL_UVM TBD
   bit t, dc;
   static int style;

@@ -28,6 +28,10 @@ module ivl_uvm_test_msg;
   uvm_object u0;
   uvm_component uc_0;
   
+  initial begin
+    run_test ();
+  end
+
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 

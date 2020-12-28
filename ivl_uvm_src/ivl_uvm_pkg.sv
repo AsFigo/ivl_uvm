@@ -32,6 +32,7 @@
 package ivl_uvm_pkg;
   `include "ivl_uvm_types.svh"
   `include "ivl_uvm_macros.svh"
+  typedef class `UVM_TESTNAME;
 
   `include "ivl_uvm_patches.svh"
   `include "ivl_uvm_msg.svh"
@@ -39,6 +40,19 @@ package ivl_uvm_pkg;
   `include "base/uvm_object.svh"
   `include "ivl_uvm_comps.svh"
   `include "ivl_uvm_mbx.svh"
+
+  `UVM_TESTNAME uvm_test_top;
+
+  task run_test ();
+    $timeformat (-9, 3, " ns", 3);
+    `g2u_printf (( "Using UVM_TESTNAME: %s", `GO2UVM_DISP_ARG (`UVM_TESTNAME) ))
+    uvm_test_top = new ("uvm_test_top", null);
+    uvm_test_top.ivl_uvm_run_all_phases();
+
+    // $finish (1);
+
+  endtask : run_test
+
 
 endpackage : ivl_uvm_pkg
 import ivl_uvm_pkg::*;

@@ -1,6 +1,7 @@
 module ivl_uvm_top;
   import ivl_uvm_pkg::*;
 
+  /*
   `UVM_TESTNAME uvm_test_top;
 
   initial begin : m_top
@@ -9,6 +10,7 @@ module ivl_uvm_top;
     uvm_test_top = new ("uvm_test_top", null);
 
   end : m_top
+  */
 
   final begin
     report_summarize();

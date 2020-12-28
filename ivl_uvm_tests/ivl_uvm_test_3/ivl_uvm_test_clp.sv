@@ -27,6 +27,11 @@ module ivl_uvm_run_test;
   import ivl_uvm_pkg::*;
   uvm_object u0;
   uvm_component uc_0;
+
+  initial begin
+    run_test ();
+  end
+
   
    initial begin : test
      #100;
@@ -34,7 +39,7 @@ module ivl_uvm_run_test;
      u0 = new ();
      u0.print();
 
-     uc_0 = new();
+     uc_0 = new("uc_0", null);
      uc_0.ivl_uvm_run_all_phases ();
      `g2u_display ("Expect a UVM_TIMEOUT error in this test")
      #10ms;

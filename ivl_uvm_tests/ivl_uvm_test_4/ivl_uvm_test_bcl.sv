@@ -26,7 +26,7 @@ package test_pkg;
   import ivl_uvm_pkg::*;
 
   class sanity_test extends uvm_test;
-    function new (string name = "sanity_test");
+    function new (string name = "sanity_test", uvm_component parent);
       super.new(name);
       `g2u_display ("%m");
     endfunction : new
@@ -40,18 +40,23 @@ module ivl_uvm_run_test;
   uvm_object u0;
   uvm_component uc_0;
   
+  initial begin
+    run_test ();
+  end
+
+  
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
      u0 = new ();
      u0.print();
 
-     uc_0 = new();
+     uc_0 = new("uc_0", null);
      uc_0.ivl_uvm_run_all_phases ();
 
  
 
-     report_summarize ();
+     $finish (2);
    end : test
 
 endmodule : ivl_uvm_run_test

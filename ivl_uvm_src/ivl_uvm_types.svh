@@ -25,7 +25,7 @@
 `ifndef __IVL_UVM_TYPES__
 `define __IVL_UVM_TYPES__
 
-`include "uvm_object_globals.svh"
+`include "base/uvm_object_globals.svh"
 
 
 int uvm_info_counter;

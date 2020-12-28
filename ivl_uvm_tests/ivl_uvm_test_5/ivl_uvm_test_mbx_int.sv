@@ -26,10 +26,17 @@ package test_pkg;
   import ivl_uvm_pkg::*;
 
   class sanity_test extends uvm_test;
-    function new (string name = "sanity_test");
+
+    ivl_uvm_mbx i_mbx_0;
+    int lv_put_val;
+    int lv_get_val;
+
+    function new (string name = "sanity_test", uvm_component parent);
       super.new(name, null);
       `g2u_display ("%m");
+      i_mbx_0 = new();
     endfunction : new
+
   endclass : sanity_test 
 
 endpackage : test_pkg
@@ -60,6 +67,7 @@ module ivl_uvm_run_test;
   endtask : do_gets
 
    initial begin : test
+     run_test ();
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
      i_mbx_0 = new();
@@ -69,9 +77,8 @@ module ivl_uvm_run_test;
        do_gets();
      join
 
-
-
      $finish (1);
    end : test
 
 endmodule : ivl_uvm_run_test
+

@@ -25,6 +25,10 @@
 module ivl_uvm_test_msg;
   import ivl_uvm_pkg::*;
   
+  initial begin
+    run_test ();
+  end
+
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
@@ -35,7 +39,6 @@ module ivl_uvm_test_msg;
      #100 `uvm_warning("IVL_UVM", "Sample Warning!")
      #100 `uvm_error("IVL_UVM", "Sample Error!")
      #100 `uvm_fatal("IVL_UVM", "Sample Fatal!")
-     report_summarize ();
    end : test
 
 endmodule : ivl_uvm_test_msg

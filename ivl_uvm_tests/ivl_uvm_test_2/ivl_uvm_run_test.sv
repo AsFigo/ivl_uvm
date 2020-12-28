@@ -33,18 +33,22 @@ module ivl_uvm_run_test;
   uvm_object u0;
   uvm_component uc_0;
   
+  initial begin
+    run_test ();
+  end
+
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
      u0 = new ();
      u0.print();
 
-     uc_0 = new();
+     uc_0 = new("uc_0", null);
      uc_0.ivl_uvm_run_all_phases ();
 
  
 
-     report_summarize ();
+     $finish (2);
    end : test
 
 endmodule : ivl_uvm_run_test

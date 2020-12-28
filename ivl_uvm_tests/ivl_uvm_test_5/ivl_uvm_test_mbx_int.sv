@@ -27,7 +27,7 @@ package test_pkg;
 
   class sanity_test extends uvm_test;
     function new (string name = "sanity_test");
-      super.new(name);
+      super.new(name, null);
       `g2u_display ("%m");
     endfunction : new
   endclass : sanity_test 

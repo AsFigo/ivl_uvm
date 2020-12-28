@@ -33,6 +33,7 @@ int uvm_warn_counter;
 int uvm_err_counter;
 int uvm_fatal_counter;
 int ivl_uvm_glb_verb;
+bit report_summarize_done;
 
 time ivl_uvm_glb_timeout;
 int ivl_uvm_max_quit_count;

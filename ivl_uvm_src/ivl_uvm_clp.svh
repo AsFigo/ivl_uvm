@@ -512,7 +512,7 @@ module ivl_uvm_cmdline_processor;
     `uvm_error ("IVL_UVM", 
         $sformatf ("Reached Timeout value of: %0t ", ivl_uvm_glb_timeout))
     `g2u_display ("Ending the Simulation; Check for hanging threads/inactivity in your simulation run")	
-    report_summarize();
+    // report_summarize();
     $finish (1);
   end
 

@@ -39,7 +39,7 @@ class uvm_phase extends uvm_object;
 endclass : uvm_phase 
 
 virtual class uvm_component extends uvm_report_object;
-  function new (string name = "uvm_component", uvm_component parent = null);
+  function new (string name = "uvm_component", uvm_component parent);// = null);
     super.new (name);
   endfunction : new 
 
@@ -60,7 +60,7 @@ virtual class uvm_component extends uvm_report_object;
 
   virtual task run_phase (uvm_phase phase);
     `g2u_display ("run_phase")
-    this.print ();
+    this.print (uvm_default_printer);
   endtask : run_phase 
 
   virtual function void extract_phase(uvm_phase phase);
@@ -90,7 +90,7 @@ virtual class uvm_component extends uvm_report_object;
 endclass : uvm_component
 
 virtual class uvm_test extends uvm_component;
-  function new (string name = "uvm_test", uvm_component parent = null);
+  function new (string name = "uvm_test", uvm_component parent); // = null);
     super.new (name, parent);
     `g2u_display ("%m");
   endfunction : new 

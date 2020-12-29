@@ -70,7 +70,7 @@ typedef struct timeval timeval;
  * memory use) measured in bytes, or zero if the value cannot be
  * determined on this OS.
  */
-size_t getPeakRSS( )
+size_t getPeakRSS(void)
 {
 #if defined(_WIN32)
     /* Windows -------------------------------------------------- */
@@ -119,7 +119,7 @@ size_t getPeakRSS( )
  * Returns the current resident set size (physical memory use) measured
  * in bytes, or zero if the value cannot be determined on this OS.
  */
-size_t getCurrentRSS( )
+size_t getCurrentRSS(void)
 {
 #if defined(_WIN32)
     /* Windows -------------------------------------------------- */
@@ -162,7 +162,7 @@ size_t getCurrentRSS( )
  * Returns the CPU/Sysetm Time as timeval struct
  * or zero if the value cannot be determined on this OS.
  */
-timeval getCPUTime( )
+timeval getCPUTime(void)
 {
   #if defined(_WIN32)
     /* Windows -------------------------------------------------- */
@@ -182,7 +182,7 @@ timeval getCPUTime( )
       return rusage.ru_stime;
     #else
       // Icarus TBD 
-      return (timeval)(0);
+      return rusage.ru_stime;
     #endif
 
   #else
@@ -196,7 +196,7 @@ timeval getCPUTime( )
  * or zero if the value cannot be determined on this OS.
  */
 
-timeval getUSERTime( )
+timeval getUSERTime(void)
 {
   #if defined(_WIN32)
     /* Windows -------------------------------------------------- */
@@ -216,7 +216,7 @@ timeval getUSERTime( )
       return rusage.ru_utime;
     #else
       // Icarus TBD 
-      return (timeval)(0);
+      return rusage.ru_utime;
     #endif
 
   #else
@@ -289,7 +289,7 @@ static PLI_INT32 sys_finish_calltf(ICARUS_VPI_CONST PLI_BYTE8 *name)
 	      ivl_mem_usage_KB = ivl_mem_usage/1024L;
 
               rusage_info = "Simulation Statistics: ";
-	      vpi_printf("%s Memory: %lu (KB) User Time: %ld.%06d (s) CPU Time: %ld.%06d (s) \n",
+	      vpi_printf("%s Memory: %lu (KB) User Time: %ld.%zu (s) CPU Time: %ld.%zu (s) \n",
 	               rusage_info,
 		       ivl_mem_usage_KB,
 		       ivl_usr_tval.tv_sec, ivl_usr_tval.tv_usec, 

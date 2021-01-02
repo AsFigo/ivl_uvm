@@ -177,7 +177,7 @@
       uvm_count_fatal (); 
       $display (msg_str);
       report_summarize ();
-      $finish (1);
+      $finish (2);
     `endif // IVL_UVM 
 
   endfunction

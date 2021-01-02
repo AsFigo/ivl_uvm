@@ -58,6 +58,12 @@
   `endif // UVM_TESTNAME
   
 
+  `ifndef IVL_UVM_MBX_T
+    `define IVL_UVM_MBX_T int
+  `else
+    typedef class `IVL_UVM_MBX_T;
+  `endif // IVL_UVM_MBX_T
+
 `endif //  IVL_UVM_MACROS
 
 `include "uvm_macros.svh"

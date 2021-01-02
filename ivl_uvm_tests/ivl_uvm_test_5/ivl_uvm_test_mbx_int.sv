@@ -77,7 +77,7 @@ module ivl_uvm_run_test;
        do_gets();
      join
 
-     $finish (1);
+     $finish (2);
    end : test
 
 endmodule : ivl_uvm_run_test

@@ -38,7 +38,8 @@ package ivl_uvm_pkg;
   `include "base/uvm_misc.svh"
   `include "base/uvm_object.svh"
   `include "ivl_uvm_comps.svh"
-  `include "ivl_uvm_mbx.svh"
+  // `include "ivl_uvm_mbx.svh"
+  `include "ivl_uvm_tlm.svh"
 
   `UVM_TESTNAME uvm_test_top;
 
@@ -47,8 +48,6 @@ package ivl_uvm_pkg;
     `g2u_printf (( "Using UVM_TESTNAME: %s", `GO2UVM_DISP_ARG (`UVM_TESTNAME) ))
     uvm_test_top = new ("uvm_test_top", null);
     uvm_test_top.ivl_uvm_run_all_phases();
-
-    // $finish (1);
 
   endtask : run_test
 

@@ -38,6 +38,10 @@ vw6: clean
 	$(IVL_UVM_CMD) -f flist.t6 2>&1 | tee ivl_uvm_comp_6.log 	
 	vvp -l ivl_uvm_run_6.log vw_ivl_ivl_uvm.vvp
 
+vw7: clean
+	$(IVL_UVM_CMD) -f flist.t7 2>&1 | tee ivl_uvm_comp_7.log 	
+	vvp -l ivl_uvm_run_7.log vw_ivl_ivl_uvm.vvp
+
 
 clean:
 	\rm -fr  *.log  *.vvp

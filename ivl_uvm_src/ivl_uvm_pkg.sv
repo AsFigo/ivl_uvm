@@ -28,6 +28,7 @@
 
   `define IVL_UVM
   `define UVM_CMDLINE_NO_DPI
+`timescale 1ns/1ns
 
 package ivl_uvm_pkg;
   `include "ivl_uvm_macros.svh"
@@ -44,7 +45,6 @@ package ivl_uvm_pkg;
   `UVM_TESTNAME uvm_test_top;
 
   task run_test ();
-    $timeformat (-9, 3, " ns", 3);
     `g2u_printf (( "Using UVM_TESTNAME: %s", `GO2UVM_DISP_ARG (`UVM_TESTNAME) ))
     uvm_test_top = new ("uvm_test_top", null);
     uvm_test_top.ivl_uvm_run_all_phases();
@@ -56,8 +56,8 @@ endpackage : ivl_uvm_pkg
 import ivl_uvm_pkg::*;
 
 `include "ivl_uvm_clp.svh"
+
 // The below file is now part of user's file-list as last file
 // `include "ivl_uvm_top.svh"
-
 `endif //  IVL_UVM_PKG
 

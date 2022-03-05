@@ -1,6 +1,6 @@
 
 ifeq ($(IVL_UVM_HOME),)
-  export IVL_UVM_HOME=../..
+  export IVL_UVM_HOME=../../..
 endif
 
 IVL_UVM_OPTS = -c $(IVL_UVM_HOME)/scripts/ivl_uvm_cmds.f

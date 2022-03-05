@@ -505,6 +505,7 @@ module ivl_uvm_cmdline_processor;
   endfunction : m_do_timeout_settings
 
   initial begin
+    $timeformat (-9, 3, " ns", 3);
     #1;
     `g2u_display ("CLP")
     m_do_timeout_settings();
@@ -515,6 +516,9 @@ module ivl_uvm_cmdline_processor;
     // report_summarize();
     $finish (2);
   end
+  final begin
+	 	report_summarize();
+	end
 
 endmodule : ivl_uvm_cmdline_processor
 

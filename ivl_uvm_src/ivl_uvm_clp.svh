@@ -452,6 +452,12 @@ module ivl_uvm_cmdline_processor;
     // m_do_timeout_settings
   // ---------------------
   
+    // Variable: +UVM_MAX_QUIT_COUNT
+  function void ivl_uvm_handle_clp_args ();
+		int lv_tmp_count;
+    lv_tmp_count = `IVL_UVM_VPA ("UVM_MAX_QUIT_COUNT=%d", ivl_uvm_max_quit_count);
+	endfunction : ivl_uvm_handle_clp_args 
+
   function void m_do_timeout_settings();
     string timeout_settings[$];
     string timeout;
@@ -509,6 +515,8 @@ module ivl_uvm_cmdline_processor;
     #1;
     `g2u_display ("CLP")
     m_do_timeout_settings();
+    ivl_uvm_handle_clp_args ();
+
     #(ivl_uvm_glb_timeout);
     `uvm_error ("IVL_UVM", 
         $sformatf ("Reached Timeout value of: %0t ", ivl_uvm_glb_timeout))

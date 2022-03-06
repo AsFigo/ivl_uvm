@@ -10,7 +10,7 @@ IVL_UVM_CMD = iverilog $(IVL_UVM_OPTS)  -DVW_IVLOG_GO2UVM -DIVL_UVM -g2012 -I$(I
 all: vw0 vw1 vw2 vw3 vw4 vw5 vw6 vw7
 vw0: clean
 	$(IVL_UVM_CMD) -f flist.t0 2>&1 | tee ivl_uvm_comp_0.log 	
-	vvp -l ivl_uvm_run_0.log vw_ivl_ivl_uvm.vvp
+	vvp -l ivl_uvm_run_0.log vw_ivl_ivl_uvm.vvp +UVM_MAX_QUIT_COUNT=10
 	vvp  -l ivl_uvm_run_0_HIGH.log vw_ivl_ivl_uvm.vvp +UVM_VERBOSITY=UVM_HIGH
 	vvp  -l ivl_uvm_run_0_FULL.log vw_ivl_ivl_uvm.vvp +UVM_VERBOSITY=UVM_FULL
 

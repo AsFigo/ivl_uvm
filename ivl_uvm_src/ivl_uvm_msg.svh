@@ -34,6 +34,14 @@
 
   function void uvm_count_err();
     uvm_err_counter++;
+			// For debug $display ("UVM_MAX_QUIT_COUNT: %0d cur_num_err: %0d ",  ivl_uvm_max_quit_count, uvm_err_counter);
+		if (uvm_err_counter >= ivl_uvm_max_quit_count) begin
+      $display ( "%c[1;31m",27 ) ; // RED color
+			$display ("Reached UVM_MAX_QUIT_COUNT: %0d cur_num_err: %0d, ending simulation",  ivl_uvm_max_quit_count, uvm_err_counter);
+      $display ( "%c[0m",27 ) ;
+      report_summarize ();
+			$finish (2);
+		end
   endfunction : uvm_count_err
 
   function void uvm_count_fatal();

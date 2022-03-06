@@ -25,7 +25,7 @@
 `ifndef __IVL_UVM_TYPES__
 `define __IVL_UVM_TYPES__
 
-`include "uvm_object_globals.svh"
+`include "base/uvm_object_globals.svh"
 
 
 int uvm_info_counter;
@@ -40,6 +40,7 @@ int ivl_uvm_max_quit_count;
 
 string log_id = "IVL_GO2UVM";
 
+typedef class `UVM_TESTNAME;
 
 `endif // __IVL_UVM_TYPES__
 

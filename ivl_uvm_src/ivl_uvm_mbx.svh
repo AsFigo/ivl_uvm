@@ -1,5 +1,7 @@
 
-`define IVL_UVM_MBX_T int
+`ifndef IVL_UVM_MBX_T 
+  `define IVL_UVM_MBX_T int
+`endif
 
 // Poor man's mailbox
 // Default size = 1 in SV

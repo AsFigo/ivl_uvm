@@ -24,6 +24,15 @@
 ////////////////////////////////////////////////////////////////////////
 
 
+class uvm_sequence_item extends uvm_object;
+  int sequence_id;
+
+  function new (string name = "uvm_sequence_item");
+    super.new (name);
+  endfunction : new 
+
+endclass : uvm_sequence_item 
+
 class uvm_report_object extends uvm_object;
   function new (string name = "uvm_report_object");
     super.new (name);
@@ -44,22 +53,22 @@ virtual class uvm_component extends uvm_report_object;
   endfunction : new 
 
   virtual function void build_phase(uvm_phase phase);
-    `g2u_display ("build_phase")
+    `g2u_display ("build_phase", UVM_HIGH)
   endfunction : build_phase
 
   virtual function void connect_phase(uvm_phase phase);
-    `g2u_display ("connect_phase")
+    `g2u_display ("connect_phase", UVM_HIGH)
   endfunction : connect_phase
 
   virtual function void end_of_elaboration_phase(uvm_phase phase);
-    `g2u_display ("end_of_elaboration_phase")
+    `g2u_display ("end_of_elaboration_phase", UVM_HIGH)
   endfunction : end_of_elaboration_phase
   virtual function void start_of_simulation_phase(uvm_phase phase);
-    `g2u_display ("start_of_simulation_phase")
+    `g2u_display ("start_of_simulation_phase", UVM_HIGH)
   endfunction : start_of_simulation_phase
 
   virtual task run_phase (uvm_phase phase);
-    `g2u_display ("run_phase")
+    `g2u_display ("run_phase", UVM_HIGH)
     this.print (uvm_default_printer);
   endtask : run_phase 
 

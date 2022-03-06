@@ -1,5 +1,3 @@
-+define+UVM_TESTNAME=sanity_test
-
 ${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
 ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv
 

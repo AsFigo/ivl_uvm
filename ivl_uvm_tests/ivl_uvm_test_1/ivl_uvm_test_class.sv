@@ -28,6 +28,10 @@ module ivl_uvm_test_msg;
   uvm_object u0;
   uvm_component uc_0;
   
+  initial begin
+    run_test ();
+  end
+
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
@@ -37,7 +41,7 @@ module ivl_uvm_test_msg;
      uc_0 = new("uc_0", null);
      uc_0.ivl_uvm_run_all_phases ();
 
-     $finish (1);
+     $finish (2);
 
    end : test
 

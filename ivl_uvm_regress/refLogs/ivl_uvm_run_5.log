@@ -1,61 +1,39 @@
- ../../ivl_uvm_src/ivl_uvm_top.svh(8) @ 0.000 ns [IVL_GO2UVM] Using UVM_TESTNAME: uvm_test
- ../../ivl_uvm_src/ivl_uvm_comps.svh(117) @ 0.000 ns [IVL_GO2UVM] ivl_uvm_pkg.uvm_object.uvm_report_info
- ../../ivl_uvm_src/ivl_uvm_clp.svh(509) @ 1.000 ns [IVL_GO2UVM] CLP
- @ 1.000 ns [TIMOUTSET] '+UVM_TIMEOUT=1' Global Timeout: 1000000.000 ns
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(63) @ 100.000 ns [IVL_UVM] UVM_MEDIUM: Hello World
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 100.000 ns [IVL_GO2UVM] MBX: Put: 0x92153524
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 101.000 ns [IVL_GO2UVM] MBX: Get: 0x92153524
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 106.000 ns [IVL_GO2UVM] Test MBX: Get: 0x92153524
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 110.000 ns [IVL_GO2UVM] MBX: Put: 0x40895e81
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 110.000 ns [IVL_GO2UVM] MBX: Get: 0x40895e81
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 115.000 ns [IVL_GO2UVM] Test MBX: Get: 0x40895e81
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 120.000 ns [IVL_GO2UVM] MBX: Put: 0x484d609
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 120.000 ns [IVL_GO2UVM] MBX: Get: 0x484d609
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 125.000 ns [IVL_GO2UVM] Test MBX: Get: 0x484d609
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 130.000 ns [IVL_GO2UVM] MBX: Put: 0x31f05663
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 130.000 ns [IVL_GO2UVM] MBX: Get: 0x31f05663
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 135.000 ns [IVL_GO2UVM] Test MBX: Get: 0x31f05663
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 140.000 ns [IVL_GO2UVM] MBX: Put: 0x86b97b0d
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 140.000 ns [IVL_GO2UVM] MBX: Get: 0x86b97b0d
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 145.000 ns [IVL_GO2UVM] Test MBX: Get: 0x86b97b0d
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 150.000 ns [IVL_GO2UVM] MBX: Put: 0xc6df998d
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 150.000 ns [IVL_GO2UVM] MBX: Get: 0xc6df998d
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 155.000 ns [IVL_GO2UVM] Test MBX: Get: 0xc6df998d
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 160.000 ns [IVL_GO2UVM] MBX: Put: 0x32c28465
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 160.000 ns [IVL_GO2UVM] MBX: Get: 0x32c28465
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 165.000 ns [IVL_GO2UVM] Test MBX: Get: 0x32c28465
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 170.000 ns [IVL_GO2UVM] MBX: Put: 0x9375212
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 170.000 ns [IVL_GO2UVM] MBX: Get: 0x9375212
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 175.000 ns [IVL_GO2UVM] Test MBX: Get: 0x9375212
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 180.000 ns [IVL_GO2UVM] MBX: Put: 0x80f3e301
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 180.000 ns [IVL_GO2UVM] MBX: Get: 0x80f3e301
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 185.000 ns [IVL_GO2UVM] Test MBX: Get: 0x80f3e301
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(32) @ 190.000 ns [IVL_GO2UVM] MBX: Put: 0x86d7cd0d
- ../../ivl_uvm_src/ivl_uvm_mbx.svh(21) @ 190.000 ns [IVL_GO2UVM] MBX: Get: 0x86d7cd0d
- ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(57) @ 195.000 ns [IVL_GO2UVM] Test MBX: Get: 0x86d7cd0d
+UVM_INFO /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_pkg.sv(48) @ 0.000 ns [IVL_GO2UVM] Using UVM_TESTNAME: sanity_test
+UVM_INFO /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_comps.svh(104) @ 0.000 ns [IVL_GO2UVM] ivl_uvm_pkg.uvm_object.uvm_report_info
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(36) @ 0.000 ns [IVL_GO2UVM] ivl_uvm_pkg.uvm_object.uvm_report_info
+UVM_INFO /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_clp.svh(516) @ 1.000 ns [IVL_GO2UVM] CLP
+UVM_INFO @ 1.000 ns [TIMOUTSET] '+UVM_TIMEOUT=1' Global Timeout: 1000000.000 ns
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(72) @ 100.000 ns [IVL_UVM] UVM_MEDIUM: Hello World
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 100.000 ns [IVL_GO2UVM] Test MBX: Put: 0x92153524
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 105.000 ns [IVL_GO2UVM] Test MBX: Get: 0x92153524
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 110.000 ns [IVL_GO2UVM] Test MBX: Put: 0x40895e81
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 110.000 ns [IVL_GO2UVM] Test MBX: Get: 0x40895e81
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 120.000 ns [IVL_GO2UVM] Test MBX: Put: 0x484d609
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 120.000 ns [IVL_GO2UVM] Test MBX: Get: 0x484d609
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 130.000 ns [IVL_GO2UVM] Test MBX: Put: 0x31f05663
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 130.000 ns [IVL_GO2UVM] Test MBX: Get: 0x31f05663
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 140.000 ns [IVL_GO2UVM] Test MBX: Put: 0x86b97b0d
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 140.000 ns [IVL_GO2UVM] Test MBX: Get: 0x86b97b0d
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 150.000 ns [IVL_GO2UVM] Test MBX: Put: 0xc6df998d
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 150.000 ns [IVL_GO2UVM] Test MBX: Get: 0xc6df998d
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 160.000 ns [IVL_GO2UVM] Test MBX: Put: 0x32c28465
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 160.000 ns [IVL_GO2UVM] Test MBX: Get: 0x32c28465
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 170.000 ns [IVL_GO2UVM] Test MBX: Put: 0x9375212
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 170.000 ns [IVL_GO2UVM] Test MBX: Get: 0x9375212
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 180.000 ns [IVL_GO2UVM] Test MBX: Put: 0x80f3e301
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 180.000 ns [IVL_GO2UVM] Test MBX: Get: 0x80f3e301
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(55) @ 190.000 ns [IVL_GO2UVM] Test MBX: Put: 0x86d7cd0d
+UVM_INFO ../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv(65) @ 190.000 ns [IVL_GO2UVM] Test MBX: Get: 0x86d7cd0d
+../../ivl_uvm_tests/ivl_uvm_test_5/ivl_uvm_test_mbx_int.sv:80: $finish(2) called at 20000 (10ps)
 
 --- UVM Report Summary ---
 
 ** Report counts by severity
-UVM_INFO : 37
+UVM_INFO : 29
 UVM_WARNING : 0
 UVM_ERROR : 0
 UVM_FATAL : 0
 [5;34m
 *** Congratulations! Test PASSED with NO UVM_ERRORs ***
 [0m
- ../../ivl_uvm_src/ivl_uvm_msg.svh(72) @ 200.000 ns [IVL_GO2UVM] Thanks for using IVL_UVM Package
- ../../ivl_uvm_src/ivl_uvm_clp.svh(513) @ 1000001.000 ns [IVL_UVM] Reached Timeout value of: 1000000.000 ns 
- ../../ivl_uvm_src/ivl_uvm_clp.svh(514) @ 1000001.000 ns [IVL_GO2UVM] Ending the Simulation; Check for hanging threads/inactivity in your simulation run
-
---- UVM Report Summary ---
-
-** Report counts by severity
-UVM_INFO : 40
-UVM_WARNING : 0
-UVM_ERROR : 1
-UVM_FATAL : 0
-[1;31m
-Test FAILED with 1 error(s), look for UVM_ERROR in log file
-[0m
- ../../ivl_uvm_src/ivl_uvm_msg.svh(72) @ 1000001.000 ns [IVL_GO2UVM] Thanks for using IVL_UVM Package
+UVM_INFO /Users/srini/proj/IVL_UVM/Git_ivl_uvm/ivl_uvm/ivl_uvm_src/ivl_uvm_msg.svh(82) @ 200.000 ns [IVL_GO2UVM] Thanks for using IVL_UVM Package

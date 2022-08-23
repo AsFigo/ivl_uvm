@@ -27,24 +27,31 @@ int check_var_decl(vpiHandle argHandle) {
   char *tok;
   int  count=0,i,line_no;
 
-  char *name,*name1,*file_name;
+  char *tmp_str_buf;
+  char *name,*name1,*ivl_file_name;
   //char *name;
   char c,msg[80];
   /* Get the line no of decalration */
   line_no = vpi_get(vpiLineNo,argHandle);
   /* Get the file where variable is decalred */
-  file_name = vpi_get_str(vpiFile,argHandle); 
+  tmp_str_buf = vpi_get_str(vpiFile,argHandle); 
+  ivl_file_name = strdup (tmp_str_buf);
+  // free (tmp_str_buf);
+
   /* Get string name of the reg */
-  name = vpi_get_str(vpiName,argHandle); 
+  tmp_str_buf = vpi_get_str(vpiName,argHandle); 
+  name = strdup (tmp_str_buf);
+  // free (tmp_str_buf);
+
   /* check if length is more than 20 */ 
   if ( strlen(name) > 20) {    
     vpi_printf("ERROR :variable Declaration with more than 20 characters found  \'%s\' .\n           File : %s, line no : %d\n",
-	       name, file_name,line_no); 
+	       name, ivl_file_name,line_no); 
   }                                                       
   /* check if length is less than 3 */
   else if ( strlen(name) < 3) { 
     vpi_printf("ERROR :variable Declaration with less than 3 characters found \'%s\' .\n             File : %s, line no : %d\n\n",
-	       name,file_name,line_no); 
+	       name,ivl_file_name,line_no); 
   }
 
   /* count the no of underscores. */
@@ -59,7 +66,7 @@ int check_var_decl(vpiHandle argHandle) {
       }
     if(count >3) {
       vpi_printf("ERROR :variable Declaration with more than 3 underscores found \'%s\' .\n              File : %s, line no : %d\n\n",
-		 name,file_name,line_no);
+		 name,ivl_file_name,line_no);
     }
     else {
       for(i=0;i< strlen(name);i++)
@@ -67,7 +74,7 @@ int check_var_decl(vpiHandle argHandle) {
 	  if(isupper(name[i]))
 	    {
 	      vpi_printf("ERROR :variable Declaration with capital letter(s)= \'%s\' .\n           File : %s, line no : %d\n\n",
-			 name,file_name,line_no);
+			 name,ivl_file_name,line_no);
 	      break;
 	    }
 	}  // for loop.
@@ -90,8 +97,13 @@ int check_var_decl(vpiHandle argHandle) {
 
 
 int check_mod_decl(vpiHandle argHandle) {
-  char *name,*name1,*file_name;
+	char *ivl_mod_name;
+	char *ivl_inst_name;
+	char *ivl_full_name;
+  char *ivl_file_name;
   char *lw_name,*rev_name;
+  char *tmp_str_buf;
+
   char c,msg[80],c1;
   int  count=0,i,len1,len,line_no;
 
@@ -106,33 +118,48 @@ int check_mod_decl(vpiHandle argHandle) {
   /* Get the line no of decalration */
   line_no = vpi_get(vpiLineNo,argHandle);
   /* Get the file where module is decalred */
-  file_name = vpi_get_str(vpiFile,argHandle);
+  tmp_str_buf = vpi_get_str(vpiFile,argHandle); 
+  ivl_file_name = strdup (tmp_str_buf);
+  // free (tmp_str_buf);
 
-  /* Get string name of the module */
-  name = vpi_get_str(vpiName,argHandle); 
+  /* Get string name of the instance */
+  tmp_str_buf = vpi_get_str(vpiName,argHandle); 
+  ivl_inst_name = strdup (tmp_str_buf);
+  // free (tmp_str_buf);
 
 
-  if ( strlen(name) > 20) {
+
+  if ( strlen(ivl_inst_name) > 20) {
     vpi_printf("ERROR :Instance Declaration with more than 20 characters found \'%s\'. \n            File : %s, line no : %d\n",
-	       name,file_name,line_no); 
+	       ivl_inst_name,ivl_file_name,line_no); 
   }
-  if ( strlen(name) < 3) {
+  if ( strlen(ivl_inst_name) < 3) {
     vpi_printf("ERROR :Instance Declaration with less than 3 characters found \'%s\' \n              File : %s, line no : %d\n",
-	       name,file_name,line_no); 
+	       ivl_inst_name,ivl_file_name,line_no); 
   }
 
-  name1 = vpi_get_str(vpiDefName,argHandle);
+  tmp_str_buf = vpi_get_str(vpiDefName,argHandle);
+  ivl_mod_name = strdup (tmp_str_buf);
+  // free (tmp_str_buf);
+
        
   // to see if the instance name starts with u*
-  c = name[0];
+  c = ivl_inst_name[0];
   c1= 'u';
 
+  tmp_str_buf = vpi_get_str(vpiDefName,argHandle);
+  ivl_mod_name = strdup (tmp_str_buf);
+  tmp_str_buf = vpi_get_str(vpiName,argHandle);
+  ivl_inst_name = strdup (tmp_str_buf);
+  tmp_str_buf = vpi_get_str(vpiFullName,argHandle);
+  ivl_full_name = strdup (tmp_str_buf);
+
 #ifndef IVL_UVM_NO_DEBUG
-  vpi_printf ("IVL_UVM: name: %0s vpiName: %0s DefName: %0s FullName: %0s \n",
-		  name, vpi_get_str(vpiName,argHandle),
-		  vpi_get_str(vpiDefName,argHandle),
-		  vpi_get_str(vpiFullName,argHandle)
-		  );
+  vpi_printf ("IVL_UVM: module: %0s instance: %0s FullName: %0s \n",
+			  ivl_mod_name,	
+			  ivl_inst_name,	
+			  ivl_full_name	
+	      );
 
   // vpi_printf ("IVL_UVM: name: %0s name[0]: %c c: %c \n",
   //		 name, name[0], c);
@@ -140,25 +167,25 @@ int check_mod_decl(vpiHandle argHandle) {
 #endif // IVL_UVM_DEBUG
        
   // IVL_UVM if(c != c1)
-  if(name[0] != c1)
+  if(ivl_inst_name[0] != c1)
     { vpi_printf("ERROR :instance Declaration doesnt start with u*_ \'%s\'  \n           File : %s, line no : %d\n",
-		 name,file_name,line_no);
+		 ivl_inst_name,ivl_file_name,line_no);
     }
-  len = strlen(name);
-  len1 = strlen(name1);
+  len = strlen(ivl_inst_name);
+  len1 = strlen(ivl_mod_name);
 
   /* To check if instance name is u*_module_name */
-  for ( i = 0 ; i < strlen(name1) ; i++)
+  for ( i = 0 ; i < strlen(ivl_mod_name) ; i++)
     {
-      if(name1[len1-i] != name[len-i]) 
-	{
-	  vpi_printf("ERROR : Instance name \'%s\' doesnt contain module name \'%s\'  \n            File : %s, line no : %d\n",
-		     name,name1,file_name,line_no);
-	  break;
-	}
+      if(ivl_mod_name[len1-i] != ivl_inst_name[len-i]) {
+	      vpi_printf("ERROR : Instance name \'%s\' doesnt contain module name \'%s\'  \n            File : %s, line no : %d\n",
+		       ivl_inst_name,ivl_mod_name,ivl_file_name,line_no);
+	      break;
+	    }
     }
 
-}
+	return 0;
+} // check_mod_decl
 
 
 

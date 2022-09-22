@@ -19,8 +19,6 @@ make help [this will show which are the targets for indiviadual checker]
 iverilog -g2012 -s test -I/c/ivl_uvm-main1/ivl_uvm-main/ivl_uvm_std_ovl/ -f flist ivl_uvm_ovl_fifo_index_pass.sv>& pass_comp.log
 vvp a.out >& pass_run.log
 
-
-
 % cat pass_run.log
 OVL_NOTE: V2.8: OVL_FIFO_INDEX initialized @ test.u_ovl_fifo_index.ovl_init_msg_t Severity: 1, Message: VIOLATION
 test.u_clk_100 FREQ_IN_MHZ = 100.000 MHz
@@ -30,10 +28,17 @@ Start testing
  Writing
 ivl_uvm_ovl_fifo_index_pass.sv:44: $finish called at 110000000 (1fs)
 
-
-
-
 [2] ovl_fifo_index_fail
 % make -f OVL_FIFO_INDEX ovl_fifo_index_fail
 iverilog -g2012 -s test -I/c/ivl_uvm-main1/ivl_uvm-main/ivl_uvm_std_ovl/ -f flist ivl_uvm_ovl_fifo_index_fail.sv >& fail_comp.log
 vvp a.out >& fail_run.log
+
+---------------->>>>>>>>>>>>>>>>      To see the waveform in GTK wave
+
+pacman -S mingw-w64-x86_64-gtkwave   --> to install GTK wave
+
+then after running the test with make it will create a dump.vcd
+
+gtkwave -o -t des.stems dump.vcd des.sav
+
+

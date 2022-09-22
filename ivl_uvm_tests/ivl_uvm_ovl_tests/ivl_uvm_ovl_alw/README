@@ -9,7 +9,7 @@ OVL_FIFO_INDEX
 
 ---------------->>>>>>>>>>>>>>>>      To Run all checker
 
-make all  [this will run each chekcer makefiles (wih pass and fail cases) ]
+make all  [this will run each chekcer makefiles (with pass and fail cases) ]
 make help [this will show which are the targets for indiviadual checker]
 
 ---------------->>>>>>>>>>>>>>>>      To Run individual checker

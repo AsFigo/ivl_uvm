@@ -1,0 +1,10 @@
+main makefile - Makefile
+
+Main will invoke  each checker makefile as below names
+OVL_EVEN_PARITY
+OVL_WIN_CHANGE 
+OVL_FIFO_INDEX 
+
+
+make all  [this will run all chekcer makefiles wih pass and fail cases]
+make help [this will show which are the targets for indiviadual checker]

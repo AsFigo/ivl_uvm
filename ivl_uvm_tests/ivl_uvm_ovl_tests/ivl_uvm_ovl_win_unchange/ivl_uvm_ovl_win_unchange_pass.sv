@@ -6,17 +6,12 @@
 // TB
 module test;
 
-  logic clk, reset, rd,rd_ack,DATA;  
+  logic clk, reset, rd,rd_ack;
+  reg [3:0]DATA;  
   
-  //enabling the wave dump
-  initial begin 
-      $dumpfile("dump.vcd");
-      $dumpvars(0, test);
-
-  end
 
   // Instantiate OVL example - ovl_even_parity
-  ovl_win_unchange u_ovl_win_unchange (
+  ovl_win_unchange #( .width(4)) u_ovl_win_unchange (
 	                     .clock     (clk),
 			     .reset     (reset), 
 			     .enable    (1'b1),
@@ -27,40 +22,70 @@ module test;
                  );
     
   
+  //enabling the wave dump
+  initial begin 
+      $dumpfile("dump.vcd");
+      $dumpvars(0, test);
+
+  end
     
 
 initial begin
     reset = 0;   rd = 0; rd_ack = 0;
-
+    wait_clks(5);
    
-     
+    reset = 1; 
+    wait_clks(5); 
     
     $display("Start testing");
 
     DATA = 0; rd =0; rd_ack =0;
-    wait_clks(0);
-
-    $display("1 A with change in data");
-
-    DATA = 1; rd =1; rd_ack =0;
     wait_clks(5);
-    $display("A");
 
 
-    DATA = 0;
-    wait_clks(2);
+// B
+  
+    rd = 0; rd_ack =0;
+    wait_clks(5);
+	
+    $display("1 B with  NOT change in data");
 
-    $display("2 A with data changing ");
+    DATA = 4'b1100; rd =1; rd_ack =0;
+    wait_clks(5);
+    $display("B");
 
-    DATA = 1;
-    wait_clks(2);
-   
+
+    DATA = 4'b1100;
+    wait_clks(5);
+
     rd_ack =1;
     wait_clks(5);
 
-    $display("3 A with change in data");
+    $display("2 B with NOT Data changing ");
+
+// C
+
+    DATA = 0; rd =0; rd_ack =0;
+    wait_clks(5);
+
+    $display("1 C with NOT change in data");
+
+    DATA = 4'b0011; rd =1; rd_ack =0;
+    wait_clks(5);
+    $display("C");
 
 
+    DATA = 4'b0011; 
+    wait_clks(5);
+
+    rd_ack =1;
+    wait_clks(5);
+
+    $display("2 C with NOT data changing ");
+
+  
+    rd = 0; rd_ack =0;
+    wait_clks(5);
 
    $finish;
     

@@ -1,0 +1,19 @@
+task check_all(output bit check_result, input string skip_qch_chk[$] = {});
+      bit [13:0] result;
+      string qch_list[$] ;
+      bit skip_chk[string];
+      string _strng ;
+      result = 0;
+      qch_list = {
+         "aaa",
+         "bbb",
+         "ccc",
+                 "UNDEF"
+      };
+      skip_chk = '{default:1'b0};
+     foreach (qch_list[a] )
+      begin
+       _strng = qch_list[a];
+       skip_chk[_strng] = 1'b0;
+     end 
+endtask

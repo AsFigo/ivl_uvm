@@ -1,0 +1,41 @@
+---------------->>>>>>>>>>>>>>>>      Makefile Run flow
+Main makefile as below path
+/ivl_uvm-main/ivl_uvm_tests/ivl_uvm_ovl_tests/Makefile
+
+Main makefile will invoke  each checker subdir makefile as below names
+ivl_uvm_ovl_even_parity/Makefile
+
+
+
+---------------->>>>>>>>>>>>>>>>      To Run all checker
+
+make all  [this will run each chekcer makefiles (with pass and fail cases) ]
+make clean[ clean all the dumps]
+make help [this will show which are the targets for indiviadual checker]
+
+---------------->>>>>>>>>>>>>>>>      To Run individual checker
+
+[1] ovl_even_parity_pass
+% cd ivl_uvm_ovl_even_parity/
+
+% ls
+Makefile  flist  ivl_uvm_ovl_even_parity_fail.sv  ivl_uvm_ovl_even_parity_pass.sv
+
+% make
+rm -fr a.out *.log *.vcd tee
+iverilog -g2012 -s test -I/C/ivl_uvm-main1_sep_dir/ivl_uvm-main/ivl_uvm_std_ovl/ -f flist ivl_uvm_ovl_even_parity_pass.sv>& pass_comp.log
+vvp a.out >& pass_run.log
+iverilog -g2012 -s test -I/C/ivl_uvm-main1_sep_dir/ivl_uvm-main/ivl_uvm_std_ovl/ -f flist ivl_uvm_ovl_even_parity_fail.sv >& fail_comp.log
+vvp a.out >& fail_run.log
+(Targets -  clean pass fail ovl_fifo_index_pass ovl_fifo_index_fail ovl_even_parity_pass ovl_even_parity_fail ovl_win_change_pass ovl_win_change_fail )
+
+
+---------------->>>>>>>>>>>>>>>>      To see the waveform in GTK wave
+
+pacman -S mingw-w64-x86_64-gtkwave   --> to install GTK wave
+
+then after running the test with make it will create a dump.vcd
+
+gtkwave -o -t des.stems dump.vcd des.sav
+
+

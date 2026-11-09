@@ -98,7 +98,7 @@ virtual class uvm_component extends uvm_report_object;
 
 endclass : uvm_component
 
-virtual class uvm_test extends uvm_component;
+class uvm_test extends uvm_component;
   function new (string name = "uvm_test", uvm_component parent = null);
     super.new (name, parent);
     `g2u_display ("%m");

@@ -1,0 +1,46 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] Using UVM_TESTNAME: sanity_test
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] build_phase
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0.000 ns [IVL_GO2UVM] run_phase
+UVM_INFO @ 1.000 ns [IVL_GO2UVM] CLP
+UVM_INFO @ 1.000 ns [TIMOUTSET] '+UVM_TIMEOUT=1' Global Timeout: 1000000.000 ns
+UVM_INFO @ 100.000 ns [IVL_UVM] UVM_MEDIUM: Hello World
+UVM_INFO @ 100.000 ns [IVL_GO2UVM] Test MBX: Put: 0x92153524
+UVM_INFO @ 105.000 ns [IVL_GO2UVM] Test MBX: Get: 0x92153524
+UVM_INFO @ 110.000 ns [IVL_GO2UVM] Test MBX: Put: 0x40895e81
+UVM_INFO @ 110.000 ns [IVL_GO2UVM] Test MBX: Get: 0x40895e81
+UVM_INFO @ 120.000 ns [IVL_GO2UVM] Test MBX: Put: 0x484d609
+UVM_INFO @ 120.000 ns [IVL_GO2UVM] Test MBX: Get: 0x484d609
+UVM_INFO @ 130.000 ns [IVL_GO2UVM] Test MBX: Put: 0x31f05663
+UVM_INFO @ 130.000 ns [IVL_GO2UVM] Test MBX: Get: 0x31f05663
+UVM_INFO @ 140.000 ns [IVL_GO2UVM] Test MBX: Put: 0x86b97b0d
+UVM_INFO @ 140.000 ns [IVL_GO2UVM] Test MBX: Get: 0x86b97b0d
+UVM_INFO @ 150.000 ns [IVL_GO2UVM] Test MBX: Put: 0xc6df998d
+UVM_INFO @ 150.000 ns [IVL_GO2UVM] Test MBX: Get: 0xc6df998d
+UVM_INFO @ 160.000 ns [IVL_GO2UVM] Test MBX: Put: 0x32c28465
+UVM_INFO @ 160.000 ns [IVL_GO2UVM] Test MBX: Get: 0x32c28465
+UVM_INFO @ 170.000 ns [IVL_GO2UVM] Test MBX: Put: 0x9375212
+UVM_INFO @ 170.000 ns [IVL_GO2UVM] Test MBX: Get: 0x9375212
+UVM_INFO @ 180.000 ns [IVL_GO2UVM] Test MBX: Put: 0x80f3e301
+UVM_INFO @ 180.000 ns [IVL_GO2UVM] Test MBX: Get: 0x80f3e301
+UVM_INFO @ 190.000 ns [IVL_GO2UVM] Test MBX: Put: 0x86d7cd0d
+UVM_INFO @ 190.000 ns [IVL_GO2UVM] Test MBX: Get: 0x86d7cd0d
+$finish(2) called at 20000 (10ps)
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO : 43
+UVM_WARNING : 0
+UVM_ERROR : 0
+UVM_FATAL : 0
+[5;34m
+*** Congratulations! Test PASSED with NO UVM_ERRORs ***
+[0m
+UVM_INFO @ 200.000 ns [IVL_GO2UVM] Thanks for using IVL_UVM Package

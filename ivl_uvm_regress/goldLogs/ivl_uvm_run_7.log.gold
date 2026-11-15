@@ -1,0 +1,17 @@
+UVM_INFO @ 1.000 ns [IVL_GO2UVM] CLP
+UVM_INFO @ 1.000 ns [TIMOUTSET] '+UVM_TIMEOUT=1' Global Timeout: 1000000.000 ns
+UVM_ERROR @ 1000001.000 ns [IVL_UVM] Reached Timeout value of: 1000000.000 ns 
+UVM_INFO @ 1000001.000 ns [IVL_GO2UVM] Ending the Simulation; Check for hanging threads/inactivity in your simulation run
+$finish(2) called at 100000100 (10ps)
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO : 5
+UVM_WARNING : 0
+UVM_ERROR : 1
+UVM_FATAL : 0
+[1;31m
+Test FAILED with 1 error(s), look for UVM_ERROR in log file
+[0m
+UVM_INFO @ 1000001.000 ns [IVL_GO2UVM] Thanks for using IVL_UVM Package

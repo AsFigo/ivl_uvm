@@ -1,0 +1,6 @@
+# editor swap files
+*.swp
+*.swo
+
+# generated documentation
+docs/build/

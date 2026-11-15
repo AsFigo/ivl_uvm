@@ -52,6 +52,13 @@ virtual class uvm_component extends uvm_report_object;
     super.new (name);
   endfunction : new 
 
+`ifdef IVL_UVM_FACTORY
+  // Internal: overridden by `uvm_component_utils (stands in for the registry's create_component)
+  virtual function uvm_component m_ivl_create_component(string name, uvm_component parent);
+    return null;
+  endfunction
+`endif // IVL_UVM_FACTORY
+
   virtual function void build_phase(uvm_phase phase);
     `g2u_display ("build_phase", UVM_HIGH)
   endfunction : build_phase
@@ -98,7 +105,7 @@ virtual class uvm_component extends uvm_report_object;
 
 endclass : uvm_component
 
-class uvm_test extends uvm_component;
+virtual class uvm_test extends uvm_component;
   function new (string name = "uvm_test", uvm_component parent = null);
     super.new (name, parent);
     `g2u_display ("%m");

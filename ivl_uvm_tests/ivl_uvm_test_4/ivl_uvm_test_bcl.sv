@@ -26,19 +26,26 @@ package test_pkg;
   import ivl_uvm_pkg::*;
 
   class sanity_test extends uvm_test;
-    function new (string name = "sanity_test", uvm_component parent);
-      super.new(name);
+    `uvm_component_utils(sanity_test)
+    function new (string name = "sanity_test", uvm_component parent = null);
+      super.new(name, parent);
       `g2u_display ("%m");
     endfunction : new
   endclass : sanity_test 
+
+  // uvm_object/uvm_component are virtual: tests need concrete classes
+  class af_obj extends uvm_object;
+  endclass : af_obj
+  class af_comp extends uvm_component;
+  endclass : af_comp
 
 endpackage : test_pkg
 
 module ivl_uvm_run_test;
   import ivl_uvm_pkg::*;
   import test_pkg::*;
-  uvm_object u0;
-  uvm_component uc_0;
+  af_obj u0;
+  af_comp uc_0;
   
   initial begin
     run_test ();

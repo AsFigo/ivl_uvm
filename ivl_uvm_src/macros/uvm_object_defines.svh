@@ -436,6 +436,11 @@ endfunction \
 
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
+`ifdef IVL_UVM_FACTORY
+`define m_uvm_object_registry_internal(T,S) \
+   static T m_ivl_proto = new("m_ivl_proto"); \
+   static bit m_ivl_registered = m_ivl_register_object(m_ivl_proto);
+`else
 `define m_uvm_object_registry_internal(T,S) \
    typedef uvm_object_registry#(T,`"S`") type_id; \
    static function type_id get_type(); \
@@ -444,6 +449,7 @@ endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
    endfunction 
+`endif // IVL_UVM_FACTORY
 
 
 // m_uvm_object_registry_param
@@ -464,6 +470,18 @@ endfunction \
 
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
+`ifdef IVL_UVM_FACTORY
+// IVL_UVM_FACTORY: no parameterized classes / Class:: on current Icarus,
+// so no type_id. The class registers a prototype object of itself at elaboration time.
+`define m_uvm_component_registry_internal(T,S) \
+   virtual function uvm_component m_ivl_create_component(string name, uvm_component parent); \
+     T o; \
+     o = new(name, parent); \
+     return o; \
+   endfunction \
+   static T m_ivl_proto = new("m_ivl_proto", null); \
+   static bit m_ivl_registered = m_ivl_register_component(m_ivl_proto);
+`else
 `define m_uvm_component_registry_internal(T,S) \
    typedef uvm_component_registry #(T,`"S`") type_id; \
    static function type_id get_type(); \
@@ -472,6 +490,7 @@ endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
    endfunction
+`endif // IVL_UVM_FACTORY
 
 // versions of the uvm_component_registry macros to be used with
 // parameterized classes

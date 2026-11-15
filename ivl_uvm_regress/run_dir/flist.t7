@@ -1,7 +1,7 @@
 // +define+UVM_TESTNAME=apb_test
-+incdir+../../ivl_uvm_tests/ivl_uvm_test_7/tb_src/
++incdir+../../ivl_uvm_tests/t7_apb_vip/tb_src/
 
 ${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
-../../ivl_uvm_tests/ivl_uvm_test_7/tb_src/apb_pkg.sv
+../../ivl_uvm_tests/t7_apb_vip/tb_src/apb_pkg.sv
 
 

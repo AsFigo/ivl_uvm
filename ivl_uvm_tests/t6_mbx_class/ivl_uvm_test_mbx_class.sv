@@ -22,21 +22,26 @@
 // 
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
+
+`define IVL_UVM_MBX_T apb_xn
+
 package test_pkg;
   import ivl_uvm_pkg::*;
 
+  typedef enum {IDLE, APB_WR, APB_RD} apb_xfer_e;
+
+  class apb_xn extends uvm_object;
+    rand bit [7:0] addr;
+    rand bit [7:0] data;
+    rand apb_xfer_e xfer_kind;
+  endclass : apb_xn 
+
   class sanity_test extends uvm_test;
-
-    ivl_uvm_mbx i_mbx_0;
-    int lv_put_val;
-    int lv_get_val;
-
-    function new (string name = "sanity_test", uvm_component parent);
-      super.new(name, null);
+    `uvm_component_utils(sanity_test)
+    function new (string name = "sanity_test", uvm_component parent = null);
+      super.new(name, parent);
       `g2u_display ("%m");
-      i_mbx_0 = new();
     endfunction : new
-
   endclass : sanity_test 
 
 endpackage : test_pkg
@@ -67,7 +72,6 @@ module ivl_uvm_run_test;
   endtask : do_gets
 
    initial begin : test
-     run_test ();
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
      i_mbx_0 = new();
@@ -77,8 +81,9 @@ module ivl_uvm_run_test;
        do_gets();
      join
 
+
+
      $finish (2);
    end : test
 
 endmodule : ivl_uvm_run_test
-

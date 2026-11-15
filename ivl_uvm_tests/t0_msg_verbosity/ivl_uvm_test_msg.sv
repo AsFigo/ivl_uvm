@@ -22,11 +22,25 @@
 // 
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
+package test_pkg;
+  import ivl_uvm_pkg::*;
+
+  // uvm_test is abstract: a concrete, registered default test for this file
+  class af_test extends uvm_test;
+    `uvm_component_utils(af_test)
+    function new (string name = "af_test", uvm_component parent = null);
+      super.new(name, parent);
+    endfunction : new
+  endclass : af_test
+
+endpackage : test_pkg
+
 module ivl_uvm_test_msg;
   import ivl_uvm_pkg::*;
+  import test_pkg::*;
   
   initial begin
-    run_test ();
+    run_test ("af_test");
   end
 
    initial begin : test

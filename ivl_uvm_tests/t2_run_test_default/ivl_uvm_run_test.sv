@@ -1,7 +1,7 @@
 // ========== Copyright Header Begin ==========================
 // 
 // Project: IVL_UVM
-// File: ivl_uvm_test_class.sv
+// File: ivl_uvm_run_test.sv
 // Author(s): Srinivasan Venkataramanan 
 //
 // Copyright (c) VerifWorks 2016-2020  All Rights Reserved.
@@ -22,27 +22,47 @@
 // 
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
-
-module ivl_uvm_test_msg;
+package test_pkg;
   import ivl_uvm_pkg::*;
-  uvm_object u0;
-  uvm_component uc_0;
+
+  // uvm_object/uvm_component are virtual: tests need concrete classes
+  class af_obj extends uvm_object;
+  endclass : af_obj
+  class af_comp extends uvm_component;
+  endclass : af_comp
+
+  // uvm_test is abstract: a concrete, registered default test for this file
+  class af_test extends uvm_test;
+    `uvm_component_utils(af_test)
+    function new (string name = "af_test", uvm_component parent = null);
+      super.new(name, parent);
+    endfunction : new
+  endclass : af_test
+
+endpackage : test_pkg
+
+module ivl_uvm_run_test;
+  import ivl_uvm_pkg::*;
+  import test_pkg::*;
+  af_obj u0;
+  af_comp uc_0;
   
   initial begin
-    run_test ();
+    run_test ("af_test");
   end
 
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
-     u0 = new ("u_0");
+     u0 = new ();
      u0.print();
 
      uc_0 = new("uc_0", null);
      uc_0.ivl_uvm_run_all_phases ();
 
-     $finish (2);
+ 
 
+     $finish (2);
    end : test
 
-endmodule : ivl_uvm_test_msg
+endmodule : ivl_uvm_run_test

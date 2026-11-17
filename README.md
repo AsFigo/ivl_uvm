@@ -14,7 +14,9 @@ It is a growing subset of UVM, not a full implementation. Icarus's SystemVerilog
 * Mailbox and simple TLM-style ports
 * An APB master example
 
-See `docs/source/feature_status.rst` for the full list, including what is not available yet, and `docs/source/limitations.rst` for the differences from standard UVM. The documentation pages are written in reStructuredText for Sphinx.
+**Documentation: <https://asfigo.github.io/ivl_uvm/>**
+
+The documentation has the full feature list, including what is not available yet (`feature_status`), and the differences from standard UVM (`limitations`). The pages are written in reStructuredText for Sphinx and live in `docs/source/`.
 
 IVL_UVM runs on the latest/development build of Icarus (and NOT the stable v11.0 branch). Should you need v11.0 support, feel free to raise a request and we will see if that is doable.
 

@@ -54,183 +54,6 @@ typedef class uvm_object;
 //
 //----------------------------------------------------------------------------
 
-`ifdef IVL_UVM
-// Icarus Verilog patch: the stack is kept as a doubly linked list of nodes
-// instead of a queue of strings, because Icarus does not yet support
-// delete() on a queue class member nor push_back() on a string queue class
-// member. The list is walked through local handles because nested member
-// paths on class properties are not yet supported either. Everything added
-// here is prefixed ivl_uvm_ / m_ivl_uvm_. Drop this branch once Icarus supports the
-// BCL form below.
-class ivl_uvm_scope_stack_node;
-  string s;
-  ivl_uvm_scope_stack_node prev;
-  ivl_uvm_scope_stack_node next;
-endclass : ivl_uvm_scope_stack_node
-
-class uvm_scope_stack;
-  local string m_arg;
-  local ivl_uvm_scope_stack_node m_ivl_uvm_head;
-  local ivl_uvm_scope_stack_node m_ivl_uvm_tail;
-  local int m_ivl_uvm_depth;
-
-  extern function void m_ivl_uvm_push(string s);
-  extern function string m_ivl_uvm_pop();
-  extern function void m_ivl_uvm_clear();
-  extern function int depth();
-  extern function string get();
-  extern function string get_arg();
-  extern function void set(string s);
-  extern function void down(string s);
-  extern function void down_element(int element);
-  extern function void up_element();
-  extern function void up(byte separator = ".");
-  extern function void set_arg(string arg);
-  extern function void set_arg_element(string arg, int ele);
-  extern function void unset_arg(string arg);
-endclass : uvm_scope_stack
-
-function void uvm_scope_stack::m_ivl_uvm_push(string s);
-  ivl_uvm_scope_stack_node n;
-  ivl_uvm_scope_stack_node t;
-  n = new;
-  n.s = s;
-  t = m_ivl_uvm_tail;
-  n.prev = t;
-  if (t != null) begin
-    t.next = n;
-  end
-  else begin
-    m_ivl_uvm_head = n;
-  end
-  m_ivl_uvm_tail = n;
-  m_ivl_uvm_depth++;
-endfunction : m_ivl_uvm_push
-
-function string uvm_scope_stack::m_ivl_uvm_pop();
-  ivl_uvm_scope_stack_node n;
-  ivl_uvm_scope_stack_node t;
-  n = m_ivl_uvm_tail;
-  t = n.prev;
-  m_ivl_uvm_tail = t;
-  if (t != null) begin
-    t.next = null;
-  end
-  else begin
-    m_ivl_uvm_head = null;
-  end
-  m_ivl_uvm_depth--;
-  return n.s;
-endfunction : m_ivl_uvm_pop
-
-function void uvm_scope_stack::m_ivl_uvm_clear();
-  m_ivl_uvm_head = null;
-  m_ivl_uvm_tail = null;
-  m_ivl_uvm_depth = 0;
-endfunction : m_ivl_uvm_clear
-
-function int uvm_scope_stack::depth();
-  return m_ivl_uvm_depth;
-endfunction : depth
-
-function string uvm_scope_stack::get();
-  string v;
-  ivl_uvm_scope_stack_node n;
-  if (m_ivl_uvm_depth == 0) begin
-    return m_arg;
-  end
-  n = m_ivl_uvm_head;
-  get = n.s;
-  n = n.next;
-  while (n != null) begin
-    v = n.s;
-    if (v != "" && (v[0] == "[" || v[0] == "(" || v[0] == "{")) begin
-      get = {get, v};
-    end
-    else begin
-      get = {get, ".", v};
-    end
-    n = n.next;
-  end
-  if (m_arg != "") begin
-    if (get != "") begin
-      get = {get, ".", m_arg};
-    end
-    else begin
-      get = m_arg;
-    end
-  end
-endfunction : get
-
-function string uvm_scope_stack::get_arg();
-  return m_arg;
-endfunction : get_arg
-
-function void uvm_scope_stack::set(string s);
-  m_ivl_uvm_clear();
-  m_ivl_uvm_push(s);
-  m_arg = "";
-endfunction : set
-
-function void uvm_scope_stack::down(string s);
-  m_ivl_uvm_push(s);
-  m_arg = "";
-endfunction : down
-
-function void uvm_scope_stack::down_element(int element);
-  m_ivl_uvm_push($sformatf("[%0d]", element));
-  m_arg = "";
-endfunction : down_element
-
-function void uvm_scope_stack::up_element();
-  string s;
-  if (!m_ivl_uvm_depth) begin
-    return;
-  end
-  s = m_ivl_uvm_pop();
-  if (s != "" && s[0] != "[") begin
-    m_ivl_uvm_push(s);
-  end
-endfunction : up_element
-
-function void uvm_scope_stack::up(byte separator = ".");
-  bit found;
-  string s;
-  while (m_ivl_uvm_depth && !found) begin
-    s = m_ivl_uvm_pop();
-    if (separator == ".") begin
-      if (s == "" || (s[0] != "[" && s[0] != "(" && s[0] != "{")) begin
-        found = 1;
-      end
-    end
-    else begin
-      if (s != "" && s[0] == separator) begin
-        found = 1;
-      end
-    end
-  end
-  m_arg = "";
-endfunction : up
-
-function void uvm_scope_stack::set_arg(string arg);
-  if (arg == "") begin
-    return;
-  end
-  m_arg = arg;
-endfunction : set_arg
-
-function void uvm_scope_stack::set_arg_element(string arg, int ele);
-  string tmp_value_str;
-  tmp_value_str.itoa(ele);
-  m_arg = {arg, "[", tmp_value_str, "]"};
-endfunction : set_arg_element
-
-function void uvm_scope_stack::unset_arg(string arg);
-  if (arg == m_arg) begin
-    m_arg = "";
-  end
-endfunction : unset_arg
-`else
 class uvm_scope_stack;
   local string m_arg;
   local string m_stack[$];
@@ -278,7 +101,12 @@ class uvm_scope_stack;
   // ---------
   
   function void set (string s);
+`ifdef IVL_UVM
+    // Icarus does not yet support delete() on a queue class member
+    m_stack = {};
+`else
     m_stack.delete();
+`endif
     
     m_stack.push_back(s);
     m_arg = "";
@@ -363,7 +191,6 @@ class uvm_scope_stack;
       m_arg = "";
   endfunction
 endclass
-`endif // IVL_UVM
 
 `ifndef IVL_UVM
 

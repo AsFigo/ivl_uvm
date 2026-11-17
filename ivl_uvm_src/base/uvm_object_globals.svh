@@ -1,12 +1,15 @@
 // ========== Copyright Header Begin ==========================
 // 
 // Project: IVL_UVM
-// File: ivl_uvm_types.svh
-// Author(s): Srinivasan Venkataramanan 
+// File: uvm_object_globals.svh
+// Author(s): Srinivasan Venkataramanan
+//            Ajeetha Kumari Venkatesan
 // Modified from Accellera UVM 1.1d code base
 //
 // Copyright (c) VerifWorks 2016-2020  All Rights Reserved.
 // Contact us via: support@verifworks.com
+// Copyright (c) 2026 AsFigo (https://www.asfigo.com)
+// SPDX-License-Identifier: Apache-2.0
 // 
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////

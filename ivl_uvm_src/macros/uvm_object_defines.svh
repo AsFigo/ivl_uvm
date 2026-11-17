@@ -18,6 +18,11 @@
 //   the License for the specific language governing
 //   permissions and limitations under the License.
 //------------------------------------------------------------------------------
+//
+// Modified from Accellera UVM 1.1d for Icarus Verilog (IVL_UVM).
+// Copyright (c) 2026 AsFigo (https://www.asfigo.com)
+// Authors: Srinivasan Venkataramanan, Ajeetha Kumari Venkatesan
+// SPDX-License-Identifier: Apache-2.0
 
 `ifndef UVM_OBJECT_DEFINES_SVH
 `define UVM_OBJECT_DEFINES_SVH

@@ -1,0 +1,53 @@
+UVM_INFO @ 0 [TRANSACTION] PASS  default transaction id               got=-1
+UVM_INFO @ 0 [TRANSACTION] PASS  default initiator is null            got=1
+UVM_INFO @ 0 [TRANSACTION] PASS  default accept time                  got=18446744073709551615
+UVM_INFO @ 0 [TRANSACTION] PASS  default begin time                   got=18446744073709551615
+UVM_INFO @ 0 [TRANSACTION] PASS  default end time                     got=18446744073709551615
+UVM_INFO @ 0 [TRANSACTION] PASS  not active                           got=0
+UVM_INFO @ 0 [TRANSACTION] PASS  name                                 matches
+UVM_INFO @ 0 [TRANSACTION] PASS  no time rows before a stamp          count=0
+UVM_INFO @ 0 [TRANSACTION] PASS  no initiator row without initiator   count=0
+UVM_INFO @ 0 [TRANSACTION] PASS  set transaction id                   got=5
+UVM_INFO @ 0 [TRANSACTION] PASS  set initiator                        got=1
+UVM_INFO @ 0 [TRANSACTION] PASS  initiator from the constructor       got=1
+UVM_INFO @ 0 [TRANSACTION] PASS  accept_tr with a time                got=7
+UVM_INFO @ 0 [TRANSACTION] PASS  do_accept_tr called                  got=1
+UVM_INFO @ 1000 [TRANSACTION] PASS  accept_tr now                        got=10
+UVM_INFO @ 1000 [TRANSACTION] PASS  do_accept_tr called again            got=2
+UVM_INFO @ 1000 [TRANSACTION] PASS  begin_tr with a time                 got=20
+UVM_INFO @ 1000 [TRANSACTION] PASS  begin_tr handle is 0                 got=0
+UVM_INFO @ 1000 [TRANSACTION] PASS  do_begin_tr called                   got=1
+UVM_INFO @ 2500 [TRANSACTION] PASS  begin_tr now                         got=25
+UVM_INFO @ 2500 [TRANSACTION] PASS  begin_child_tr with a time           got=30
+UVM_INFO @ 2500 [TRANSACTION] PASS  do_begin_tr called for each          got=3
+UVM_INFO @ 2500 [TRANSACTION] PASS  end_tr with a time                   got=40
+UVM_INFO @ 2500 [TRANSACTION] PASS  do_end_tr called                     got=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  end_tr now                           got=30
+UVM_INFO @ 3000 [TRANSACTION] PASS  still not active                     got=0
+UVM_INFO @ 3000 [TRANSACTION] PASS  accept_time row                      count=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  begin_time row                       count=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  end_time row                         count=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  initiator row                        count=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  initiator type                       count=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  field macro row                      count=1
+------------------------------------
+Name           Type      Size  Value
+------------------------------------
+t1             txn_t     -     -    
+  data         integral  32    'h9  
+  accept_time  time      64    1000 
+  begin_time   time      64    3000 
+  end_time     time      64    3000 
+  initiator    comp_t    -1    @1   
+------------------------------------
+UVM_INFO @ 3000 [TRANSACTION] PASS  copy accept time                     got=10
+UVM_INFO @ 3000 [TRANSACTION] PASS  copy begin time                      got=30
+UVM_INFO @ 3000 [TRANSACTION] PASS  copy end time                        got=30
+UVM_INFO @ 3000 [TRANSACTION] PASS  copy initiator                       got=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  copy field macro                     got=9
+UVM_INFO @ 3000 [TRANSACTION] PASS  copy does not copy the id            got=-1
+UVM_INFO @ 3000 [TRANSACTION] PASS  clone casts to txn_t                 got=1
+UVM_INFO @ 3000 [TRANSACTION] PASS  clone begin time                     got=30
+UVM_INFO @ 3000 [TRANSACTION] PASS  clone field macro                    got=9
+UVM_INFO @ 3000 [TRANSACTION] PASS  compare equal                        got=1
+UVM_INFO @ 3000 [TRANSACTION] TRANSACTION: PASS (42 checks, 0 failed)

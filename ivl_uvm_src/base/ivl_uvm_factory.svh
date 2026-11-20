@@ -48,9 +48,9 @@ class ivl_uvm_obj_node;
   ivl_uvm_obj_node next;
 endclass : ivl_uvm_obj_node
 
-// Same split as the stock BCL: abstract uvm_factory with the public API as virtual
+// Same split as the BCL: abstract uvm_factory with the public API as virtual
 // methods, uvm_default_factory implements it (extern virtual); m_* helpers are not virtual.
-// Stock declares the API `pure virtual`; Icarus does not support that yet, so the
+// The BCL declares the API `pure virtual`; Icarus does not support that yet, so the
 // base methods have trivial bodies instead.
 virtual class uvm_factory;
   virtual function uvm_component create_component_by_name(string requested_type_name,

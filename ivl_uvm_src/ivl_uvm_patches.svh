@@ -142,8 +142,6 @@
   endclass
   class uvm_recorder;
   endclass
-  class uvm_comparer;
-  endclass
   class uvm_packer;
   endclass
   

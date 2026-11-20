@@ -45,8 +45,9 @@ virtual class uvm_object extends uvm_void;
   local string m_leaf_name;
   local int m_inst_id;
   static protected int m_inst_count;
-  uvm_copy_map uvm_global_copy_map;
-  static /*protected*/ uvm_status_container __m_uvm_status_container;// = new;
+  // A single copy map shared by all objects, as the BCL file-scope variable.
+  static uvm_copy_map uvm_global_copy_map = new;
+  static /*protected*/ uvm_status_container __m_uvm_status_container = new;
   uvm_printer uvm_default_printer;
 
   `ifdef IVL_UVM_I419
@@ -68,8 +69,6 @@ function new (string name = "uvm_object");
 
   m_inst_id = m_inst_count++;
   m_leaf_name = name;
-  uvm_global_copy_map = new();
-  __m_uvm_status_container = new ();
   uvm_default_printer = new();;
 endfunction
 
@@ -628,7 +627,88 @@ endfunction
   // for more information.
 
   function bit compare (uvm_object rhs, uvm_comparer comparer = null);
-    /* IVL_UVM TBD
+`ifdef IVL_UVM
+  // The BCL reaches the status container, the scope stack and the compare map
+  // through nested member paths (a.b.c()), which Icarus does not support, so
+  // each is copied to a local handle first.
+  uvm_status_container sc;
+  uvm_scope_stack stk;
+  uvm_copy_map cmap;
+  uvm_object seen;
+  bit t, dc;
+  bit done;
+  done = 0;
+  sc = __m_uvm_status_container;
+  if (comparer != null) begin
+    sc.comparer = comparer;
+  end
+  else begin
+    sc.comparer = uvm_comparer::init();
+  end
+  comparer = sc.comparer;
+  stk = sc.scope;
+  cmap = comparer.compare_map;
+
+  if (!stk.depth()) begin
+    cmap.clear();
+    comparer.result = 0;
+    comparer.miscompares = "";
+    comparer.scope = sc.scope;
+    if (get_name() == "") begin
+      stk.down("<object>");
+    end
+    else begin
+      stk.down(this.get_name());
+    end
+  end
+  if (!done && (rhs == null)) begin
+    if (stk.depth()) begin
+      comparer.print_msg_object(this, rhs);
+    end
+    else begin
+      comparer.print_msg_object(this, rhs);
+      uvm_report_info("MISCMP",
+           $sformatf("%0d Miscompare(s) for object %s@%0d vs. null",
+           comparer.result,
+           stk.get(),
+           this.get_inst_id()),
+           comparer.verbosity);
+      done = 1;
+    end
+  end
+
+  seen = null;
+  if (!done) begin
+    seen = cmap.get(rhs);
+  end
+  if (!done && (seen != null)) begin
+    if (seen != this) begin
+      comparer.print_msg_object(this, seen);
+    end
+    done = 1;  // don't do any more work after this case, but do cleanup
+  end
+
+  if (!done && comparer.check_type && (rhs != null) && (get_type_name() != rhs.get_type_name())) begin
+    sc.stringv = { "lhs type = \"", get_type_name(),
+                   "\" : rhs type = \"", rhs.get_type_name(), "\""};
+    comparer.print_msg(sc.stringv);
+  end
+
+  if (!done) begin
+    cmap.set(rhs, this);
+    __m_uvm_field_automation(rhs, UVM_COMPARE, "");
+    dc = do_compare(rhs, comparer);
+  end
+
+  if (stk.depth() == 1) begin
+    stk.up();
+  end
+
+  if (rhs != null) begin
+    comparer.print_rollup(this, rhs);
+  end
+  return (comparer.result == 0 && dc == 1);
+`else
   bit t, dc;
   static int style;
   bit done;
@@ -691,7 +771,7 @@ endfunction
   if(rhs != null)
     comparer.print_rollup(this, rhs);
   return (comparer.result == 0 && dc == 1);
-  */
+`endif // IVL_UVM
 endfunction
 
 
@@ -873,6 +953,15 @@ endfunction
     return null;
   endfunction
 
+`ifdef IVL_UVM
+  // The hook that the field macros override. The BCL base body does nothing;
+  // the hidden BCL copy of it is further down in the ifndef IVL_UVM block.
+  virtual function void __m_uvm_field_automation (uvm_object tmp_data__,
+                                                   int        what__,
+                                                   string     str__);
+    return;
+  endfunction : __m_uvm_field_automation
+`endif // IVL_UVM
   `ifndef IVL_UVM
   //---------------------------------------------------------------------------
   //                 **** Internal Methods and Properties ***

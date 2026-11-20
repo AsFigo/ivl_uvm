@@ -1,0 +1,59 @@
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  created name                             got='tr1'
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  created type name                        got='bus_item'
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  an item has the sequence defaults        got=-1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  field addr                               got=4097
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  field tag                                got='beat1'
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  name of the item in the table            count=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  row addr                                 count=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  addr in hex                              count=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  row data                                 count=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  row kind with its enum type              count=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  enum value printed by name               count=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  row tag                                  count=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  row scale                                count=1
+---------------------------------
+Name     Type      Size  Value   
+---------------------------------
+tr1      bus_item  -     -       
+  addr   integral  16    'h1001  
+  data   integral  32    'd100   
+  kind   kind_e    32    WRITE   
+  tag    string    5     beat1   
+  scale  real      64    0.500000
+---------------------------------
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received copy keeps its own name         got='rx'
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received addr                            got=4098
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received data                            got=200
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received kind                            got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received tag                             got='beat2'
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received item equals the sent one        got=1
+UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.data: lhs = 'hc8 : rhs = 'hc9
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in an int                got=0
+UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.kind: lhs = READ : rhs = WRITE
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in an enum               got=0
+UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.tag: lhs = "beat2" : rhs = "beat9"
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in a string              got=0
+UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.scale: lhs = 1.00000 : rhs = 7.50000
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in a real                got=0
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  equal again after restoring              got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  clone is a bus_item                      got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  clone keeps the name                     got='tr1'
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  clone is a new object                    got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  clone equals the original                got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  clone is independent                     got=100
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  pack size in bits                        got=192
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  unpack addr                              got=4097
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  unpack data                              got=100
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  unpack kind                              got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  unpack tag                               got='beat1'
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  unpack scale                             got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  unpacked item equals the original        got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  pack with the default packer             got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  item 0 goes through intact               got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  item 1 goes through intact               got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] PASS  item 2 goes through intact               got=1
+UVM_INFO @ 0 ns [ITEM_FLOW] ITEM_FLOW: PASS (40 checks, 0 failed)

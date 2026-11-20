@@ -29,7 +29,8 @@
 // Poor man's mailbox
 // Default size = 1 in SV
 // Here, only size-1 is supported as of now
-// Also no parameterized classes in Icarus (yet), so using a `define
+// The element type is fixed by a `define (a parameterized mailbox class is a
+// later step)
 //
 // Only one type of mailbox is supported as of now
 //

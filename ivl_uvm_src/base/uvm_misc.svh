@@ -335,6 +335,111 @@ function bit uvm_status_container::m_do_cycle_check(uvm_object scope);
   m_uvm_cycle_scopes.set(scope, 1);
   return 0;
 endfunction : m_do_cycle_check
+
+
+// Function- uvm_object_value_str
+//
+// The BCL functions below are used by the printer. Their BCL text is kept
+// in the hidden part of this file.
+function string uvm_object_value_str(uvm_object v);
+  string s;
+  if (v == null) begin
+    return "<null>";
+  end
+  s.itoa(v.get_inst_id());
+  return {"@", s};
+endfunction : uvm_object_value_str
+
+
+// Function- uvm_leaf_scope
+//
+function string uvm_leaf_scope(string full_name,
+                               byte scope_separator = ".");
+  byte bracket_match;
+  int  pos;
+  int  bmatches;
+
+  bmatches = 0;
+  case (scope_separator)
+    "[": begin
+      bracket_match = "]";
+    end
+    "(": begin
+      bracket_match = ")";
+    end
+    "<": begin
+      bracket_match = ">";
+    end
+    "{": begin
+      bracket_match = "}";
+    end
+    default: begin
+      bracket_match = "";
+    end
+  endcase
+
+  // Only use bracket matching if the input string has the end match
+  if (bracket_match != "" && bracket_match != full_name[full_name.len()-1]) begin
+    bracket_match = "";
+  end
+
+  for (pos = full_name.len()-1; pos != 0; --pos) begin
+    if (full_name[pos] == bracket_match) begin
+      bmatches++;
+    end
+    else if (full_name[pos] == scope_separator) begin
+      bmatches--;
+      if (!bmatches || (bracket_match == "")) begin
+        break;
+      end
+    end
+  end
+  if (pos) begin
+    if (scope_separator != ".") begin
+      pos--;
+    end
+    return full_name.substr(pos+1, full_name.len()-1);
+  end
+  return full_name;
+endfunction : uvm_leaf_scope
+
+
+// Function- uvm_vector_to_string
+//
+function string uvm_vector_to_string(uvm_bitstream_t value,
+                                     int size,
+                                     uvm_radix_enum radix = UVM_NORADIX,
+                                     string radix_str = "");
+  // Icarus has no `&=` on a vector this wide, so the mask is applied in a
+  // plain assignment
+  if (radix == UVM_DEC && value[size-1] === 1) begin
+    return $sformatf("%0d", value);
+  end
+  value = value & ((1 << size) - 1);
+  case (radix)
+    UVM_BIN: begin
+      return $sformatf("%0s%0b", radix_str, value);
+    end
+    UVM_OCT: begin
+      return $sformatf("%0s%0o", radix_str, value);
+    end
+    UVM_UNSIGNED: begin
+      return $sformatf("%0s%0d", radix_str, value);
+    end
+    UVM_STRING: begin
+      return $sformatf("%0s%0s", radix_str, value);
+    end
+    UVM_TIME: begin
+      return $sformatf("%0s%0t", radix_str, value);
+    end
+    UVM_DEC: begin
+      return $sformatf("%0s%0d", radix_str, value);
+    end
+    default: begin
+      return $sformatf("%0s%0x", radix_str, value);
+    end
+  endcase
+endfunction : uvm_vector_to_string
 `endif // IVL_UVM
 
 `ifndef IVL_UVM

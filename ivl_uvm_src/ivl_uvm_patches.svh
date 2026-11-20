@@ -138,8 +138,6 @@
   
   class uvm_objection;
   endclass : uvm_objection
-  class uvm_printer;
-  endclass : uvm_printer
   class uvm_recorder;
   endclass : uvm_recorder
   

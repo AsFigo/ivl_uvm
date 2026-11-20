@@ -47,8 +47,9 @@ virtual class uvm_object extends uvm_void;
   static protected int m_inst_count;
   // A single copy map shared by all objects, as the BCL file-scope variable.
   static uvm_copy_map uvm_global_copy_map = new;
+  // the copy depth of the BCL (a static variable inside copy, which Icarus cannot do)
+  static int m_ivl_uvm_copy_depth;
   static /*protected*/ uvm_status_container __m_uvm_status_container = new;
-  uvm_printer uvm_default_printer;
 
   `ifdef IVL_UVM_I419
   // IVL_UVM issue 416,418 etc.
@@ -69,7 +70,6 @@ function new (string name = "uvm_object");
 
   m_inst_id = m_inst_count++;
   m_leaf_name = name;
-  uvm_default_printer = new();;
 endfunction : new
 
 
@@ -305,6 +305,16 @@ endfunction : get_object_type
 
 function uvm_object clone();
   uvm_object tmp;
+`ifdef IVL_UVM
+  tmp = this.create(get_name());
+  if (tmp == null) begin
+    uvm_report_warning("CRFLD", $sformatf("The create method failed for %s,  object cannot be cloned", get_name()), UVM_NONE);
+  end
+  else begin
+    tmp.copy(this);
+  end
+  return tmp;
+`else
   // IVL Issue 441
   /*
   tmp = this.create(get_name());
@@ -314,6 +324,7 @@ function uvm_object clone();
     tmp.copy(this);
   */
   return(tmp);
+`endif // IVL_UVM
 endfunction : clone
 
 
@@ -334,6 +345,20 @@ endfunction : clone
   // class to format the output.
 
 function void print(uvm_printer printer = null);
+`ifdef IVL_UVM
+  uvm_printer_knobs kn;
+  if (printer == null) begin
+    printer = uvm_printer::m_ivl_uvm_default_printer();
+  end
+
+  if (printer == null) begin
+    `uvm_error("NULLPRINTER","uvm_default_printer is null");
+  end
+  else begin
+    kn = printer.knobs;
+    $fwrite(kn.mcd, "%s", sprint(printer));
+  end
+`else
   if (printer==null) begin
     printer = uvm_default_printer;
   end
@@ -342,6 +367,7 @@ function void print(uvm_printer printer = null);
   end
   // TBD $fwrite(printer.knobs.mcd,sprint(printer)); 
   // $display (sprint());
+`endif // IVL_UVM
 endfunction : print
 
 
@@ -357,6 +383,26 @@ endfunction : print
   // concatenations and provide the string to ~sprint~ to return to the caller.
 
 function string sprint(uvm_printer printer =null);
+`ifdef IVL_UVM
+  if (printer == null) begin
+    printer = uvm_printer::m_ivl_uvm_default_printer();
+  end
+
+  if (!printer.istop()) begin
+    __m_uvm_status_container.printer = printer;
+    __m_uvm_field_automation(null, UVM_PRINT, "");
+    do_print(printer);
+    return "";
+  end
+
+  printer.print_object(get_name(), this);
+
+  if (printer.m_string != "") begin
+    return printer.m_string;
+  end
+
+  return printer.emit();
+`else
   bit p;
 
   if(printer==null) begin
@@ -383,6 +429,7 @@ function string sprint(uvm_printer printer =null);
   */
   return "IVL_UVM";
 
+`endif // IVL_UVM
 endfunction : sprint
 
 
@@ -560,7 +607,27 @@ endfunction : do_record
   // the <do_copy> method.
 
   function void copy (uvm_object rhs);
-    /* IVL_UVM TBD
+`ifdef IVL_UVM
+  if ((rhs != null) && (uvm_global_copy_map.get(rhs) != null)) begin
+    return;
+  end
+
+  if (rhs == null) begin
+    uvm_report_warning("NULLCP", "A null object was supplied to copy; copy is ignored", UVM_NONE);
+    return;
+  end
+
+  uvm_global_copy_map.set(rhs, this);
+  ++m_ivl_uvm_copy_depth;
+
+  __m_uvm_field_automation(rhs, UVM_COPY, "");
+  do_copy(rhs);
+
+  --m_ivl_uvm_copy_depth;
+  if (m_ivl_uvm_copy_depth == 0) begin
+    uvm_global_copy_map.clear();
+  end
+`else
   //For cycle checking
   static int depth;
   if((rhs !=null)  && (uvm_global_copy_map.get(rhs) != null)) begin
@@ -582,7 +649,7 @@ endfunction : do_record
   if(depth==0) begin
     uvm_global_copy_map.clear();
   end
-  */
+`endif // IVL_UVM
 endfunction : copy
 
 

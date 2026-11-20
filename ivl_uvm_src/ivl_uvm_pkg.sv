@@ -46,6 +46,7 @@ package ivl_uvm_pkg;
   `include "base/uvm_object.svh"
   `include "base/uvm_comparer.svh"
   `include "base/uvm_packer.svh"
+  `include "base/uvm_printer.svh"
   `include "ivl_uvm_comps.svh"
   `include "base/ivl_uvm_factory.svh"
   `include "ivl_uvm_mbx.svh"

@@ -70,7 +70,7 @@ function new (string name = "uvm_object");
   m_inst_id = m_inst_count++;
   m_leaf_name = name;
   uvm_default_printer = new();;
-endfunction
+endfunction : new
 
 
   // Group: Seeding
@@ -103,7 +103,7 @@ function void reseed ();
   if(use_uvm_seeding)
     this.srandom(uvm_create_random_seed(get_type_name(), get_full_name()));
 `endif // IVL_UVM
-endfunction
+endfunction : reseed
 
 
 
@@ -116,7 +116,7 @@ endfunction
 
 function void set_name (string name);
   m_leaf_name = name;
-endfunction
+endfunction : set_name
 
 
 
@@ -127,7 +127,7 @@ endfunction
 
 function string get_name ();
   return m_leaf_name;
-endfunction
+endfunction : get_name
 
 
 
@@ -148,7 +148,7 @@ endfunction
 
 function string get_full_name ();
   return get_name();
-endfunction
+endfunction : get_full_name
 
 
   // Function: get_inst_id
@@ -157,7 +157,7 @@ endfunction
 
 function int get_inst_id();
   return m_inst_id;
-endfunction
+endfunction : get_inst_id
 
 
 
@@ -170,7 +170,7 @@ endfunction
 
 function int get_inst_count();
   return m_inst_count;
-endfunction
+endfunction : get_inst_count
 
 
 
@@ -203,7 +203,7 @@ endfunction
 function uvm_object_wrapper get_type();
   //TBD uvm_report_error("NOTYPID", "get_type not implemented in derived class.", UVM_NONE);
   return null;
-endfunction
+endfunction : get_type
 
 
 
@@ -236,11 +236,13 @@ endfunction
   // This function is implemented by the `uvm_*_utils macros, if employed.
 
 function uvm_object_wrapper get_object_type();
-  if(get_type_name() == "<unknown>") return null;
+  if(get_type_name() == "<unknown>") begin
+    return null;
+  end
   `ifndef IVL_UVM
   return factory.find_by_name(get_type_name());
   `endif // IVL_UVM
-endfunction
+endfunction : get_object_type
 
 
 
@@ -290,7 +292,7 @@ endfunction
 
   virtual function uvm_object create (string name=""); 
     return null; 
-  endfunction
+  endfunction : create
 
 
   
@@ -312,7 +314,7 @@ function uvm_object clone();
     tmp.copy(this);
   */
   return(tmp);
-endfunction
+endfunction : clone
 
 
   // Group: Printing
@@ -332,13 +334,15 @@ endfunction
   // class to format the output.
 
 function void print(uvm_printer printer = null);
-  if (printer==null)
+  if (printer==null) begin
     printer = uvm_default_printer;
-  if (printer == null)
+  end
+  if (printer == null) begin
     `uvm_error("NULLPRINTER","uvm_default_printer is null");
+  end
   // TBD $fwrite(printer.knobs.mcd,sprint(printer)); 
   // $display (sprint());
-endfunction
+endfunction : print
 
 
   // Function: sprint
@@ -355,8 +359,9 @@ endfunction
 function string sprint(uvm_printer printer =null);
   bit p;
 
-  if(printer==null)
+  if(printer==null) begin
     printer = uvm_default_printer;
+  end
 
   /* IVL_UVM TBD
   * Need printer class for this to work
@@ -378,7 +383,7 @@ function string sprint(uvm_printer printer =null);
   */
   return "IVL_UVM";
 
-endfunction
+endfunction : sprint
 
 
   // Function: do_print
@@ -416,7 +421,7 @@ endfunction
 
   virtual function void do_print (uvm_printer printer);
   return;
-endfunction
+endfunction : do_print
 
 
   // Function: convert2string
@@ -473,7 +478,7 @@ endfunction
 
 function string convert2string();
   return "";
-endfunction
+endfunction : convert2string
 
 
 
@@ -514,7 +519,7 @@ endfunction
     recorder.tr_handle = 0;
   end
   */
-endfunction
+endfunction : record
 
 
   // Function: do_record
@@ -541,7 +546,7 @@ endfunction
 
   virtual function void do_record (uvm_recorder recorder);
   return;
-endfunction
+endfunction : do_record
 
 
   // Group: Copying
@@ -578,7 +583,7 @@ endfunction
     uvm_global_copy_map.clear();
   end
   */
-endfunction
+endfunction : copy
 
 
   // Function: do_copy
@@ -604,7 +609,7 @@ endfunction
 
   virtual function void do_copy (uvm_object rhs);
   return;
-endfunction
+endfunction : do_copy
 
 
 
@@ -772,7 +777,7 @@ endfunction
     comparer.print_rollup(this, rhs);
   return (comparer.result == 0 && dc == 1);
 `endif // IVL_UVM
-endfunction
+endfunction : compare
 
 
   // Function: do_compare
@@ -807,7 +812,7 @@ endfunction
   virtual function bit do_compare (uvm_object  rhs,
                                           uvm_comparer comparer);
   return 1;
-endfunction
+endfunction : do_compare
 
 
 
@@ -833,7 +838,7 @@ endfunction
   end
   __m_uvm_status_container.cycle_check.delete();
   */
-endfunction
+endfunction : set_int_local
 
 
   // Function: set_string_local
@@ -855,7 +860,7 @@ endfunction
   end
   __m_uvm_status_container.cycle_check.delete();
   */
-endfunction
+endfunction : set_string_local
 
   // Function: set_object_local
   //
@@ -947,11 +952,11 @@ endfunction
   end
   __m_uvm_status_container.cycle_check.delete();  
   */
-endfunction
+endfunction : set_object_local
 
   virtual function uvm_report_object m_get_report_object();
     return null;
-  endfunction
+  endfunction : m_get_report_object
 
 `ifdef IVL_UVM
   // The hook that the field macros override. The BCL base body does nothing;

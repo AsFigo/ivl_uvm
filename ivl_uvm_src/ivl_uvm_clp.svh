@@ -33,7 +33,7 @@ class uvm_cmd_line_verb;
   string id;
   //TBD uvm_verbosity verb;
   int exec_time;
-endclass
+endclass : uvm_cmd_line_verb
 
 // Class: uvm_cmdline_processor
 //
@@ -82,7 +82,7 @@ module ivl_uvm_cmdline_processor;
 
   function void get_args (string args[$]);
     ivl_uvm_clp_args = m_argv;
-  endfunction
+  endfunction : get_args
 
   // Function: get_plusargs
   //
@@ -96,7 +96,7 @@ module ivl_uvm_cmdline_processor;
 
   function void get_plusargs (string args[$]);
     ivl_uvm_clp_args = m_plus_argv;
-  endfunction
+  endfunction : get_plusargs
 
   // Function: get_uvmargs
   //
@@ -108,7 +108,7 @@ module ivl_uvm_cmdline_processor;
 
   function void get_uvm_args (string args[$]);
     ivl_uvm_clp_args = m_uvm_argv;
-  endfunction
+  endfunction : get_uvm_args
 
   // Function: get_arg_matches
   //
@@ -149,19 +149,22 @@ module ivl_uvm_cmdline_processor;
     end
     foreach (m_argv[i]) begin
       if(exp_h != null) begin
-        if(!uvm_dpi_regexec(exp_h, m_argv[i]))
+        if(!uvm_dpi_regexec(exp_h, m_argv[i])) begin
            ivl_uvm_clp_args.push_back(m_argv[i]);
+        end
       end
-      else if((m_argv[i].len() >= len) && (m_argv[i].substr(0,len - 1) == match))
+      else if((m_argv[i].len() >= len) && (m_argv[i].substr(0,len - 1) == match)) begin
         ivl_uvm_clp_args.push_back(m_argv[i]);
+      end
     end
 
-    if(exp_h != null)
+    if(exp_h != null) begin
       uvm_dpi_regfree(exp_h);
+    end
     `endif
 
     return ivl_uvm_clp_args.size();
-  endfunction
+  endfunction : get_arg_matches
 
 
   // Group: Argument Values
@@ -202,7 +205,7 @@ module ivl_uvm_cmdline_processor;
         end
       end
     end
-  endfunction
+  endfunction : get_arg_value
 
   // Function: get_arg_values
   //
@@ -241,7 +244,7 @@ module ivl_uvm_cmdline_processor;
     end
   `endif // IVL_UVM
     return values.size();
-  endfunction
+  endfunction : get_arg_values
 
   // Group: Tool information
 
@@ -252,7 +255,7 @@ module ivl_uvm_cmdline_processor;
 
   function string get_tool_name ();
     return uvm_dpi_get_tool_name();
-  endfunction
+  endfunction : get_tool_name
 
   // Function: get_tool_version
   //
@@ -261,7 +264,7 @@ module ivl_uvm_cmdline_processor;
 
   function string  get_tool_version ();
     return uvm_dpi_get_tool_version();
-  endfunction
+  endfunction : get_tool_version
 
   // constructor
 
@@ -452,7 +455,7 @@ module ivl_uvm_cmdline_processor;
       "UVM_DEBUG"  : begin verb_enum = UVM_DEBUG;  return 1; end
       default      : begin                         return 0; end
     endcase
-  endfunction
+  endfunction : m_convert_verb
 
     // m_do_timeout_settings
   // ---------------------
@@ -486,8 +489,9 @@ module ivl_uvm_cmdline_processor;
         string timeout_list;
         string sep;
         for (int i = 0; i < timeout_settings.size(); i++) begin
-          if (i != 0)
+          if (i != 0) begin
             sep = "; ";
+          end
           timeout_list = {timeout_list, sep, timeout_settings[i]};
         end
         uvm_report_warning("MULTTIMOUT", 

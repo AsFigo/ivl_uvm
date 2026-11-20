@@ -113,10 +113,16 @@ endfunction : m_register_object
 function bit uvm_default_factory::is_type_name_registered(string type_name);
   ivl_uvm_comp_node c;
   ivl_uvm_obj_node  o;
-  for (c = m_comps; c != null; c = c.next)
-    if (c.proto.get_type_name() == type_name) return 1;
-  for (o = m_objs; o != null; o = o.next)
-    if (o.proto.get_type_name() == type_name) return 1;
+  for (c = m_comps; c != null; c = c.next) begin
+    if (c.proto.get_type_name() == type_name) begin
+      return 1;
+    end
+  end
+  for (o = m_objs; o != null; o = o.next) begin
+    if (o.proto.get_type_name() == type_name) begin
+      return 1;
+    end
+  end
   return 0;
 endfunction : is_type_name_registered
 
@@ -125,9 +131,11 @@ function uvm_component uvm_default_factory::create_component_by_name(string requ
                                                                      string name,
                                                                      uvm_component parent);
   ivl_uvm_comp_node it;
-  for (it = m_comps; it != null; it = it.next)
-    if (it.proto.get_type_name() == requested_type_name)
+  for (it = m_comps; it != null; it = it.next) begin
+    if (it.proto.get_type_name() == requested_type_name) begin
       return it.proto.m_ivl_create_component(name, parent);
+    end
+  end
   return null;
 endfunction : create_component_by_name
 
@@ -135,9 +143,11 @@ function uvm_object uvm_default_factory::create_object_by_name(string requested_
                                                                string parent_inst_path = "",
                                                                string name = "");
   ivl_uvm_obj_node it;
-  for (it = m_objs; it != null; it = it.next)
-    if (it.proto.get_type_name() == requested_type_name)
+  for (it = m_objs; it != null; it = it.next) begin
+    if (it.proto.get_type_name() == requested_type_name) begin
       return it.proto.create(name);
+    end
+  end
   return null;
 endfunction : create_object_by_name
 

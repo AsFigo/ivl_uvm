@@ -34,8 +34,14 @@ package test_pkg;
   // uvm_test is abstract: a concrete, registered default test for this file
   class af_test extends uvm_test;
     `uvm_component_utils(af_test)
-    function new (string name = "af_test", uvm_component parent = null);
-      super.new(name, parent);
+    function new (
+      string name = "af_test",
+      uvm_component parent = null
+    );
+      super.new(
+        .name(name),
+        .parent(parent)
+      );
     endfunction : new
   endclass : af_test
 
@@ -46,7 +52,7 @@ module ivl_uvm_test_msg;
   import test_pkg::*;
   
   initial begin
-    run_test ("af_test");
+    run_test (.test_name("af_test"));
   end
 
    initial begin : test

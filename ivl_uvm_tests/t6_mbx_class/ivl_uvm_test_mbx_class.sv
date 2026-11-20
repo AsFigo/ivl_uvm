@@ -43,8 +43,14 @@ package test_pkg;
 
   class sanity_test extends uvm_test;
     `uvm_component_utils(sanity_test)
-    function new (string name = "sanity_test", uvm_component parent = null);
-      super.new(name, parent);
+    function new (
+      string name = "sanity_test",
+      uvm_component parent = null
+    );
+      super.new(
+        .name(name),
+        .parent(parent)
+      );
       `g2u_display ("%m");
     endfunction : new
   endclass : sanity_test 
@@ -63,7 +69,7 @@ module ivl_uvm_run_test;
     repeat (10) begin
       lv_put_val = $urandom();
       `g2u_printf (("Test MBX: Put: 0x%0h", lv_put_val))
-      i_mbx_0.put (lv_put_val);
+      i_mbx_0.put (.in_xn(lv_put_val));
       #10;
     end
   endtask : do_puts
@@ -71,7 +77,7 @@ module ivl_uvm_run_test;
   task do_gets();
     repeat (10) begin
       #5;
-      i_mbx_0.get (lv_get_val);
+      i_mbx_0.get (.out_xn(lv_get_val));
       `g2u_printf (("Test MBX: Get: 0x%0h", lv_get_val))
     end
   endtask : do_gets

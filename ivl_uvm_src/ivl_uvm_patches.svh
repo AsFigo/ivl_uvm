@@ -146,14 +146,9 @@
   endclass
   class uvm_packer;
   endclass
-  class uvm_copy_map;
-  endclass
   
   // typedef bit uvm_bitstream_t;
   
-  class uvm_status_container;
-  endclass : uvm_status_container
-
 `define IVL_UVM_REF 
 
 `endif // __IVL_UVM_PATCHES__

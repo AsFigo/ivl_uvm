@@ -37,8 +37,14 @@ package af_test_pkg;
   // uvm_test is abstract: a concrete, registered default test for this file
   class af_test extends uvm_test;
     `uvm_component_utils(af_test)
-    function new (string name = "af_test", uvm_component parent = null);
-      super.new(name, parent);
+    function new (
+      string name = "af_test",
+      uvm_component parent = null
+    );
+      super.new(
+        .name(name),
+        .parent(parent)
+      );
     endfunction : new
   endclass : af_test
   export ivl_uvm_pkg::*;
@@ -50,16 +56,19 @@ module ivl_uvm_test_msg;
   af_comp uc_0;
   
   initial begin
-    run_test ("af_test");
+    run_test (.test_name("af_test"));
   end
 
    initial begin : test
      #100;
      `uvm_info("IVL_UVM", "UVM_MEDIUM: Hello World", UVM_MEDIUM) 
-     u0 = new ("u_0");
+     u0 = new (.name("u_0"));
      u0.print();
 
-     uc_0 = new("uc_0", null);
+     uc_0 = new(
+       .name("uc_0"),
+       .parent(null)
+     );
      uc_0.ivl_uvm_run_all_phases ();
 
      $finish (2);

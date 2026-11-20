@@ -101,13 +101,8 @@ class uvm_scope_stack;
   // ---------
   
   function void set (string s);
-`ifdef IVL_UVM
-    // Icarus does not yet support delete() on a queue class member
-    m_stack = {};
-`else
     m_stack.delete();
-`endif
-    
+
     m_stack.push_back(s);
     m_arg = "";
   endfunction
@@ -191,6 +186,143 @@ class uvm_scope_stack;
       m_arg = "";
   endfunction
 endclass
+
+`ifdef IVL_UVM
+// uvm_copy_map: the BCL class keys an associative array by object handle,
+// which Icarus does not support, so it keeps the same API on a linked list.
+`include "base/ivl_uvm_linked_list.svh"
+
+class uvm_copy_map;
+  local ivl_uvm_linked_list #(uvm_object, uvm_object) m_ivl_uvm_map;
+
+  extern function new();
+  extern function void set(uvm_object key, uvm_object obj);
+  extern function uvm_object get(uvm_object key);
+  extern function void clear();
+  extern function void delete(uvm_object v);
+endclass : uvm_copy_map
+
+function uvm_copy_map::new();
+  m_ivl_uvm_map = new;
+endfunction : new
+
+function void uvm_copy_map::set(uvm_object key, uvm_object obj);
+  m_ivl_uvm_map.set(key, obj);
+endfunction : set
+
+function uvm_object uvm_copy_map::get(uvm_object key);
+  ivl_uvm_ll_node #(uvm_object, uvm_object) n;
+  n = m_ivl_uvm_map.find_node(key);
+  if (n == null) begin
+    return null;
+  end
+  return n.val;
+endfunction : get
+
+function void uvm_copy_map::clear();
+  m_ivl_uvm_map.clear();
+endfunction : clear
+
+function void uvm_copy_map::delete(uvm_object v);
+  m_ivl_uvm_map.remove_key(v);
+endfunction : delete
+
+// uvm_status_container: the BCL class with its three containers (static
+// field_array[string], cycle_check[uvm_object], m_uvm_cycle_scopes[$] of
+// handles) kept in linked lists, because Icarus does not support those yet.
+class uvm_status_container;
+  bit             clone = 1;
+
+  bit          warning;
+  bit          status;
+  uvm_bitstream_t  bitstream;
+  int          intv;
+  int          element;
+  string       stringv;
+  string       scratch1;
+  string       scratch2;
+  string       key;
+  uvm_object   object;
+  bit          array_warning_done;
+
+  static ivl_uvm_linked_list #(string, bit) field_array = new;
+
+  static bit print_matches;
+
+  uvm_scope_stack scope  = new;
+
+  // Used for checking cycles (see the BCL): the objects seen so far.
+  ivl_uvm_linked_list #(uvm_object, bit) cycle_check = new;
+
+  uvm_comparer    comparer;
+  uvm_packer      packer;
+  uvm_recorder    recorder;
+  uvm_printer     printer;
+
+  // The scopes of the current call stack, newest first.
+  ivl_uvm_linked_list #(uvm_object, bit) m_uvm_cycle_scopes = new;
+
+  extern function void do_field_check(string field, uvm_object obj);
+  extern function string get_function_type(int what);
+  extern function string get_full_scope_arg();
+  extern function bit m_do_cycle_check(uvm_object scope);
+endclass : uvm_status_container
+
+function void uvm_status_container::do_field_check(string field, uvm_object obj);
+  `ifdef UVM_ENABLE_FIELD_CHECKS
+  ivl_uvm_ll_node #(string, bit) n;
+  n = field_array.find_node(field);
+  if (n != null) begin
+    uvm_report_error("MLTFLD", $sformatf("Field %s is defined multiple times in type '%s'",
+       field, obj.get_type_name()), UVM_NONE);
+  end
+  `endif
+  field_array.set(field, 1);
+endfunction : do_field_check
+
+function string uvm_status_container::get_function_type(int what);
+  case (what)
+    UVM_COPY:    return "copy";
+    UVM_COMPARE: return "compare";
+    UVM_PRINT:   return "print";
+    UVM_RECORD:  return "record";
+    UVM_PACK:    return "pack";
+    UVM_UNPACK:  return "unpack";
+    UVM_FLAGS:   return "get_flags";
+    UVM_SETINT:  return "set";
+    UVM_SETOBJ:  return "set_object";
+    UVM_SETSTR:  return "set_string";
+    default:     return "unknown";
+  endcase
+endfunction : get_function_type
+
+function string uvm_status_container::get_full_scope_arg();
+  get_full_scope_arg = scope.get();
+endfunction : get_full_scope_arg
+
+// Same logic as the BCL: it is a cycle only when the scope is not the one
+// entered last AND it is already in the list of scopes.
+function bit uvm_status_container::m_do_cycle_check(uvm_object scope);
+  ivl_uvm_ll_node #(uvm_object, bit) last;
+  ivl_uvm_ll_node #(uvm_object, bit) found;
+  uvm_object l;
+  last = m_uvm_cycle_scopes.first_node();
+  l = null;
+  if (last != null) begin
+    l = last.key;
+  end
+  if (l == scope) begin
+    // right before (a super/derived context of the same object): not a cycle
+    return 0;
+  end
+  found = m_uvm_cycle_scopes.find_node(scope);
+  if (found != null) begin
+    return 1;
+  end
+  m_uvm_cycle_scopes.set(scope, 1);
+  return 0;
+endfunction : m_do_cycle_check
+`endif // IVL_UVM
 
 `ifndef IVL_UVM
 

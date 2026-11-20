@@ -1,21 +1,21 @@
-PASS  empty                  get='' depth=0
-PASS  up_element on empty    get='' depth=0
-PASS  up on empty            get='' depth=0
-PASS  set                    get='top' depth=1
-PASS  down                   get='top.env' depth=2
-PASS  down_element           get='top.env[3]' depth=3
-PASS  set_arg                get='top.env[3].f' depth=3
-PASS  unset_arg              get='top.env[3]' depth=3
-PASS  set_arg_element        get='top.env[3].a[2]' depth=3
-PASS  unset_arg element      get='top.env[3]' depth=3
-PASS  up_element drops [n]   get='top.env' depth=2
-PASS  up_element keeps name  get='top.env.agt' depth=3
-PASS  up                     get='top.env' depth=2
-PASS  down paren             get='top.env(x)' depth=3
-PASS  up skips (x)           get='top' depth=1
-PASS  up to empty            get='' depth=0
-PASS  set replaces stack     get='z' depth=1
-PASS  deep stack             get='r.a.b.c.d' depth=5
-PASS  instance 2             get='other' depth=1
-PASS  instance 1 unchanged   get='r.a.b.c.d' depth=5
-SCOPE_STACK: 20 checks, 0 failed -> PASS
+UVM_INFO @ 0 [SCOPE_STACK] PASS  empty                  get='' depth=0
+UVM_INFO @ 0 [SCOPE_STACK] PASS  up_element on empty    get='' depth=0
+UVM_INFO @ 0 [SCOPE_STACK] PASS  up on empty            get='' depth=0
+UVM_INFO @ 0 [SCOPE_STACK] PASS  set                    get='top' depth=1
+UVM_INFO @ 0 [SCOPE_STACK] PASS  down                   get='top.env' depth=2
+UVM_INFO @ 0 [SCOPE_STACK] PASS  down_element           get='top.env[3]' depth=3
+UVM_INFO @ 0 [SCOPE_STACK] PASS  set_arg                get='top.env[3].f' depth=3
+UVM_INFO @ 0 [SCOPE_STACK] PASS  unset_arg              get='top.env[3]' depth=3
+UVM_INFO @ 0 [SCOPE_STACK] PASS  set_arg_element        get='top.env[3].a[2]' depth=3
+UVM_INFO @ 0 [SCOPE_STACK] PASS  unset_arg element      get='top.env[3]' depth=3
+UVM_INFO @ 0 [SCOPE_STACK] PASS  up_element drops [n]   get='top.env' depth=2
+UVM_INFO @ 0 [SCOPE_STACK] PASS  up_element keeps name  get='top.env.agt' depth=3
+UVM_INFO @ 0 [SCOPE_STACK] PASS  up                     get='top.env' depth=2
+UVM_INFO @ 0 [SCOPE_STACK] PASS  down paren             get='top.env(x)' depth=3
+UVM_INFO @ 0 [SCOPE_STACK] PASS  up skips (x)           get='top' depth=1
+UVM_INFO @ 0 [SCOPE_STACK] PASS  up to empty            get='' depth=0
+UVM_INFO @ 0 [SCOPE_STACK] PASS  set replaces stack     get='z' depth=1
+UVM_INFO @ 0 [SCOPE_STACK] PASS  deep stack             get='r.a.b.c.d' depth=5
+UVM_INFO @ 0 [SCOPE_STACK] PASS  instance 2             get='other' depth=1
+UVM_INFO @ 0 [SCOPE_STACK] PASS  instance 1 unchanged   get='r.a.b.c.d' depth=5
+UVM_INFO @ 0 [SCOPE_STACK] SCOPE_STACK: PASS (20 checks, 0 failed)

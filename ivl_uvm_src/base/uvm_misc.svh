@@ -440,6 +440,41 @@ function string uvm_vector_to_string(uvm_bitstream_t value,
     end
   endcase
 endfunction : uvm_vector_to_string
+
+
+// Function- m_ivl_uvm_radix
+//
+// The radix of a field flag as a uvm_radix_enum. The BCL macros cast the flag
+// bits to the enum; Icarus cannot cast an integer to an enum, so the field
+// macros call this function.
+function uvm_radix_enum m_ivl_uvm_radix(int flag);
+  case (flag & UVM_RADIX)
+    UVM_BIN: begin
+      return UVM_BIN;
+    end
+    UVM_DEC: begin
+      return UVM_DEC;
+    end
+    UVM_UNSIGNED: begin
+      return UVM_UNSIGNED;
+    end
+    UVM_OCT: begin
+      return UVM_OCT;
+    end
+    UVM_HEX: begin
+      return UVM_HEX;
+    end
+    UVM_STRING: begin
+      return UVM_STRING;
+    end
+    UVM_TIME: begin
+      return UVM_TIME;
+    end
+    default: begin
+      return UVM_NORADIX;
+    end
+  endcase
+endfunction : m_ivl_uvm_radix
 `endif // IVL_UVM
 
 `ifndef IVL_UVM

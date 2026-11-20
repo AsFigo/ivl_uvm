@@ -32,7 +32,7 @@
   `define IVL_UVM_PKG
 
   `define IVL_UVM
-  `define IVL_UVM_FACTORY // run-time test selection through prototype objects (the type_id registry is not ported yet)
+  `define IVL_UVM_FACTORY // run-time test selection through prototype objects (objects also have type_id; the component registry is not ported yet)
   `define UVM_CMDLINE_NO_DPI
 `timescale 1ns/1ns
 
@@ -51,6 +51,7 @@ package ivl_uvm_pkg;
   `include "seq/uvm_sequence_item.svh"
   `include "ivl_uvm_comps.svh"
   `include "base/ivl_uvm_factory.svh"
+  `include "base/uvm_registry.svh"
   `include "ivl_uvm_mbx.svh"
   `include "ivl_uvm_tlm.svh"
 

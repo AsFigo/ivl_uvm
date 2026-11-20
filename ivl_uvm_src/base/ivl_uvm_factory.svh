@@ -31,8 +31,9 @@
 `ifndef IVL_UVM_FACTORY_SVH
 `define IVL_UVM_FACTORY_SVH
 
-// Minimal uvm_factory for current Icarus (no parameterized classes, associative
-// arrays, queues of handles or Class:: access).
+// Minimal uvm_factory for current Icarus (no associative arrays or queues of
+// handles in a class, so the registries are linked lists; type and instance
+// overrides are not supported yet).
 // Registry is a linked list of prototype objects, filled by the static
 // initializers that `uvm_component_utils / `uvm_object_utils generate.
 // User-facing API follows UVM: factory.create_component_by_name,
@@ -66,6 +67,12 @@ virtual class uvm_factory;
     return null;
   endfunction : create_object_by_name
 
+  virtual function uvm_object create_object_by_type(uvm_object_wrapper requested_type,
+                                                    string parent_inst_path = "",
+                                                    string name = "");
+    return null;
+  endfunction : create_object_by_type
+
   virtual function bit is_type_name_registered(string type_name);
     return 0;
   endfunction : is_type_name_registered
@@ -87,6 +94,9 @@ class uvm_default_factory extends uvm_factory;
                                                                  string name,
                                                                  uvm_component parent);
   extern virtual function uvm_object create_object_by_name(string requested_type_name,
+                                                           string parent_inst_path = "",
+                                                           string name = "");
+  extern virtual function uvm_object create_object_by_type(uvm_object_wrapper requested_type,
                                                            string parent_inst_path = "",
                                                            string name = "");
   extern virtual function bit is_type_name_registered(string type_name);
@@ -151,6 +161,16 @@ function uvm_object uvm_default_factory::create_object_by_name(string requested_
   return null;
 endfunction : create_object_by_name
 
+// No overrides yet, so the requested type is the type created.
+function uvm_object uvm_default_factory::create_object_by_type(uvm_object_wrapper requested_type,
+                                                               string parent_inst_path = "",
+                                                               string name = "");
+  if (requested_type == null) begin
+    return null;
+  end
+  return requested_type.create_object(name);
+endfunction : create_object_by_type
+
 function bit uvm_default_factory::m_is_uvm_type(string type_name);
   return (type_name.len() >= 4 && type_name.substr(0, 3) == "uvm_");
 endfunction : m_is_uvm_type
@@ -208,6 +228,13 @@ function void m_ivl_init_factory();
     factory = m_ivl_factory;
   end
 endfunction : m_ivl_init_factory
+
+// The factory, created on first use. An expression call, so that it can be made
+// from a static method (Icarus rejects a function call statement there).
+function uvm_factory m_ivl_get_factory();
+  m_ivl_init_factory();
+  return factory;
+endfunction : m_ivl_get_factory
 
 // Called by the static initializers of `uvm_component_utils / `uvm_object_utils.
 function bit m_ivl_register_component(uvm_component proto);

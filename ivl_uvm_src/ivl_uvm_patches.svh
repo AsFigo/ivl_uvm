@@ -142,8 +142,6 @@
   endclass : uvm_printer
   class uvm_recorder;
   endclass : uvm_recorder
-  class uvm_packer;
-  endclass : uvm_packer
   
   // typedef bit uvm_bitstream_t;
   

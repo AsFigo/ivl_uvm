@@ -966,6 +966,152 @@ endfunction : set_object_local
                                                    string     str__);
     return;
   endfunction : __m_uvm_field_automation
+
+  // The packing methods. The BCL passes the packer to m_pack / m_unpack_pre as
+  // an inout argument, which Icarus does not support, so the packer in use is
+  // read back from the status container. The scope stack is reached through a
+  // local handle, and the array arguments are real ref arguments.
+  local function void m_pack(uvm_packer packer);
+    uvm_status_container sc;
+    uvm_scope_stack stk;
+    sc = __m_uvm_status_container;
+    if (packer != null) begin
+      sc.packer = packer;
+    end
+    else begin
+      sc.packer = uvm_packer::m_ivl_uvm_default_packer();
+    end
+    packer = sc.packer;
+
+    packer.reset();
+    stk = packer.scope;
+    stk.down(get_name());
+
+    __m_uvm_field_automation(null, UVM_PACK, "");
+    do_pack(packer);
+
+    packer.set_packed_size();
+
+    stk.up();
+  endfunction : m_pack
+
+  local function void m_unpack_pre(uvm_packer packer);
+    uvm_status_container sc;
+    sc = __m_uvm_status_container;
+    if (packer != null) begin
+      sc.packer = packer;
+    end
+    else begin
+      sc.packer = uvm_packer::m_ivl_uvm_default_packer();
+    end
+    packer = sc.packer;
+    packer.reset();
+  endfunction : m_unpack_pre
+
+  local function void m_unpack_post(uvm_packer packer);
+    uvm_scope_stack stk;
+    int provided_size;
+
+    provided_size = packer.get_packed_size();
+
+    // Put this object into the hierarchy
+    stk = packer.scope;
+    stk.down(get_name());
+
+    __m_uvm_field_automation(null, UVM_UNPACK, "");
+    do_unpack(packer);
+
+    // Scope back up before leaving
+    stk.up();
+
+    if (packer.get_packed_size() != provided_size) begin
+      uvm_report_warning("BDUNPK", $sformatf("Unpack operation unsuccessful: unpacked %0d bits from a total of %0d bits", packer.get_packed_size(), provided_size), UVM_NONE);
+    end
+  endfunction : m_unpack_post
+
+  // Function: pack
+  // Function: pack_bytes
+  // Function: pack_ints
+  function int pack(ref bit bitstream[],
+                    input uvm_packer packer = null);
+    uvm_status_container sc;
+    m_pack(packer);
+    sc = __m_uvm_status_container;
+    packer = sc.packer;
+    packer.get_bits(bitstream);
+    return packer.get_packed_size();
+  endfunction : pack
+
+  function int pack_bytes(ref byte unsigned bytestream[],
+                          input uvm_packer packer = null);
+    uvm_status_container sc;
+    m_pack(packer);
+    sc = __m_uvm_status_container;
+    packer = sc.packer;
+    packer.get_bytes(bytestream);
+    return packer.get_packed_size();
+  endfunction : pack_bytes
+
+  function int pack_ints(ref int unsigned intstream[],
+                         input uvm_packer packer = null);
+    uvm_status_container sc;
+    m_pack(packer);
+    sc = __m_uvm_status_container;
+    packer = sc.packer;
+    packer.get_ints(intstream);
+    return packer.get_packed_size();
+  endfunction : pack_ints
+
+  // Function: do_pack
+  // The user-definable hook called by the pack methods.
+  virtual function void do_pack(uvm_packer packer);
+    return;
+  endfunction : do_pack
+
+  // Function: unpack
+  // Function: unpack_bytes
+  // Function: unpack_ints
+  function int unpack(ref bit bitstream[],
+                      input uvm_packer packer = null);
+    uvm_status_container sc;
+    m_unpack_pre(packer);
+    sc = __m_uvm_status_container;
+    packer = sc.packer;
+    packer.put_bits(bitstream);
+    m_unpack_post(packer);
+    packer.set_packed_size();
+    return packer.get_packed_size();
+  endfunction : unpack
+
+  function int unpack_bytes(ref byte unsigned bytestream[],
+                            input uvm_packer packer = null);
+    uvm_status_container sc;
+    m_unpack_pre(packer);
+    sc = __m_uvm_status_container;
+    packer = sc.packer;
+    packer.put_bytes(bytestream);
+    m_unpack_post(packer);
+    packer.set_packed_size();
+    return packer.get_packed_size();
+  endfunction : unpack_bytes
+
+  function int unpack_ints(ref int unsigned intstream[],
+                           input uvm_packer packer = null);
+    uvm_status_container sc;
+    m_unpack_pre(packer);
+    sc = __m_uvm_status_container;
+    packer = sc.packer;
+    packer.put_ints(intstream);
+    m_unpack_post(packer);
+    packer.set_packed_size();
+    return packer.get_packed_size();
+  endfunction : unpack_ints
+
+  // Function: do_unpack
+  // The user-definable hook called by the unpack methods.
+  virtual function void do_unpack(uvm_packer packer);
+    return;
+  endfunction : do_unpack
 `endif // IVL_UVM
   `ifndef IVL_UVM
   //---------------------------------------------------------------------------

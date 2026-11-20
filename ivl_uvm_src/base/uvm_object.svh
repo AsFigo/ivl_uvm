@@ -359,14 +359,11 @@ function void print(uvm_printer printer = null);
     $fwrite(kn.mcd, "%s", sprint(printer));
   end
 `else
-  if (printer==null) begin
+  if (printer==null)
     printer = uvm_default_printer;
-  end
-  if (printer == null) begin
-    `uvm_error("NULLPRINTER","uvm_default_printer is null");
-  end
-  // TBD $fwrite(printer.knobs.mcd,sprint(printer)); 
-  // $display (sprint());
+  if (printer == null)
+    `uvm_error("NULLPRINTER","uvm_default_printer is null")
+  $fwrite(printer.knobs.mcd,sprint(printer)); 
 `endif // IVL_UVM
 endfunction : print
 
@@ -405,12 +402,9 @@ function string sprint(uvm_printer printer =null);
 `else
   bit p;
 
-  if(printer==null) begin
+  if(printer==null)
     printer = uvm_default_printer;
-  end
 
-  /* IVL_UVM TBD
-  * Need printer class for this to work
   // not at top-level, must be recursing into sub-object
   if(!printer.istop()) begin
     __m_uvm_status_container.printer = printer;
@@ -426,8 +420,6 @@ function string sprint(uvm_printer printer =null);
     return printer.m_string;
 
   return printer.emit();
-  */
-  return "IVL_UVM";
 
 `endif // IVL_UVM
 endfunction : sprint

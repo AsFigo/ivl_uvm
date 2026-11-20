@@ -32,7 +32,7 @@
   `define IVL_UVM_PKG
 
   `define IVL_UVM
-  `define IVL_UVM_FACTORY // run-time test selection (no parameterized classes / Class:: on Icarus yet)
+  `define IVL_UVM_FACTORY // run-time test selection through prototype objects (the type_id registry is not ported yet)
   `define UVM_CMDLINE_NO_DPI
 `timescale 1ns/1ns
 
@@ -47,6 +47,7 @@ package ivl_uvm_pkg;
   `include "base/uvm_comparer.svh"
   `include "base/uvm_packer.svh"
   `include "base/uvm_printer.svh"
+  `include "base/uvm_transaction.svh"
   `include "ivl_uvm_comps.svh"
   `include "base/ivl_uvm_factory.svh"
   `include "ivl_uvm_mbx.svh"

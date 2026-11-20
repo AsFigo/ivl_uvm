@@ -1,0 +1,13 @@
+IVL_UVM
+Copyright 2026 AsFigo (https://www.asfigo.com) and VerifWorks (www.verifworks.com)
+
+This product includes software derived from the Accellera Universal
+Verification Methodology (UVM) 1.1d base class library:
+  Copyright 2007-2011 Mentor Graphics Corporation
+  Copyright 2007-2011 Cadence Design Systems, Inc.
+  Copyright 2010 Synopsys, Inc.
+  Licensed under the Apache License, Version 2.0.
+
+The derived files carry their original copyright and license headers and a
+note stating that they were modified for Icarus Verilog. The files in
+ivl_uvm_src/ that begin with the AsFigo header are original to this project.

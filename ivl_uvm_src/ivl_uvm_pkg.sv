@@ -48,6 +48,7 @@ package ivl_uvm_pkg;
   `include "base/uvm_packer.svh"
   `include "base/uvm_printer.svh"
   `include "base/uvm_transaction.svh"
+  `include "seq/uvm_sequence_item.svh"
   `include "ivl_uvm_comps.svh"
   `include "base/ivl_uvm_factory.svh"
   `include "ivl_uvm_mbx.svh"

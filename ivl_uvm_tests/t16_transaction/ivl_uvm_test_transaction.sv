@@ -29,7 +29,8 @@
 // initiator accessors, the accept / begin / end time stamps and their hooks,
 // copy, clone and the print rows. Recording and the begin / end events are not
 // ported, so is_active stays 0. Prints PASS or FAIL per check and a final
-// summary line.
+// summary line. The time rows print in ns because the test sets $timeformat;
+// without it %t prints in the simulation precision.
 module t_transaction;
   import ivl_uvm_pkg::*;
 
@@ -180,6 +181,7 @@ module t_transaction;
   time all_ones;
 
   initial begin
+    $timeformat(-9, 0, " ns", 0);
     tp = new;
     kn = tp.knobs;
     kn.reference = 0;
@@ -376,6 +378,18 @@ module t_transaction;
       .text(txt),
       .sub("end_time"),
       .exp(1)
+    );
+    chk_count(
+      .what("accept time printed in ns"),
+      .text(txt),
+      .sub("10 ns"),
+      .exp(1)
+    );
+    chk_count(
+      .what("begin and end time printed in ns"),
+      .text(txt),
+      .sub("30 ns"),
+      .exp(2)
     );
     chk_count(
       .what("initiator row"),

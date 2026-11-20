@@ -24,4 +24,11 @@ UVM_INFO @ 0 [COPY_CLONE] PASS  clone without create is null       got=1
 UVM_INFO @ 0 [COPY_CLONE] PASS  cyclic copy first node             got=1
 UVM_INFO @ 0 [COPY_CLONE] PASS  cyclic copy second node            got=2
 UVM_INFO @ 0 [COPY_CLONE] PASS  copy again after the map is cleared got=5
-UVM_INFO @ 0 [COPY_CLONE] COPY_CLONE: PASS (24 checks, 0 failed)
+UVM_INFO @ 0 [COPY_CLONE] PASS  virtual get_name                   got='over_name'
+UVM_INFO @ 0 [COPY_CLONE] PASS  virtual get_full_name              got='top.over_full'
+UVM_INFO @ 0 [COPY_CLONE] PASS  virtual get_inst_id                got=4242
+UVM_INFO @ 0 [COPY_CLONE] PASS  virtual convert2string             got='over_text'
+UVM_INFO @ 0 [COPY_CLONE] PASS  virtual set_name                   got='set:zz'
+UVM_INFO @ 0 [COPY_CLONE] PASS  virtual clone                      got='over_name'
+UVM_INFO @ 0 [COPY_CLONE] PASS  virtual clone gives an over_t      got=1
+UVM_INFO @ 0 [COPY_CLONE] COPY_CLONE: PASS (31 checks, 0 failed)

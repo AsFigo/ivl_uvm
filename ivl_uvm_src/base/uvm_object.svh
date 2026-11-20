@@ -114,7 +114,7 @@ endfunction : reseed
   // Sets the instance name of this object, overwriting any previously
   // given name.
 
-function void set_name (string name);
+virtual function void set_name (string name);
   m_leaf_name = name;
 endfunction : set_name
 
@@ -125,7 +125,7 @@ endfunction : set_name
   // Returns the name of the object, as provided by the ~name~ argument in the
   // <new> constructor or <set_name> method.
 
-function string get_name ();
+virtual function string get_name ();
   return m_leaf_name;
 endfunction : get_name
 
@@ -146,7 +146,7 @@ endfunction : get_name
   // a full context, which is useful when debugging.
 
 
-function string get_full_name ();
+virtual function string get_full_name ();
   return get_name();
 endfunction : get_full_name
 
@@ -155,7 +155,7 @@ endfunction : get_full_name
   //
   // Returns the object's unique, numeric instance identifier.
 
-function int get_inst_id();
+virtual function int get_inst_id();
   return m_inst_id;
 endfunction : get_inst_id
 
@@ -235,7 +235,7 @@ endfunction : get_type
   //
   // This function is implemented by the `uvm_*_utils macros, if employed.
 
-function uvm_object_wrapper get_object_type();
+virtual function uvm_object_wrapper get_object_type();
   if(get_type_name() == "<unknown>") begin
     return null;
   end
@@ -303,7 +303,7 @@ endfunction : get_object_type
   // The default implementation calls <create> followed by <copy>. As clone is
   // virtual, derived classes may override this implementation if desired. 
 
-function uvm_object clone();
+virtual function uvm_object clone();
   uvm_object tmp;
 `ifdef IVL_UVM
   tmp = this.create(get_name());
@@ -515,7 +515,7 @@ endfunction : do_print
   //|    base_field=foo write=1 addr=00000123 data=00000456 child_field=bar
 
 
-function string convert2string();
+virtual function string convert2string();
   return "";
 endfunction : convert2string
 

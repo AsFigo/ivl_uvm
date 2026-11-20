@@ -304,6 +304,7 @@ module t_printer;
   string dsh;
 
   initial begin
+    $timeformat(-9, 0, " ns", 0);
     tp = new;
     fp = new;
     it = new(.name("i1"));
@@ -574,6 +575,12 @@ module t_printer;
       .what("time row"),
       .text(txt),
       .sub("time"),
+      .exp(1)
+    );
+    chk_count(
+      .what("time value printed in ns"),
+      .text(txt),
+      .sub("100 ns"),
       .exp(1)
     );
     chk_count(

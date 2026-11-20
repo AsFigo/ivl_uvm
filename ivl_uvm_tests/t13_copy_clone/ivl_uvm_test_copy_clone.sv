@@ -28,7 +28,8 @@
 // Direct test of uvm_object::copy, do_copy, create and clone (UVM 1.1d BCL).
 // The classes write create and do_copy by hand, so the test does not depend
 // on the factory or field macros. Prints PASS or FAIL per check and a final
-// summary line.
+// summary line. A class that overrides the virtual accessors checks the calls
+// through a uvm_object handle.
 module t_copy_clone;
   import ivl_uvm_pkg::*;
 
@@ -102,6 +103,43 @@ module t_copy_clone;
       super.new(.name(name));
     endfunction : new
   endclass : plain_t
+
+  // overrides every virtual accessor of uvm_object that a user class may override
+  class over_t extends uvm_object;
+    string nm;
+
+    function new(string name = "");
+      super.new(.name(name));
+    endfunction : new
+
+    virtual function void set_name(
+      string name
+    );
+      nm = {"set:", name};
+    endfunction : set_name
+
+    virtual function string get_name();
+      return "over_name";
+    endfunction : get_name
+
+    virtual function string get_full_name();
+      return "top.over_full";
+    endfunction : get_full_name
+
+    virtual function int get_inst_id();
+      return 4242;
+    endfunction : get_inst_id
+
+    virtual function string convert2string();
+      return "over_text";
+    endfunction : convert2string
+
+    virtual function uvm_object clone();
+      over_t t;
+      t = new(.name("cloned"));
+      return t;
+    endfunction : clone
+  endclass : over_t
 
   // deep copy through copy(), so the copy map is used
   class node_t extends uvm_object;
@@ -180,6 +218,9 @@ module t_copy_clone;
   node_t s1, s2, d1, d2;
   uvm_object o;
   uvm_object c;
+  uvm_object base;
+  uvm_object cl;
+  over_t ov, ov2;
 
   initial begin
     a = new(.name("a"));
@@ -345,6 +386,47 @@ module t_copy_clone;
       .what("copy again after the map is cleared"),
       .got(d1.v),
       .exp(5)
+    );
+
+    // virtual accessors called through a uvm_object handle
+    ov = new(.name("ov"));
+    base = ov;
+    chk_str(
+      .what("virtual get_name"),
+      .got(base.get_name()),
+      .exp("over_name")
+    );
+    chk_str(
+      .what("virtual get_full_name"),
+      .got(base.get_full_name()),
+      .exp("top.over_full")
+    );
+    chk_int(
+      .what("virtual get_inst_id"),
+      .got(base.get_inst_id()),
+      .exp(4242)
+    );
+    chk_str(
+      .what("virtual convert2string"),
+      .got(base.convert2string()),
+      .exp("over_text")
+    );
+    base.set_name(.name("zz"));
+    chk_str(
+      .what("virtual set_name"),
+      .got(ov.nm),
+      .exp("set:zz")
+    );
+    cl = base.clone();
+    chk_str(
+      .what("virtual clone"),
+      .got(cl.get_name()),
+      .exp("over_name")
+    );
+    chk_int(
+      .what("virtual clone gives an over_t"),
+      .got($cast(ov2, cl)),
+      .exp(1)
     );
 
     `uvm_info("COPY_CLONE",

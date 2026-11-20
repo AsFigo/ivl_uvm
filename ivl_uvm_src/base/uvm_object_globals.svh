@@ -622,6 +622,7 @@ typedef enum { UVM_RAISED      = 'h01,
 // <uvm_object>-based objects.
 
 
+typedef class uvm_printer_knobs;
 typedef class uvm_printer;
 typedef class uvm_table_printer;
 typedef class uvm_tree_printer;

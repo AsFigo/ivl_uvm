@@ -1,0 +1,27 @@
+UVM_INFO @ 0 [COPY_CLONE] PASS  create returns an object           got=1
+UVM_INFO @ 0 [COPY_CLONE] PASS  create sets the name               got='made'
+UVM_INFO @ 0 [COPY_CLONE] PASS  create returns the same type       got='item_t'
+UVM_INFO @ 0 [COPY_CLONE] PASS  copy int                           got=42
+UVM_INFO @ 0 [COPY_CLONE] PASS  copy string                        got='hi'
+UVM_INFO @ 0 [COPY_CLONE] PASS  copy keeps the name                got='b'
+UVM_INFO @ 0 [COPY_CLONE] PASS  copy is independent                got=42
+UVM_WARNING @ 0 [NULLCP] A null object was supplied to copy; copy is ignored
+UVM_INFO @ 0 [COPY_CLONE] PASS  copy of null is ignored            got=42
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone returns an object            got=1
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone is a new object              got=1
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone has the name                 got='a'
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone has the type                 got='item_t'
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone casts to item_t              got=1
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone int                          got=42
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone string                       got='hi'
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone is independent               got=42
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone derived casts to sub_t       got=1
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone derived type                 got='sub_t'
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone derived base field           got=5
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone derived own field            got=9
+UVM_WARNING @ 0 [CRFLD] The create method failed for pl,  object cannot be cloned
+UVM_INFO @ 0 [COPY_CLONE] PASS  clone without create is null       got=1
+UVM_INFO @ 0 [COPY_CLONE] PASS  cyclic copy first node             got=1
+UVM_INFO @ 0 [COPY_CLONE] PASS  cyclic copy second node            got=2
+UVM_INFO @ 0 [COPY_CLONE] PASS  copy again after the map is cleared got=5
+UVM_INFO @ 0 [COPY_CLONE] COPY_CLONE: PASS (24 checks, 0 failed)

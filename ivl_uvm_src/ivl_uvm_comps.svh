@@ -81,7 +81,6 @@ virtual class uvm_component extends uvm_report_object;
 
   virtual task run_phase (uvm_phase phase);
     `g2u_display ("run_phase", UVM_HIGH)
-    this.print (uvm_default_printer);
   endtask : run_phase 
 
   virtual function void extract_phase(uvm_phase phase);

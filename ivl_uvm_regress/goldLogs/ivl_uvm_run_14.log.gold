@@ -1,0 +1,62 @@
+UVM_INFO @ 0 [PRINTER] PASS  knob header                          got=1
+UVM_INFO @ 0 [PRINTER] PASS  knob indent                          got=2
+UVM_INFO @ 0 [PRINTER] PASS  knob depth                           got=-1
+UVM_INFO @ 0 [PRINTER] PASS  knob reference                       got=1
+UVM_INFO @ 0 [PRINTER] PASS  radix string hex                     matches
+UVM_INFO @ 0 [PRINTER] PASS  radix string dec                     matches
+UVM_INFO @ 0 [PRINTER] PASS  radix string bin                     matches
+UVM_INFO @ 0 [PRINTER] PASS  radix string none uses default       matches
+UVM_INFO @ 0 [PRINTER] PASS  radix string hidden                  matches
+UVM_INFO @ 0 [PRINTER] PASS  table of an item                     matches
+UVM_INFO @ 0 [PRINTER] PASS  second sprint is the same            matches
+UVM_INFO @ 0 [PRINTER] PASS  table without header and footer      matches
+UVM_INFO @ 0 [PRINTER] PASS  no type column                       count=0
+UVM_INFO @ 0 [PRINTER] PASS  no size column                       count=0
+UVM_INFO @ 0 [PRINTER] PASS  name column stays                    count=1
+UVM_INFO @ 0 [PRINTER] PASS  user header, rows and footer         matches
+UVM_INFO @ 0 [PRINTER] PASS  default printer exists               got=1
+UVM_INFO @ 0 [PRINTER] PASS  sprint with the default printer      matches
+UVM_INFO @ 0 [PRINTER] PASS  reference shows the instance id      count=1
+---------------------------
+Name  Type      Size  Value
+---------------------------
+i1    item_t    -     -    
+  a   integral  32    'h2a 
+  s   string    2     hi   
+---------------------------
+-------------------------------
+Name      Type      Size  Value
+-------------------------------
+o1        outer_t   -     -    
+  ofld    integral  8     'b101
+  kid     kid_t     -     -    
+    kfld  integral  32    'd7  
+-------------------------------
+UVM_INFO @ 0 [PRINTER] PASS  nested object row                    count=1
+UVM_INFO @ 0 [PRINTER] PASS  nested object field                  count=1
+UVM_INFO @ 0 [PRINTER] PASS  binary radix                         count=1
+UVM_INFO @ 0 [PRINTER] PASS  decimal radix                        count=1
+UVM_INFO @ 0 [PRINTER] PASS  depth 1 keeps the nested row         count=1
+UVM_INFO @ 0 [PRINTER] PASS  depth 1 drops the nested field       count=0
+UVM_INFO @ 0 [PRINTER] PASS  null object row                      count=1
+UVM_INFO @ 0 [PRINTER] PASS  cycle prints the field once          count=1
+UVM_INFO @ 0 [PRINTER] PASS  cycle shows the self row             count=1
+------------------------------------
+Name        Type      Size  Value   
+------------------------------------
+m1          misc_t    -     -       
+  arr       array     2     -       
+    arr[0]  integral  8     'd10    
+    arr[1]  integral  8     'd11    
+  rl        real      64    1.500000
+  tm        time      64    10000   
+  gn        mytype    8     xyz     
+------------------------------------
+UVM_INFO @ 0 [PRINTER] PASS  array header row                     count=1
+UVM_INFO @ 0 [PRINTER] PASS  array element 0                      count=1
+UVM_INFO @ 0 [PRINTER] PASS  array element 1                      count=1
+UVM_INFO @ 0 [PRINTER] PASS  real value                           count=1
+UVM_INFO @ 0 [PRINTER] PASS  time row                             count=1
+UVM_INFO @ 0 [PRINTER] PASS  generic type                         count=1
+UVM_INFO @ 0 [PRINTER] PASS  generic value                        count=1
+UVM_INFO @ 0 [PRINTER] PRINTER: PASS (35 checks, 0 failed)

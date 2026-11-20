@@ -9,6 +9,11 @@ UVM_INFO @ 0.000 ns [IVL_GO2UVM] run_phase
 UVM_INFO @ 1.000 ns [IVL_GO2UVM] CLP
 UVM_INFO @ 1.000 ns [TIMOUTSET] '+UVM_TIMEOUT=1' Global Timeout: 1000000.000 ns
 UVM_INFO @ 100.000 ns [IVL_UVM] UVM_MEDIUM: Hello World
+----------------------------------
+Name        Type       Size  Value
+----------------------------------
+uvm_object  <unknown>  -     @3   
+----------------------------------
 UVM_INFO @ 100.000 ns [IVL_GO2UVM] build_phase
 UVM_INFO @ 100.000 ns [IVL_GO2UVM] connect_phase
 UVM_INFO @ 100.000 ns [IVL_GO2UVM] end_of_elaboration_phase

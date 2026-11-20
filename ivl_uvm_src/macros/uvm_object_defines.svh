@@ -153,6 +153,31 @@
 // implementations of these two methods, or when you are setting up field macros
 // for an abstract class (i.e. virtual class).
 
+`ifdef IVL_UVM
+`define uvm_field_utils_begin(T) \
+   function void __m_uvm_field_automation (uvm_object tmp_data__, \
+                                           int what__, \
+                                           string str__); \
+     T local_data__; /* Used for copy and compare */ \
+     uvm_status_container sc__; \
+     uvm_scope_stack scp__; \
+     uvm_comparer cmp__; \
+     uvm_packer pk__; \
+     uvm_printer pr__; \
+     sc__ = __m_uvm_status_container; \
+     scp__ = sc__.scope; \
+     cmp__ = sc__.comparer; \
+     pk__ = sc__.packer; \
+     pr__ = sc__.printer; \
+     super.__m_uvm_field_automation(tmp_data__, what__, str__); \
+     /* Type is verified by uvm_object::compare() */ \
+     if (tmp_data__ != null) begin \
+       /* Allow objects in same hierarchy to be copied/compared */ \
+       if (!$cast(local_data__, tmp_data__)) begin \
+         return; \
+       end \
+     end
+`else
 `define uvm_field_utils_begin(T) \
    function void __m_uvm_field_automation (uvm_object tmp_data__, \
                                      int what__, \
@@ -174,7 +199,12 @@
      if(tmp_data__ != null) \
        /* Allow objects in same hierarchy to be copied/compared */ \
        if(!$cast(local_data__, tmp_data__)) return;
+`endif // IVL_UVM
 
+`ifdef IVL_UVM
+`define uvm_field_utils_end \
+endfunction : __m_uvm_field_automation
+`else
 `define uvm_field_utils_end \
      if(what__ inside {UVM_SETINT,UVM_SETSTR,UVM_SETOBJ}) begin \
         // remove all scopes recorded (through super and other objects visited before) \
@@ -184,6 +214,7 @@
      end \
 endfunction \
 
+`endif // IVL_UVM
 // MACRO: `uvm_object_utils
 
 // MACRO: `uvm_object_param_utils
@@ -266,10 +297,16 @@ endfunction \
    `m_uvm_object_create_func(T) \
    `uvm_field_utils_begin(T) 
        
+`ifdef IVL_UVM
+`define uvm_object_utils_end \
+endfunction : __m_uvm_field_automation
+
+`else
 `define uvm_object_utils_end \
      end \
    endfunction \
 
+`endif // IVL_UVM
 
 // MACRO: `uvm_component_utils
 
@@ -348,9 +385,14 @@ endfunction \
    `uvm_component_param_utils(T) \
    `uvm_field_utils_begin(T) 
 
+`ifdef IVL_UVM
+`define uvm_component_utils_end \
+endfunction : __m_uvm_field_automation
+`else
 `define uvm_component_utils_end \
      end \
    endfunction
+`endif // IVL_UVM
 
 
 // MACRO: `uvm_object_registry
@@ -649,6 +691,58 @@ endfunction \
 // ~ARG~ is an integral property of the class, and ~FLAG~ is a bitwise OR of
 // one or more flag settings as described in <Field Macros> above.
 
+`ifdef IVL_UVM
+`define uvm_field_int(ARG,FLAG) \
+  begin \
+    case (what__) \
+      UVM_COPY: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOPY)) begin \
+            ARG = local_data__.ARG; \
+          end \
+        end \
+      UVM_COMPARE: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOMPARE)) begin \
+            if (ARG !== local_data__.ARG) begin \
+              void'(cmp__.compare_field(`"ARG`", ARG, local_data__.ARG, $bits(ARG))); \
+              if (cmp__.result && (cmp__.show_max <= cmp__.result)) begin \
+                return; \
+              end \
+            end \
+          end \
+        end \
+      UVM_PACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          if ($bits(ARG) <= 64) begin \
+            pk__.pack_field_int(ARG, $bits(ARG)); \
+          end \
+          else begin \
+            pk__.pack_field(ARG, $bits(ARG)); \
+          end \
+        end \
+      UVM_UNPACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          if ($bits(ARG) <= 64) begin \
+            ARG = pk__.unpack_field_int($bits(ARG)); \
+          end \
+          else begin \
+            ARG = pk__.unpack_field($bits(ARG)); \
+          end \
+        end \
+      UVM_PRINT: \
+        if (!((FLAG)&UVM_NOPRINT)) begin \
+          pr__.print_int(`"ARG`", ARG, $bits(ARG), m_ivl_uvm_radix(FLAG)); \
+        end \
+    endcase \
+  end
+`else
 `define uvm_field_int(ARG,FLAG) \
   begin \
     case (what__) \
@@ -708,6 +802,7 @@ endfunction \
         end \
     endcase \
   end
+`endif // IVL_UVM
 
 
 // MACRO: `uvm_field_object
@@ -719,6 +814,75 @@ endfunction \
 // ~ARG~ is an object property of the class, and ~FLAG~ is a bitwise OR of
 // one or more flag settings as described in <Field Macros> above.
 
+`ifdef IVL_UVM
+`define uvm_field_object(ARG,FLAG) \
+  begin \
+    case (what__) \
+      UVM_COPY: \
+        begin \
+          uvm_object l_obj; \
+          uvm_object src_obj; \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOPY)) begin \
+            if (((FLAG)&UVM_REFERENCE) || local_data__.ARG == null) begin \
+              ARG = local_data__.ARG; \
+            end \
+            else begin \
+              src_obj = local_data__.ARG; \
+              if (src_obj.get_name() == "") begin \
+                src_obj.set_name(`"ARG`"); \
+              end \
+              l_obj = src_obj.clone(); \
+              if (l_obj == null) begin \
+                `uvm_fatal("FAILCLN", {"Failure to clone ", `"ARG`", ", thus the variable will remain null."}); \
+              end \
+              else begin \
+                void'($cast(ARG, l_obj)); \
+                ARG.set_name(src_obj.get_name()); \
+              end \
+            end \
+          end \
+        end \
+      UVM_COMPARE: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOMPARE)) begin \
+            void'(cmp__.compare_object(`"ARG`", ARG, local_data__.ARG)); \
+            if (cmp__.result && (cmp__.show_max <= cmp__.result)) begin \
+              return; \
+            end \
+          end \
+        end \
+      UVM_PACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          if (((FLAG)&UVM_REFERENCE) == 0) begin \
+            pk__.pack_object(ARG); \
+          end \
+        end \
+      UVM_UNPACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          if (((FLAG)&UVM_REFERENCE) == 0) begin \
+            pk__.unpack_object(ARG); \
+          end \
+        end \
+      UVM_PRINT: \
+        begin \
+          if (!((FLAG)&UVM_NOPRINT)) begin \
+            if (((FLAG)&UVM_REFERENCE) != 0) begin \
+              pr__.print_object_header(`"ARG`", ARG); \
+            end \
+            else begin \
+              pr__.print_object(`"ARG`", ARG); \
+            end \
+          end \
+        end \
+    endcase \
+  end
+`else
 `define uvm_field_object(ARG,FLAG) \
   begin \
     case (what__) \
@@ -818,6 +982,7 @@ endfunction \
         end \
     endcase \
   end
+`endif // IVL_UVM
 
 
 // MACRO: `uvm_field_string
@@ -829,6 +994,48 @@ endfunction \
 // ~ARG~ is a string property of the class, and ~FLAG~ is a bitwise OR of
 // one or more flag settings as described in <Field Macros> above.
 
+`ifdef IVL_UVM
+`define uvm_field_string(ARG,FLAG) \
+  begin \
+    case (what__) \
+      UVM_COPY: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOPY)) begin \
+            ARG = local_data__.ARG; \
+          end \
+        end \
+      UVM_COMPARE: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOMPARE)) begin \
+            if (ARG != local_data__.ARG) begin \
+              void'(cmp__.compare_string(`"ARG`", ARG, local_data__.ARG)); \
+              if (cmp__.result && (cmp__.show_max <= cmp__.result)) begin \
+                return; \
+              end \
+            end \
+          end \
+        end \
+      UVM_PACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          pk__.pack_string(ARG); \
+        end \
+      UVM_UNPACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          ARG = pk__.unpack_string(); \
+        end \
+      UVM_PRINT: \
+        if (!((FLAG)&UVM_NOPRINT)) begin \
+          pr__.print_string(`"ARG`", ARG); \
+        end \
+    endcase \
+  end
+`else
 `define uvm_field_string(ARG,FLAG) \
   begin \
     case (what__) \
@@ -881,6 +1088,7 @@ endfunction \
       end \
     endcase \
   end
+`endif // IVL_UVM
 
 
 // MACRO: `uvm_field_enum
@@ -893,6 +1101,55 @@ endfunction \
 // ~FLAG~ is a bitwise OR of one or more flag settings as described in
 // <Field Macros> above.
 
+`ifdef IVL_UVM
+`define uvm_field_enum(T,ARG,FLAG) \
+  begin \
+    case (what__) \
+      UVM_COPY: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOPY)) begin \
+            ARG = local_data__.ARG; \
+          end \
+        end \
+      UVM_COMPARE: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOMPARE)) begin \
+            if (ARG !== local_data__.ARG) begin \
+              T lhs_enum__; \
+              T rhs_enum__; \
+              lhs_enum__ = ARG; \
+              rhs_enum__ = local_data__.ARG; \
+              scp__.set_arg(`"ARG`"); \
+              cmp__.print_msg($sformatf("lhs = %0s : rhs = %0s", lhs_enum__.name(), rhs_enum__.name())); \
+              if (cmp__.result && (cmp__.show_max <= cmp__.result)) begin \
+                return; \
+              end \
+            end \
+          end \
+        end \
+      UVM_PACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          pk__.pack_field(ARG, $bits(ARG)); \
+        end \
+      UVM_UNPACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          ARG = T'(pk__.unpack_field_int($bits(ARG))); \
+        end \
+      UVM_PRINT: \
+        if (!((FLAG)&UVM_NOPRINT)) begin \
+          T print_enum__; \
+          print_enum__ = ARG; \
+          pr__.print_generic(`"ARG`", `"T`", $bits(ARG), print_enum__.name()); \
+        end \
+    endcase \
+  end
+`else
 `define uvm_field_enum(T,ARG,FLAG) \
   begin \
     case (what__) \
@@ -948,6 +1205,7 @@ endfunction \
       end \
     endcase \
   end
+`endif // IVL_UVM
 
 
 // MACRO: `uvm_field_real
@@ -959,6 +1217,48 @@ endfunction \
 // ~ARG~ is an real property of the class, and ~FLAG~ is a bitwise OR of
 // one or more flag settings as described in <Field Macros> above.
 
+`ifdef IVL_UVM
+`define uvm_field_real(ARG,FLAG) \
+  begin \
+    case (what__) \
+      UVM_COPY: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOPY)) begin \
+            ARG = local_data__.ARG; \
+          end \
+        end \
+      UVM_COMPARE: \
+        begin \
+          if (local_data__ == null) begin \
+            return; \
+          end \
+          if (!((FLAG)&UVM_NOCOMPARE)) begin \
+            if (ARG != local_data__.ARG) begin \
+              void'(cmp__.compare_field_real(`"ARG`", ARG, local_data__.ARG)); \
+              if (cmp__.result && (cmp__.show_max <= cmp__.result)) begin \
+                return; \
+              end \
+            end \
+          end \
+        end \
+      UVM_PACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          pk__.pack_field_int($realtobits(ARG), 64); \
+        end \
+      UVM_UNPACK: \
+        if (!((FLAG)&UVM_NOPACK)) begin \
+          ARG = $bitstoreal(pk__.unpack_field_int(64)); \
+        end \
+      UVM_PRINT: \
+        if (!((FLAG)&UVM_NOPRINT)) begin \
+          pr__.print_real(`"ARG`", ARG); \
+        end \
+    endcase \
+  end
+`else
 `define uvm_field_real(ARG,FLAG) \
   begin \
     case (what__) \
@@ -1013,6 +1313,7 @@ endfunction \
       end \
     endcase \
   end
+`endif // IVL_UVM
 
 
 // MACRO: `uvm_field_event

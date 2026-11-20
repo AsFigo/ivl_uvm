@@ -1,0 +1,75 @@
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print table of two fields            matches
+UVM_INFO @ 0 [FIELD_MACROS] PASS  create returns an object             got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  create sets the name                 matches
+UVM_INFO @ 0 [FIELD_MACROS] PASS  type name from the macro             matches
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy int                             got=5
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy bit vector                      got=100
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy string                          matches
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy enum                            got=2
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy real                            got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy object is a new object          got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy object field                    got=77
+UVM_INFO @ 0 [FIELD_MACROS] PASS  UVM_NOCOPY is not copied             got=99
+UVM_INFO @ 0 [FIELD_MACROS] PASS  UVM_NOCOMPARE is copied              got=12
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy keeps the name                  matches
+UVM_INFO @ 0 [FIELD_MACROS] PASS  compare equal                        got=1
+UVM_INFO @ 0 [MISCMP] Miscompare for p1.a: lhs = 'h5 : rhs = 'h6
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in an int            got=0
+UVM_INFO @ 0 [MISCMP] Miscompare for p1.s: lhs = "abc" : rhs = "abd"
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in a string          got=0
+UVM_INFO @ 0 [MISCMP] Miscompare for p1.c: lhs = BLUE : rhs = RED
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in an enum           got=0
+UVM_INFO @ 0 [MISCMP] Miscompare for p1.r: lhs = 2.50000 : rhs = 2.75000
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in a real            got=0
+UVM_INFO @ 0 [MISCMP] Miscompare for p1.kid.kv: lhs = 'h4d : rhs = 'h4e
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in an object field   got=0
+UVM_INFO @ 0 [FIELD_MACROS] PASS  UVM_NOCOMPARE is ignored             got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print row for the int                count=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print decimal radix of the flag      count=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print string row                     count=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print enum row                       count=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print real row                       count=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print object row                     count=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  print object field                   count=1
+----------------------------------
+Name      Type      Size  Value   
+----------------------------------
+p1        pkt_t     -     -       
+  a       integral  32    'h5     
+  b       integral  8     'd100   
+  s       string    3     abc     
+  c       color_e   32    BLUE    
+  r       real      64    2.500000
+  kid     kid_t     -     -       
+    kv    integral  32    'h4d    
+  nocopy  integral  32    'hb     
+  nocmp   integral  32    'hc     
+----------------------------------
+UVM_INFO @ 0 [FIELD_MACROS] PASS  pack size in bits                    got=268
+UVM_INFO @ 0 [FIELD_MACROS] PASS  unpack int                           got=5
+UVM_INFO @ 0 [FIELD_MACROS] PASS  unpack bit vector                    got=100
+UVM_INFO @ 0 [FIELD_MACROS] PASS  unpack string                        matches
+UVM_INFO @ 0 [FIELD_MACROS] PASS  unpack enum                          got=2
+UVM_INFO @ 0 [FIELD_MACROS] PASS  unpack real                          got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  unpack object field                  got=77
+UVM_INFO @ 0 [FIELD_MACROS] PASS  unpack gives an equal object         got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  clone casts to pkt_t                 got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  clone is a new object                got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  clone leaves UVM_NOCOPY at default   got=0
+UVM_INFO @ 0 [FIELD_MACROS] PASS  clone is equal                       got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  clone object field is deep           got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  copy of a null object handle         got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  derived copy base field              got=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  derived copy own field               got=9
+UVM_INFO @ 0 [FIELD_MACROS] PASS  derived compare equal                got=1
+UVM_INFO @ 0 [MISCMP] Miscompare for s1.w: lhs = 'h9 : rhs = 'ha
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object s2@15 vs. s1@14
+UVM_INFO @ 0 [FIELD_MACROS] PASS  derived compare differs in own field got=0
+UVM_INFO @ 0 [FIELD_MACROS] PASS  derived print has the own field      count=1
+UVM_INFO @ 0 [FIELD_MACROS] PASS  derived print has the base field     count=1
+UVM_INFO @ 0 [FIELD_MACROS] FIELD_MACROS: PASS (48 checks, 0 failed)

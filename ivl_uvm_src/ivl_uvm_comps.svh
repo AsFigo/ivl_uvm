@@ -61,7 +61,7 @@ virtual class uvm_component extends uvm_report_object;
   // Internal: overridden by `uvm_component_utils (stands in for the registry's create_component)
   virtual function uvm_component m_ivl_create_component(string name, uvm_component parent);
     return null;
-  endfunction
+  endfunction : m_ivl_create_component
 `endif // IVL_UVM_FACTORY
 
   virtual function void build_phase(uvm_phase phase);

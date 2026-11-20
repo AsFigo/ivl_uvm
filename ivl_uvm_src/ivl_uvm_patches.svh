@@ -137,13 +137,13 @@
   endclass : uvm_object_wrapper
   
   class uvm_objection;
-  endclass
+  endclass : uvm_objection
   class uvm_printer;
-  endclass
+  endclass : uvm_printer
   class uvm_recorder;
-  endclass
+  endclass : uvm_recorder
   class uvm_packer;
-  endclass
+  endclass : uvm_packer
   
   // typedef bit uvm_bitstream_t;
   

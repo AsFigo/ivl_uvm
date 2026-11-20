@@ -125,7 +125,7 @@
     `endif // IVL_UVM 
 
 
-  endfunction
+  endfunction : uvm_report_warning
 
   // Function: uvm_report_error
 
@@ -144,7 +144,7 @@
       $display (msg_str);
     `endif // IVL_UVM 
 
-  endfunction
+  endfunction : uvm_report_error
 
   // Function: uvm_report_fatal
   //
@@ -193,7 +193,7 @@
       $finish (2);
     `endif // IVL_UVM 
 
-  endfunction
+  endfunction : uvm_report_fatal
 
   function string get_uvm_severity_type_str (uvm_severity severity);
     string res;

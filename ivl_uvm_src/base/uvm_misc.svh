@@ -63,7 +63,7 @@ class uvm_scope_stack;
   
   function int depth();
     return m_stack.size();
-  endfunction
+  endfunction : depth
   
   
   // scope
@@ -71,22 +71,28 @@ class uvm_scope_stack;
   
   function string get();
     string v;
-    if(m_stack.size() == 0) return m_arg;
+    if(m_stack.size() == 0) begin
+      return m_arg;
+    end
     get = m_stack[0];
     for(int i=1; i<m_stack.size(); ++i) begin
       v = m_stack[i];
-      if(v != "" && (v[0] == "[" || v[0] == "(" || v[0] == "{"))
+      if(v != "" && (v[0] == "[" || v[0] == "(" || v[0] == "{")) begin
         get = {get,v};
-      else
+      end
+      else begin
         get = {get,".",v};
+      end
     end
     if(m_arg != "") begin
-      if(get != "")
+      if(get != "") begin
         get = {get, ".", m_arg};
-      else
+      end
+      else begin
         get = m_arg;
+      end
     end
-  endfunction
+  endfunction : get
   
   
   // scope_arg
@@ -94,7 +100,7 @@ class uvm_scope_stack;
   
   function string get_arg();
     return m_arg;
-  endfunction
+  endfunction : get_arg
   
   
   // set_scope
@@ -105,7 +111,7 @@ class uvm_scope_stack;
 
     m_stack.push_back(s);
     m_arg = "";
-  endfunction
+  endfunction : set
   
   
   // down
@@ -114,7 +120,7 @@ class uvm_scope_stack;
   function void down (string s);
     m_stack.push_back(s);
     m_arg = "";
-  endfunction
+  endfunction : down
   
   
   // down_element
@@ -123,7 +129,7 @@ class uvm_scope_stack;
   function void down_element (int element);
     m_stack.push_back($sformatf("[%0d]",element));
     m_arg = "";
-  endfunction
+  endfunction : down_element
   
 
   // up_element
@@ -131,12 +137,14 @@ class uvm_scope_stack;
   
   function void up_element ();
     string s;
-    if(!m_stack.size())
+    if(!m_stack.size()) begin
       return;
+    end
     s = m_stack.pop_back();
-    if(s != "" && s[0] != "[")
+    if(s != "" && s[0] != "[") begin
       m_stack.push_back(s);
-  endfunction
+    end
+  endfunction : up_element
   
   // up
   // --
@@ -147,25 +155,29 @@ class uvm_scope_stack;
     while(m_stack.size() && !found ) begin
       s = m_stack.pop_back();
       if(separator == ".") begin
-        if (s == "" || (s[0] != "[" && s[0] != "(" && s[0] != "{"))
+        if (s == "" || (s[0] != "[" && s[0] != "(" && s[0] != "{")) begin
           found = 1;
+        end
       end
       else begin
-        if(s != "" && s[0] == separator)
+        if(s != "" && s[0] == separator) begin
           found = 1;
+        end
       end
     end
     m_arg = "";
-  endfunction
+  endfunction : up
   
   
   // set_arg
   // -------
   
   function void set_arg (string arg);
-    if(arg=="") return;
+    if(arg=="") begin
+      return;
+    end
     m_arg = arg;
-  endfunction
+  endfunction : set_arg
   
   
   // set_arg_element
@@ -175,17 +187,18 @@ class uvm_scope_stack;
     string tmp_value_str;
     tmp_value_str.itoa(ele);
     m_arg = {arg, "[", tmp_value_str, "]"};
-  endfunction
+  endfunction : set_arg_element
   
 
   // unset_arg
   // ---------
   
   function void unset_arg (string arg);
-    if(arg == m_arg)
+    if(arg == m_arg) begin
       m_arg = "";
-  endfunction
-endclass
+    end
+  endfunction : unset_arg
+endclass : uvm_scope_stack
 
 `ifdef IVL_UVM
 // uvm_copy_map: the BCL class keys an associative array by object handle,

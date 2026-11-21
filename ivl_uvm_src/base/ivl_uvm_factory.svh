@@ -67,6 +67,13 @@ virtual class uvm_factory;
     return null;
   endfunction : create_object_by_name
 
+  virtual function uvm_component create_component_by_type(uvm_object_wrapper requested_type,
+                                                          string parent_inst_path = "",
+                                                          string name,
+                                                          uvm_component parent);
+    return null;
+  endfunction : create_component_by_type
+
   virtual function uvm_object create_object_by_type(uvm_object_wrapper requested_type,
                                                     string parent_inst_path = "",
                                                     string name = "");
@@ -96,6 +103,10 @@ class uvm_default_factory extends uvm_factory;
   extern virtual function uvm_object create_object_by_name(string requested_type_name,
                                                            string parent_inst_path = "",
                                                            string name = "");
+  extern virtual function uvm_component create_component_by_type(uvm_object_wrapper requested_type,
+                                                                 string parent_inst_path = "",
+                                                                 string name,
+                                                                 uvm_component parent);
   extern virtual function uvm_object create_object_by_type(uvm_object_wrapper requested_type,
                                                            string parent_inst_path = "",
                                                            string name = "");
@@ -170,6 +181,17 @@ function uvm_object uvm_default_factory::create_object_by_type(uvm_object_wrappe
   end
   return requested_type.create_object(name);
 endfunction : create_object_by_type
+
+// No overrides yet, so the requested type is the type created.
+function uvm_component uvm_default_factory::create_component_by_type(uvm_object_wrapper requested_type,
+                                                                     string parent_inst_path = "",
+                                                                     string name,
+                                                                     uvm_component parent);
+  if (requested_type == null) begin
+    return null;
+  end
+  return requested_type.create_component(name, parent);
+endfunction : create_component_by_type
 
 function bit uvm_default_factory::m_is_uvm_type(string type_name);
   return (type_name.len() >= 4 && type_name.substr(0, 3) == "uvm_");

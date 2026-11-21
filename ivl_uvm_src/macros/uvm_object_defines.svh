@@ -539,9 +539,17 @@ endfunction : __m_uvm_field_automation
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
 `ifdef IVL_UVM
-// The component registry is not ported yet, so a component has
-// no type_id. The class registers a prototype object of itself at elaboration time.
+// The class registers a prototype object of itself at elaboration time (run_test
+// and creation by name use it) and gets a type_id like the BCL.
 `define m_uvm_component_registry_internal(T,S) \
+   typedef uvm_component_registry#(T) type_id; \
+   static function type_id get_type(); \
+     return type_id::get(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+     return type_id::get(); \
+   endfunction \
+   static bit m_ivl_type_named = type_id::m_ivl_uvm_set_type_name(`"S`"); \
    virtual function uvm_component m_ivl_create_component(string name, uvm_component parent); \
      T o; \
      o = new(name, parent); \

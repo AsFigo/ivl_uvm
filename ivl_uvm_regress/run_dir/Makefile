@@ -12,7 +12,7 @@ AF_RUN_ARGS = +UVM_VERBOSITY=UVM_DEBUG
 # Optional: space-separated test numbers for check/gold, e.g. make check TESTS="1 4" (default: all)
 TESTS ?=
 
-all: vw0 vw1 vw2 vw3 vw4 vw5 vw6 vw7 vw8 vw9 vw10 vw11 vw12 vw13 vw14 vw15 vw16 vw17 vw18 vw19 vw20 vw21
+all: vw0 vw1 vw2 vw3 vw4 vw5 vw6 vw7 vw8 vw9 vw10 vw11 vw12 vw13 vw14 vw15 vw16 vw17 vw18 vw19 vw20 vw21 vw22
 vw0: clean
 	$(IVL_UVM_CMD) -f flist.t0 2>&1 | tee ivl_uvm_comp_0.log 	
 	vvp -l ivl_uvm_run_0.log vw_ivl_ivl_uvm.vvp +UVM_MAX_QUIT_COUNT=10 $(AF_RUN_ARGS)
@@ -103,6 +103,10 @@ vw20: clean
 vw21: clean
 	$(IVL_UVM_CMD) -s t_run_test_phases -f flist.t21 2>&1 | tee ivl_uvm_comp_21.log 	
 	vvp -l ivl_uvm_run_21.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw22: clean
+	$(IVL_UVM_CMD) -s t_comp_registry -f flist.t22 2>&1 | tee ivl_uvm_comp_22.log 	
+	vvp -l ivl_uvm_run_22.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
 
 # Regression against golden logs (../goldLogs): make check [TESTS="1 4"], make gold to refresh
 check:

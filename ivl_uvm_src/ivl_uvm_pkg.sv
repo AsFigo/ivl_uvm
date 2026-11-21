@@ -32,7 +32,6 @@
   `define IVL_UVM_PKG
 
   `define IVL_UVM
-  `define IVL_UVM_FACTORY // run-time test selection through prototype objects (objects also have type_id; the component registry is not ported yet)
   `define UVM_CMDLINE_NO_DPI
 `timescale 1ns/1ns
 

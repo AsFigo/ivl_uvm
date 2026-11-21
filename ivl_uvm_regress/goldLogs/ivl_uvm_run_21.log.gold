@@ -1,0 +1,21 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: my_test
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [RUN_PHASES] build_phase: item created
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+------------------------------
+Name    Type      Size  Value 
+------------------------------
+item    my_item   -     @4    
+  addr  integral  16    'h1000
+  data  integral  32    'd42  
+  kind  kind_e    32    WRITE 
+------------------------------
+UVM_INFO @ 1000 [RUN_PHASES] PASS  phase order                got='build connect run report'
+UVM_INFO @ 1000 [RUN_PHASES] PASS  test full name             got='uvm_test_top'
+UVM_INFO @ 1000 [RUN_PHASES] PASS  item name                  got='item'
+UVM_INFO @ 1000 [RUN_PHASES] RUN_PHASES: PASS (3 checks, 0 failed)

@@ -41,64 +41,27 @@ class uvm_phase extends uvm_object;
     super.new (name);
   endfunction : new 
 
+  // BCL signatures. Objections are accepted and ignored for now: the run
+  // phase ends when the component's run_phase returns.
+  extern virtual function void raise_objection(uvm_object obj,
+                                               string description = "",
+                                               int count = 1);
+  extern virtual function void drop_objection(uvm_object obj,
+                                              string description = "",
+                                              int count = 1);
 endclass : uvm_phase 
 
-virtual class uvm_component extends uvm_report_object;
-  function new (string name = "uvm_component", uvm_component parent);
-    super.new (name);
-  endfunction : new 
+function void uvm_phase::raise_objection(uvm_object obj,
+                                         string description = "",
+                                         int count = 1);
+endfunction : raise_objection
 
-`ifdef IVL_UVM_FACTORY
-  // Internal: overridden by `uvm_component_utils (stands in for the registry's create_component)
-  virtual function uvm_component m_ivl_create_component(string name, uvm_component parent);
-    return null;
-  endfunction : m_ivl_create_component
-`endif // IVL_UVM_FACTORY
+function void uvm_phase::drop_objection(uvm_object obj,
+                                        string description = "",
+                                        int count = 1);
+endfunction : drop_objection
 
-  virtual function void build_phase(uvm_phase phase);
-    `g2u_display ("build_phase", UVM_HIGH)
-  endfunction : build_phase
-
-  virtual function void connect_phase(uvm_phase phase);
-    `g2u_display ("connect_phase", UVM_HIGH)
-  endfunction : connect_phase
-
-  virtual function void end_of_elaboration_phase(uvm_phase phase);
-    `g2u_display ("end_of_elaboration_phase", UVM_HIGH)
-  endfunction : end_of_elaboration_phase
-  virtual function void start_of_simulation_phase(uvm_phase phase);
-    `g2u_display ("start_of_simulation_phase", UVM_HIGH)
-  endfunction : start_of_simulation_phase
-
-  virtual task run_phase (uvm_phase phase);
-    `g2u_display ("run_phase", UVM_HIGH)
-  endtask : run_phase 
-
-  virtual function void extract_phase(uvm_phase phase);
-  endfunction : extract_phase
-  virtual function void check_phase(uvm_phase phase);
-  endfunction : check_phase
-  virtual function void report_phase(uvm_phase phase);
-  endfunction : report_phase
-  virtual function void final_phase(uvm_phase phase);
-  endfunction : final_phase
-
-  virtual task ivl_uvm_run_all_phases ();
-    uvm_phase u_ph_0;
-
-    u_ph_0 = new();
-    this.build_phase (u_ph_0);
-    this.connect_phase (u_ph_0);
-    this.end_of_elaboration_phase (u_ph_0);
-    this.start_of_simulation_phase (u_ph_0);
-    this.run_phase (u_ph_0);
-    this.extract_phase (u_ph_0);
-    this.check_phase (u_ph_0);
-    this.report_phase (u_ph_0);
-    this.final_phase (u_ph_0);
-  endtask : ivl_uvm_run_all_phases 
-
-endclass : uvm_component
+`include "base/uvm_component.svh"
 
 // Placeholders for the handle types of uvm_sequence_item. They carry no
 // sequence or sequencer behaviour yet; the sequence item only needs their

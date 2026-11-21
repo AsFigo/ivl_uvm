@@ -1,0 +1,2 @@
+${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
+../../ivl_uvm_tests/t21_run_test_phases/ivl_uvm_test_run_test_phases.sv

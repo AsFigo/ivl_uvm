@@ -1,0 +1,20 @@
+UVM_INFO @ 0 [COMPONENT] PASS  top name                   got='top'
+UVM_INFO @ 0 [COMPONENT] PASS  top full name              got='top'
+UVM_INFO @ 0 [COMPONENT] PASS  top has no parent          got=1
+UVM_INFO @ 0 [COMPONENT] PASS  top depth                  got=1
+UVM_INFO @ 0 [COMPONENT] PASS  top children               got=0
+UVM_INFO @ 0 [COMPONENT] PASS  child full name            got='top.a'
+UVM_INFO @ 0 [COMPONENT] PASS  grandchild full name       got='top.a.aa'
+UVM_INFO @ 0 [COMPONENT] PASS  child parent is top        got=1
+UVM_INFO @ 0 [COMPONENT] PASS  grandchild parent is a     got=1
+UVM_INFO @ 0 [COMPONENT] PASS  grandchild depth           got=3
+UVM_INFO @ 0 [COMPONENT] PASS  top children after add     got=2
+UVM_INFO @ 0 [COMPONENT] PASS  a children                 got=1
+UVM_INFO @ 0 [COMPONENT] PASS  top has_child a            got=1
+UVM_INFO @ 0 [COMPONENT] PASS  top has_child zz           got=0
+UVM_INFO @ 0 [COMPONENT] PASS  get_child b                got=1
+UVM_WARNING @ 0 [NOCHILD] Component with name 'zz' is not a child of component 'top'
+UVM_INFO @ 0 [COMPONENT] PASS  get_child zz is null       got=1
+UVM_INFO @ 0 [COMPONENT] PASS  first/next visits all      got=2
+UVM_INFO @ 0 [COMPONENT] PASS  empty name gets COMP_      got=1
+UVM_INFO @ 0 [COMPONENT] COMPONENT: PASS (18 checks, 0 failed)

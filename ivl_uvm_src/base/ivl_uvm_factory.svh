@@ -27,7 +27,7 @@
 // permissions and limitations under the License.
 // ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
-`ifdef IVL_UVM_FACTORY
+`ifdef IVL_UVM
 `ifndef IVL_UVM_FACTORY_SVH
 `define IVL_UVM_FACTORY_SVH
 
@@ -250,4 +250,4 @@ function bit m_ivl_register_object(uvm_object proto);
 endfunction : m_ivl_register_object
 
 `endif // IVL_UVM_FACTORY_SVH
-`endif // IVL_UVM_FACTORY
+`endif // IVL_UVM

@@ -1,0 +1,2 @@
+${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
+../../ivl_uvm_tests/t22_component_registry/ivl_uvm_test_component_registry.sv

@@ -1,0 +1,13 @@
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  create returns a handle        got=1
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  top name                       got='top'
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  top type name                  got='base_comp'
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  child full name                got='top.c1'
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  child parent is top            got=1
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  top children                   got=2
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  derived type name              got='derived_comp'
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  derived full name              got='top.d1'
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  get_type name                  got='base_comp'
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  get_object_type name           got='derived_comp'
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  by name returns a handle       got=1
+UVM_INFO @ 0 [COMP_REGISTRY] PASS  by name is a derived_comp      got=1
+UVM_INFO @ 0 [COMP_REGISTRY] COMP_REGISTRY: PASS (12 checks, 0 failed)

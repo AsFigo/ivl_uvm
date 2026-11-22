@@ -73,8 +73,12 @@ The factory
      - Purpose
    * - ``create_component_by_name(type, inst_path, name, parent)``
      - Create a registered component
+   * - ``create_component_by_type(wrapper, inst_path, name, parent)``
+     - Create a component from its ``type_id`` (for example ``my_comp::type_id::get()``)
    * - ``create_object_by_name(type, inst_path, name)``
      - Create a registered object
+   * - ``create_object_by_type(wrapper, inst_path, name)``
+     - Create an object from its ``type_id``
    * - ``is_type_name_registered(type)``
      - Check that a type is registered
    * - ``print(all_types)``
@@ -91,8 +95,10 @@ Example:
 Things to know
 --------------
 
-* The type name is the class name as written in ``uvm_component_utils``.
-* At time 0 the factory builds one instance of each registered class, passing ``parent = null``.
-  Keep the constructor of a registered class free of side effects and do not use ``parent``
-  there without checking it.
-* ``type_id::create`` and ``type_id::get`` are not available. See :doc:`limitations`.
+* The type name is the class name as written in ``uvm_component_utils`` or ``uvm_object_utils``.
+* At time 0 the factory builds one prototype instance of each registered class (named
+  ``m_ivl_proto``), passing ``parent = null``. Keep the constructor of a registered class free of
+  side effects and do not use ``parent`` there without checking it.
+* ``my_class::type_id::create(name, parent)`` works for components and ``type_id::create(name)`` for
+  objects, as in standard UVM. ``type_id::get()``, ``get_type()`` and ``get_object_type()`` work too.
+* Type and instance overrides are not available yet. See :doc:`limitations`.

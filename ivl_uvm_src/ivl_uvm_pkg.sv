@@ -60,6 +60,7 @@ package ivl_uvm_pkg;
   // compile-time `UVM_TESTNAME (default uvm_test) is used when neither is given.
   task run_test (string test_name = "");
     string tn;
+    uvm_phase u_ph_0;
     if (test_name != "") tn = test_name;
     else if (!`IVL_UVM_VPA ("UVM_TESTNAME=%s", tn)) tn = `GO2UVM_DISP_ARG (`UVM_TESTNAME);
     `g2u_printf (( "Using UVM_TESTNAME: %s", tn ))
@@ -69,7 +70,19 @@ package ivl_uvm_pkg;
       uvm_report_fatal ("INVTST", $sformatf ("Requested test %s not found (not registered with `uvm_component_utils, or abstract like uvm_test?)", tn), UVM_NONE, `uvm_file, `uvm_line);
       return;
     end
-    uvm_test_top.ivl_uvm_run_all_phases();
+    // Stand-in for the root component's phasing: every phase is run over the
+    // whole tree, one phase after the other (build, run and final top-down, as
+    // in the BCL; the others bottom-up).
+    u_ph_0 = new();
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_BUILD, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_CONNECT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_END_OF_ELABORATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_START_OF_SIMULATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_RUN, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_EXTRACT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_CHECK, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_REPORT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_FINAL, u_ph_0, IVL_UVM_TOP_DOWN_PH);
   endtask : run_test
 
 endpackage : ivl_uvm_pkg

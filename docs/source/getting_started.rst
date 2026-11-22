@@ -27,8 +27,8 @@ Run a test
    make vw1
 
 ``vw1`` compiles and runs test ``t1``. The log files ``ivl_uvm_comp_1.log`` (compile) and
-``ivl_uvm_run_1.log`` (run) are written to the same directory. Targets ``vw0`` to ``vw7`` run
-tests ``t0`` to ``t7``; see :doc:`regression`.
+``ivl_uvm_run_1.log`` (run) are written to the same directory. Targets ``vw0`` to ``vw24`` run
+tests ``t0`` to ``t24``; see :doc:`regression`.
 
 Run all tests and compare with the golden logs
 ----------------------------------------------
@@ -57,6 +57,11 @@ entry.
 
    // This should be the last line in the file list
    ${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_top.svh
+
+``ivl_uvm_top.svh`` prints the final report summary (the severity counts and the ``Test PASSED`` or
+``Test FAILED`` line) when the simulation ends. The unit tests ``t8`` to ``t24`` do not use it; they print
+their own PASS or FAIL lines with ``uvm_info``. If you compile with
+``-s <module>``, list ``-s ivl_uvm_top`` as well to keep the summary.
 
 Run-time options
 ----------------

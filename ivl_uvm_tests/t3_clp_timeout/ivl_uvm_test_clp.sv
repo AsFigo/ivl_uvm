@@ -73,7 +73,6 @@ module ivl_uvm_run_test;
        .name("uc_0"),
        .parent(null)
      );
-     uc_0.ivl_uvm_run_all_phases ();
      `g2u_display ("Expect a UVM_TIMEOUT error in this test")
      #10ms;
      `g2u_display ("DO not expect to see this print due to UVM_TIMEOUT error in this test")

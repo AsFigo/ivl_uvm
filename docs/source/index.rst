@@ -20,6 +20,7 @@ It is a growing subset, not a full UVM. The :doc:`feature_status` page lists wha
    feature_status
    factory_and_test_selection
    writing_tests
+   phasing
    limitations
    regression
    changelog

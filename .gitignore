@@ -4,3 +4,9 @@
 
 # generated documentation
 docs/build/
+
+# simulation outputs
+a.out
+*.vvp
+ivl_uvm_regress/run_dir/*.log
+ivl_uvm_regress/run_dir/results/

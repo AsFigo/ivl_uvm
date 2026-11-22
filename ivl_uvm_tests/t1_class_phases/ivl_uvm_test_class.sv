@@ -69,7 +69,6 @@ module ivl_uvm_test_msg;
        .name("uc_0"),
        .parent(null)
      );
-     uc_0.ivl_uvm_run_all_phases ();
 
      $finish (2);
 

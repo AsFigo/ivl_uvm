@@ -64,7 +64,6 @@ module ivl_uvm_run_test;
      u0.print();
 
      uc_0 = new("uc_0", null);
-     uc_0.ivl_uvm_run_all_phases ();
 
  
 

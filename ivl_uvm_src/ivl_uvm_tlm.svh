@@ -70,6 +70,8 @@ class ivl_uvm_tlm_pull_port extends ivl_uvm_tlm_base;
       `g2u_printf (("%m Get: "))
     endtask : get 
   
+    // TODO: placeholder. try_get does not fill its argument or return a
+    // status yet (the TLM ports are not ported); only item_done relies on it.
     virtual function bit try_get (`IVL_UVM_MBX_T out_xn);
        bit rval;
        if (is_empty == 0) begin

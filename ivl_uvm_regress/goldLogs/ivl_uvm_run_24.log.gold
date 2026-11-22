@@ -1,0 +1,48 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: deep_test
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [DEEP_TREE] PASS  build order          got='uvm_test_top env1 a1 a2 leaf env2 b1 '
+UVM_INFO @ 0 [DEEP_TREE] PASS  connect order        got='a1 leaf a2 env1 b1 env2 uvm_test_top '
+UVM_INFO @ 0 [DEEP_TREE] PASS  report order         got='a1 leaf a2 env1 b1 env2 uvm_test_top '
+UVM_INFO @ 0 [DEEP_TREE] PASS  final order          got='uvm_test_top env1 a1 a2 leaf env2 b1 '
+UVM_INFO @ 0 [DEEP_TREE] PASS  full names           got='uvm_test_top uvm_test_top.env1 uvm_test_top.env1.a1 uvm_test_top.env1.a2 uvm_test_top.env1.a2.leaf uvm_test_top.env2 uvm_test_top.env2.b1 '
+UVM_INFO @ 0 [DEEP_TREE] PASS  depths               got='1 2 3 3 4 2 3 '
+UVM_INFO @ 0 [DEEP_TREE] PASS  run phases started   got=7
+UVM_INFO @ 0 [DEEP_TREE] PASS  test children        got=2
+UVM_INFO @ 0 [DEEP_TREE] PASS  env1 children        got=2
+UVM_INFO @ 0 [DEEP_TREE] DEEP_TREE: PASS (9 checks, 0 failed)

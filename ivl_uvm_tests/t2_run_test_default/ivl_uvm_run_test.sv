@@ -72,7 +72,6 @@ module ivl_uvm_run_test;
        .name("uc_0"),
        .parent(null)
      );
-     uc_0.ivl_uvm_run_all_phases ();
 
  
 

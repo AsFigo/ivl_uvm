@@ -68,8 +68,24 @@ virtual class uvm_component extends uvm_report_object;
   extern virtual function void report_phase(uvm_phase phase);
   extern virtual function void final_phase(uvm_phase phase);
 
-  // Calls every phase once, in order, on this component only.
-  extern virtual task ivl_uvm_run_all_phases();
+  // The phases are started by run_test, which calls m_ivl_uvm_walk_subtree
+  // once per phase; build, run and final go top-down, the other phases bottom-up,
+  // and siblings are visited oldest child first.
+
+  // Internal: calls one phase (selected by id) on this component only.
+  extern task m_ivl_uvm_do_one_phase(ivl_uvm_phase_e id,
+                                     uvm_phase phase);
+  // Internal: visits this component and its descendants for one phase.
+  extern task m_ivl_uvm_walk_subtree(ivl_uvm_phase_e id,
+                                     uvm_phase phase,
+                                     ivl_uvm_phase_dir_e direction);
+  // Internal: visits the siblings from child_node on, oldest first, each with
+  // its children and descendants (the list holds the newest child first, so the
+  // older siblings are visited before child_node).
+  extern task m_ivl_uvm_walk_siblings_and_children(ivl_uvm_phase_e id,
+                                                   uvm_phase phase,
+                                                   ivl_uvm_phase_dir_e direction,
+                                                   ivl_uvm_ll_node #(string, uvm_component) child_node);
 endclass : uvm_component
 
 function uvm_component::new(string name,
@@ -270,20 +286,53 @@ endfunction : report_phase
 function void uvm_component::final_phase(uvm_phase phase);
 endfunction : final_phase
 
-task uvm_component::ivl_uvm_run_all_phases();
-  uvm_phase u_ph_0;
+task uvm_component::m_ivl_uvm_do_one_phase(ivl_uvm_phase_e id,
+                                           uvm_phase phase);
+  case (id)
+    IVL_UVM_PHASE_BUILD: this.build_phase(phase);
+    IVL_UVM_PHASE_CONNECT: this.connect_phase(phase);
+    IVL_UVM_PHASE_END_OF_ELABORATION: this.end_of_elaboration_phase(phase);
+    IVL_UVM_PHASE_START_OF_SIMULATION: this.start_of_simulation_phase(phase);
+    IVL_UVM_PHASE_RUN: this.run_phase(phase);
+    IVL_UVM_PHASE_EXTRACT: this.extract_phase(phase);
+    IVL_UVM_PHASE_CHECK: this.check_phase(phase);
+    IVL_UVM_PHASE_REPORT: this.report_phase(phase);
+    IVL_UVM_PHASE_FINAL: this.final_phase(phase);
+    default: begin
+    end
+  endcase
+endtask : m_ivl_uvm_do_one_phase
 
-  u_ph_0 = new();
-  this.build_phase (u_ph_0);
-  this.connect_phase (u_ph_0);
-  this.end_of_elaboration_phase (u_ph_0);
-  this.start_of_simulation_phase (u_ph_0);
-  this.run_phase (u_ph_0);
-  this.extract_phase (u_ph_0);
-  this.check_phase (u_ph_0);
-  this.report_phase (u_ph_0);
-  this.final_phase (u_ph_0);
-endtask : ivl_uvm_run_all_phases
+task uvm_component::m_ivl_uvm_walk_subtree(ivl_uvm_phase_e id,
+                                           uvm_phase phase,
+                                           ivl_uvm_phase_dir_e direction);
+  ivl_uvm_ll_node #(string, uvm_component) n;
+
+  if (direction == IVL_UVM_TOP_DOWN_PH) begin
+    this.m_ivl_uvm_do_one_phase(id, phase);
+  end
+  n = m_children.first_node();
+  this.m_ivl_uvm_walk_siblings_and_children(id, phase, direction, n);
+  if (direction == IVL_UVM_BOTTOM_UP_PH) begin
+    this.m_ivl_uvm_do_one_phase(id, phase);
+  end
+endtask : m_ivl_uvm_walk_subtree
+
+task uvm_component::m_ivl_uvm_walk_siblings_and_children(ivl_uvm_phase_e id,
+                                                         uvm_phase phase,
+                                                         ivl_uvm_phase_dir_e direction,
+                                                         ivl_uvm_ll_node #(string, uvm_component) child_node);
+  ivl_uvm_ll_node #(string, uvm_component) older;
+  uvm_component c;
+
+  if (child_node == null) begin
+    return;
+  end
+  older = child_node.next;
+  this.m_ivl_uvm_walk_siblings_and_children(id, phase, direction, older);
+  c = child_node.val;
+  c.m_ivl_uvm_walk_subtree(id, phase, direction);
+endtask : m_ivl_uvm_walk_siblings_and_children
 
 `else
 // BCL (UVM 1.1d) text of the members ported above, verbatim; the rest of the

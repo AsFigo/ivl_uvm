@@ -1,0 +1,33 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: walk_test
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  build order            got='uvm_test_top env agent_a agent_b '
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  connect order          got='agent_a agent_b env uvm_test_top '
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  run order              got='uvm_test_top env agent_a agent_b '
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  report order           got='agent_a agent_b env uvm_test_top '
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  agent created          got=1
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  agent full name        got='uvm_test_top.env.agent_b'
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  agent depth            got=3
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  env children           got=2
+UVM_INFO @ 0 [CHILDREN_WALK] CHILDREN_WALK: PASS (8 checks, 0 failed)
+UVM_INFO @ 0 [CHILDREN_WALK] PASS  final order            got='uvm_test_top env agent_a agent_b '

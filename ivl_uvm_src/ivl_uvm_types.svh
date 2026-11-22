@@ -45,5 +45,25 @@ int unsigned ivl_uvm_max_quit_count = '1;
 
 string log_id = "IVL_GO2UVM";
 
+// The nine common phases, in the order run_test runs them. Used until the
+// phase objects of the BCL are ported.
+typedef enum {
+  IVL_UVM_PHASE_BUILD,
+  IVL_UVM_PHASE_CONNECT,
+  IVL_UVM_PHASE_END_OF_ELABORATION,
+  IVL_UVM_PHASE_START_OF_SIMULATION,
+  IVL_UVM_PHASE_RUN,
+  IVL_UVM_PHASE_EXTRACT,
+  IVL_UVM_PHASE_CHECK,
+  IVL_UVM_PHASE_REPORT,
+  IVL_UVM_PHASE_FINAL
+} ivl_uvm_phase_e;
+
+// The direction in which the component tree is walked for a phase.
+typedef enum {
+  IVL_UVM_TOP_DOWN_PH,
+  IVL_UVM_BOTTOM_UP_PH
+} ivl_uvm_phase_dir_e;
+
 `endif // __IVL_UVM_TYPES__
 

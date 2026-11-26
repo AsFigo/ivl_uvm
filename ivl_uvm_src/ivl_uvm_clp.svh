@@ -1,7 +1,7 @@
 //
 //------------------------------------------------------------------------------
 //   Copyright 2011 Mentor Graphics Corporation
-//   Copyright 2011 Cadence Design Systems, Inc. 
+//   Copyright 2011 Cadence Design Systems, Inc.
 //   Copyright 2011 Synopsys, Inc.
 //   All Rights Reserved Worldwide
 //
@@ -37,24 +37,24 @@ endclass : uvm_cmd_line_verb
 
 // Class: uvm_cmdline_processor
 //
-// This class provides an interface to the command line arguments that 
+// This class provides an interface to the command line arguments that
 // were provided for the given simulation.  The class is intended to be
 // used as a singleton, but that isn't required.  The generation of the
-// data structures which hold the command line argument information 
-// happens during construction of the class object.  A global variable 
-// called ~uvm_cmdline_proc~ is created at initialization time and may 
+// data structures which hold the command line argument information
+// happens during construction of the class object.  A global variable
+// called ~uvm_cmdline_proc~ is created at initialization time and may
 // be used to access command line information.
 //
 // The uvm_cmdline_processor class also provides support for setting various UVM
 // variables from the command line such as components' verbosities and configuration
-// settings for integral types and strings.  Each of these capablities is described 
+// settings for integral types and strings.  Each of these capablities is described
 // in the Built-in UVM Aware Command Line Arguments section.
 //
 
 module ivl_uvm_cmdline_processor;
   import ivl_uvm_pkg::*;
 
-  string m_argv[$]; 
+  string m_argv[$];
   string m_plus_argv[$];
   string m_uvm_argv[$];
 
@@ -62,22 +62,22 @@ module ivl_uvm_cmdline_processor;
 
   //`include "ivl_uvm_msg.svh"
 
-  function string uvm_dpi_get_tool_version (); 
+  function string uvm_dpi_get_tool_version ();
     return "Icarus Verilog version 12.0 (devel)";
-  endfunction : uvm_dpi_get_tool_version 
+  endfunction : uvm_dpi_get_tool_version
 
-  function string uvm_dpi_get_tool_name (); 
+  function string uvm_dpi_get_tool_name ();
     return "Icarus Verilog with IVL_UVM";
-  endfunction : uvm_dpi_get_tool_name 
+  endfunction : uvm_dpi_get_tool_name
 
 
   // Group: Basic Arguments
-  
+
   // Function: get_args
   //
   // This function returns a queue with all of the command line
   // arguments that were used to start the simulation. Note that
-  // element 0 of the array will always be the name of the 
+  // element 0 of the array will always be the name of the
   // executable which started the simulation.
 
   function void get_args (string args[$]);
@@ -115,7 +115,7 @@ module ivl_uvm_cmdline_processor;
   // This function loads a queue with all of the arguments that
   // match the input expression and returns the number of items
   // that matched. If the input expression is bracketed
-  // with //, then it is taken as an extended regular expression 
+  // with //, then it is taken as an extended regular expression
   // otherwise, it is taken as the beginning of an argument to match.
   // For example:
   //
@@ -176,9 +176,9 @@ module ivl_uvm_cmdline_processor;
   // system task, but does not take a formating string. The return value is
   // the number of command line arguments that match the ~match~ string, and
   // ~value~ is the value of the first match.
-  
+
   function int get_arg_value (string match, string value);
-    int chars; 
+    int chars;
     string lv_argv_s;
     string lv_val_s;
     string lv_argv_substr;
@@ -191,17 +191,17 @@ module ivl_uvm_cmdline_processor;
       // if(m_argv[i].len() >= chars) begin
       lv_argv_s = m_argv[i];
       lv_argv_len = lv_argv_s.len();
-	
+
       if(lv_argv_len >= chars) begin
         // if(m_argv[i].substr(0,chars-1) == match) begin
         lv_argv_substr = lv_argv_s.substr(0,chars-1);
         if(lv_argv_substr == match) begin
           get_arg_value++;
-	  if(get_arg_value == 1) begin
+    if(get_arg_value == 1) begin
             // value = m_argv[i].substr(chars,m_argv[i].len()-1);
-	    lv_len_1 = lv_argv_s.len()-1;
+      lv_len_1 = lv_argv_s.len()-1;
             lv_val_s = lv_argv_s.substr(chars,lv_len_1);
-	  end
+    end
         end
       end
     end
@@ -278,15 +278,15 @@ module ivl_uvm_cmdline_processor;
         m_argv.push_back(s);
         if(s[0] == "+") begin
           m_plus_argv.push_back(s);
-        end 
+        end
         if(s.len() >= 4 && (s[0]=="-" || s[0]=="+")) begin
           sub = s.substr(1,3);
           sub = sub.toupper();
           if(sub == "UVM")
             m_uvm_argv.push_back(s);
-        end 
+        end
       end
-    end while(s!=""); 
+    end while(s!="");
 
     // Group: Command Line Debug
 
@@ -314,7 +314,7 @@ module ivl_uvm_cmdline_processor;
 
     // Variable: +UVM_VERBOSITY
     //
-    // ~+UVM_VERBOSITY=<verbosity>~ allows the user to specify the initial verbosity 
+    // ~+UVM_VERBOSITY=<verbosity>~ allows the user to specify the initial verbosity
     // for all components.  If multiple of these settings are provided, the first occurrence
     // is used and a warning is issued for subsequent settings.  For example:
     //
@@ -331,8 +331,8 @@ module ivl_uvm_cmdline_processor;
     // verbosity of specific components at specific phases (and times during the "run" phases)
     // of the simulation.  The ~id~ argument can be either ~_ALL_~ for all IDs or a
     // specific message id.  Wildcarding is not supported for ~id~ due to performance concerns.
-    // Settings for non-"run" phases are executed in order of occurrence on the command line.  
-    // Settings for "run" phases (times) are sorted by time and then executed in order of 
+    // Settings for non-"run" phases are executed in order of occurrence on the command line.
+    // Settings for "run" phases (times) are sorted by time and then executed in order of
     // occurrence for settings of the same time.  For example:
     //
     //| <sim command> +uvm_set_verbosity=uvm_test_top.env0.agent1.*,_ALL_,UVM_FULL,time,800
@@ -341,7 +341,7 @@ module ivl_uvm_cmdline_processor;
     // Variable: +uvm_set_action
     //
     // ~+uvm_set_action=<comp>,<id>,<severity>,<action>~ provides the equivalent of
-    // various uvm_report_object's set_report_*_action APIs.  The special keyword, 
+    // various uvm_report_object's set_report_*_action APIs.  The special keyword,
     // ~_ALL_~, can be provided for both/either the ~id~ and/or ~severity~ arguments.  The
     // action can be UVM_NO_ACTION or a | separated list of the other UVM message
     // actions.  For example:
@@ -422,7 +422,7 @@ module ivl_uvm_cmdline_processor;
     // ~+uvm_set_config_int=<comp>,<field>,<value>~ and
     // ~+uvm_set_config_string=<comp>,<field>,<value>~ work like their
     // procedural counterparts: set_config_int() and set_config_string(). For
-    // the value of int config settings, 'b (0b), 'o, 'd, 'h ('x or 0x) 
+    // the value of int config settings, 'b (0b), 'o, 'd, 'h ('x or 0x)
     // as the first two characters of the value are treated as base specifiers
     // for interpreting the base of the number. Size specifiers are not used
     // since SystemVerilog does not allow size specifiers in string to
@@ -457,85 +457,39 @@ module ivl_uvm_cmdline_processor;
     endcase
   endfunction : m_convert_verb
 
-    // m_do_timeout_settings
-  // ---------------------
-  
-    // Variable: +UVM_MAX_QUIT_COUNT
+  // Reads +UVM_MAX_QUIT_COUNT.
   function void ivl_uvm_handle_clp_args ();
-		int lv_tmp_count;
+    int lv_tmp_count;
     lv_tmp_count = `IVL_UVM_VPA ("UVM_MAX_QUIT_COUNT=%d", ivl_uvm_max_quit_count);
-	endfunction : ivl_uvm_handle_clp_args 
+  endfunction : ivl_uvm_handle_clp_args
 
-  function void m_do_timeout_settings();
-    string timeout_settings[$];
-    string timeout;
-    string split_timeout[$];
-    int timeout_count;
-    time timeout_int;
-    string override_spec;
-    int lv_int;
-
-    timeout_count = `IVL_UVM_VPA ("UVM_TIMEOUT=%d", timeout_int);
-
-    if (timeout_count ==  0) begin
-      ivl_uvm_glb_timeout = 1ms;
-      timeout_int = 1;
-    end else begin
-      timeout = timeout_settings[0];
-      timeout = $sformatf ("%0d", timeout_int);
-      ivl_uvm_glb_timeout = timeout_int * 1ms;
-
-      if (timeout_count > 1) begin
-        string timeout_list;
-        string sep;
-        for (int i = 0; i < timeout_settings.size(); i++) begin
-          if (i != 0) begin
-            sep = "; ";
-          end
-          timeout_list = {timeout_list, sep, timeout_settings[i]};
-        end
-        uvm_report_warning("MULTTIMOUT", 
-          $sformatf("Multiple (%0d) +UVM_TIMEOUT arguments provided on the command line.  '%s' will be used.  Provided list: %s.", 
-          timeout_count, timeout, timeout_list), UVM_NONE);
-      end
-      uvm_report_info("TIMOUTSET",
-        $sformatf("'+UVM_TIMEOUT=%s' provided on the command line is being applied.", timeout), UVM_NONE);
-	/*
-        lv_int = $sscanf(timeout,"%d,%s",timeout_int,override_spec);
-      case(override_spec)
-        "YES"   : set_timeout(timeout_int, 1);
-        "NO"    : set_timeout(timeout_int, 0);
-        default : set_timeout(timeout_int, 1);
-      endcase
-      */
-    end
-    ivl_uvm_glb_timeout = timeout_int * ivl_uvm_glb_timeout;
-    
-      uvm_report_info("TIMOUTSET",
-        $sformatf("'+UVM_TIMEOUT=%0d' Global Timeout: %0t", timeout_int, ivl_uvm_glb_timeout), UVM_NONE);
-      /*
-    uvm_report_info("TIMOUTSET",
-        $sformatf("ivl_uvm_glb_timeout: %0d", ivl_uvm_glb_timeout), UVM_NONE)
-*/
-  endfunction : m_do_timeout_settings
 
   initial begin
     $timeformat (-9, 3, " ns", 3);
     #1;
     `g2u_display ("CLP")
-    m_do_timeout_settings();
     ivl_uvm_handle_clp_args ();
 
-    #(ivl_uvm_glb_timeout);
-    `uvm_error ("IVL_UVM", 
-        $sformatf ("Reached Timeout value of: %0t ", ivl_uvm_glb_timeout))
-    `g2u_display ("Ending the Simulation; Check for hanging threads/inactivity in your simulation run")	
+    // The global timeout is uvm_top.phase_timeout. set_timeout can change it at
+    // any time, so wait for the time to reach it and read it again whenever it
+    // changes.
+    while ($time < uvm_top.phase_timeout) begin
+      fork
+        #(uvm_top.phase_timeout - $time);
+        @(m_ivl_uvm_timeout_changed);
+      join_any
+      disable fork;
+    end
+    `uvm_error ("IVL_UVM",
+        $sformatf ("Reached Timeout value of: %0t ", uvm_top.phase_timeout))
+    `g2u_display ("Ending the Simulation; Check for hanging threads/inactivity in your simulation run")
     // report_summarize();
     $finish (2);
   end
+
   final begin
-	 	report_summarize();
-	end
+    report_summarize();
+  end
 
 endmodule : ivl_uvm_cmdline_processor
 

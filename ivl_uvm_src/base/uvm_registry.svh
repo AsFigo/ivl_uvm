@@ -27,9 +27,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 `ifdef IVL_UVM
-// uvm_object_registry: the BCL class for uvm_object-based types; the component
-// registry, uvm_component_registry, follows below with the same differences.
-// Icarus differences:
+// The registries are in uvm_object_registry.svh and uvm_component_registry.svh
+// (one class per file). Icarus differences from the BCL, for both:
 //  - the registry takes only the type; the BCL second parameter, the type name
 //    string, cannot be passed on as a parameter value here. The name is set
 //    once by the uvm_object_utils macros (m_ivl_uvm_set_type_name) and is
@@ -39,140 +38,14 @@
 //  - create goes through the factory entry point create_object_by_type, as in
 //    the BCL, so overrides can be added there later
 //  - the type overrides (set_type_override, set_inst_override) are not ported
-//  - the methods are inline: the return types are specializations of this class
+//  - the methods are extern (the ivl_uvm lint rule); the BCL defines them inline
 //  - the type parameter has no default (Icarus builds the default specialization
 //    and rejects new on the virtual class uvm_object)
 //  - a static method cannot call a function as a statement, so the factory is
 //    fetched by an expression call and the fatal report goes through an
 //    instance method
-typedef class uvm_component;
-
-class uvm_object_registry #(type T) extends uvm_object_wrapper;
-  typedef uvm_object_registry #(T) this_type;
-
-  static this_type m_ivl_uvm_me;
-  static string m_ivl_uvm_type_name = "<unknown>";
-
-  virtual function uvm_object create_object(string name = "");
-    T obj;
-    obj = new();
-    if (name != "") begin
-      obj.set_name(name);
-    end
-    return obj;
-  endfunction : create_object
-
-  virtual function string get_type_name();
-    return m_ivl_uvm_type_name;
-  endfunction : get_type_name
-
-  static function this_type get();
-    if (m_ivl_uvm_me == null) begin
-      m_ivl_uvm_me = new();
-    end
-    return m_ivl_uvm_me;
-  endfunction : get
-
-  // Called by the uvm_object_utils macros: sets the lookup name of the type.
-  static function bit m_ivl_uvm_set_type_name(string name);
-    m_ivl_uvm_type_name = name;
-    return 1;
-  endfunction : m_ivl_uvm_set_type_name
-
-  function void m_ivl_uvm_fatal(string id,
-                                string msg);
-    uvm_report_fatal(id, msg, UVM_NONE);
-  endfunction : m_ivl_uvm_fatal
-
-  static function T create(string name = "",
-                           uvm_component parent = null,
-                           string contxt = "");
-    uvm_object obj;
-    T result;
-    this_type r;
-    uvm_factory f;
-    string msg;
-    f = m_ivl_get_factory();
-    if (contxt == "" && parent != null) begin
-      contxt = parent.get_full_name();
-    end
-    r = get();
-    obj = f.create_object_by_type(r, contxt, name);
-    if (!$cast(result, obj)) begin
-      msg = {"Factory did not return an object of type '", m_ivl_uvm_type_name,
-             "'. A component of type '", (obj == null) ? "null" : obj.get_type_name(),
-             "' was returned instead. Name=", name,
-             " Parent=", (parent == null) ? "null" : parent.get_type_name(),
-             " contxt=", contxt};
-      r.m_ivl_uvm_fatal("FCTTYP", msg);
-    end
-    return result;
-  endfunction : create
-endclass : uvm_object_registry
-
-// uvm_component_registry: the BCL class for uvm_component-based types, with
-// the same Icarus differences as uvm_object_registry above. create goes
-// through the factory entry point create_component_by_type.
-class uvm_component_registry #(type T) extends uvm_object_wrapper;
-  typedef uvm_component_registry #(T) this_type;
-
-  static this_type m_ivl_uvm_me;
-  static string m_ivl_uvm_type_name = "<unknown>";
-
-  virtual function uvm_component create_component(string name,
-                                                  uvm_component parent);
-    T obj;
-    obj = new(name, parent);
-    return obj;
-  endfunction : create_component
-
-  virtual function string get_type_name();
-    return m_ivl_uvm_type_name;
-  endfunction : get_type_name
-
-  static function this_type get();
-    if (m_ivl_uvm_me == null) begin
-      m_ivl_uvm_me = new();
-    end
-    return m_ivl_uvm_me;
-  endfunction : get
-
-  // Called by the uvm_component_utils macros: sets the lookup name of the type.
-  static function bit m_ivl_uvm_set_type_name(string name);
-    m_ivl_uvm_type_name = name;
-    return 1;
-  endfunction : m_ivl_uvm_set_type_name
-
-  function void m_ivl_uvm_fatal(string id,
-                                string msg);
-    uvm_report_fatal(id, msg, UVM_NONE);
-  endfunction : m_ivl_uvm_fatal
-
-  static function T create(string name,
-                           uvm_component parent,
-                           string contxt = "");
-    uvm_component obj;
-    T result;
-    this_type r;
-    uvm_factory f;
-    string msg;
-    f = m_ivl_get_factory();
-    if (contxt == "" && parent != null) begin
-      contxt = parent.get_full_name();
-    end
-    r = get();
-    obj = f.create_component_by_type(r, contxt, name, parent);
-    if (!$cast(result, obj)) begin
-      msg = {"Factory did not return a component of type '", m_ivl_uvm_type_name,
-             "'. A component of type '", (obj == null) ? "null" : obj.get_type_name(),
-             "' was returned instead. Name=", name,
-             " Parent=", (parent == null) ? "null" : parent.get_type_name(),
-             " contxt=", contxt};
-      r.m_ivl_uvm_fatal("FCTTYP", msg);
-    end
-    return result;
-  endfunction : create
-endclass : uvm_component_registry
+`include "base/uvm_object_registry.svh"
+`include "base/uvm_component_registry.svh"
 
 `else
 

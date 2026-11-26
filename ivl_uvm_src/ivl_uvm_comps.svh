@@ -29,12 +29,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 
-class uvm_report_object extends uvm_object;
-  function new (string name = "uvm_report_object");
-    super.new (name);
-  endfunction : new 
-
-endclass : uvm_report_object 
+`include "base/uvm_report_object.svh"
 
 `include "base/uvm_objection.svh"
 
@@ -42,28 +37,10 @@ endclass : uvm_report_object
 
 `include "base/uvm_component.svh"
 
-// Placeholders for the handle types of uvm_sequence_item. They carry no
-// sequence or sequencer behaviour yet; the sequence item only needs their
-// names, depth and sequencer.
-class uvm_sequence_base extends uvm_sequence_item;
-  function new (string name = "uvm_sequence");
-    super.new (name);
-  endfunction : new
-endclass : uvm_sequence_base
+`include "base/uvm_root.svh"
 
-class uvm_sequencer_base extends uvm_component;
-  function new (string name,
-                uvm_component parent);
-    super.new (name, parent);
-  endfunction : new
-endclass : uvm_sequencer_base
+`include "seq/uvm_sequence_base.svh"
 
-virtual class uvm_test extends uvm_component;
-  function new (string name = "uvm_test", uvm_component parent = null);
-    super.new (name, parent);
-    `g2u_display ("%m");
-  endfunction : new 
-endclass : uvm_test 
+`include "seq/uvm_sequencer_base.svh"
 
-
-
+`include "comps/uvm_test.svh"

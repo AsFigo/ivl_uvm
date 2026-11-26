@@ -42,6 +42,7 @@ package ivl_uvm_pkg;
   `include "ivl_uvm_patches.svh"
   `include "ivl_uvm_msg.svh"
   `include "base/uvm_misc.svh"
+  `include "ivl_uvm_pkg_globals.svh"
   `include "base/uvm_globals.svh"
   `include "base/uvm_object.svh"
   `include "base/uvm_comparer.svh"
@@ -57,35 +58,77 @@ package ivl_uvm_pkg;
 
   uvm_component uvm_test_top;
 
-  // Test selected at run time: run_test("name") or +UVM_TESTNAME=name; the
-  // compile-time `UVM_TESTNAME (default uvm_test) is used when neither is given.
-  task run_test (string test_name = "");
+  // The package creates the root component when it is elaborated (the BCL
+  // global uvm_top is a const initialised the same way).
+  function bit m_ivl_uvm_make_root();
+    uvm_root r;
+    r = uvm_root::get();
+    return 1;
+  endfunction : m_ivl_uvm_make_root
+  bit m_ivl_uvm_root_ready = m_ivl_uvm_make_root();
+
+  // Body of uvm_root::run_test and of the global run_test. Test selected at run
+  // time: +UVM_TESTNAME=name overrides the argument, as in the BCL. With no name
+  // at all no test is created and the components instantiated before the call run.
+  // It is a static package task (not the class method) because Icarus aborts a
+  // fork ... join_none inside a class task.
+  task m_ivl_uvm_run_test (string test_name = "");
     string tn;
+    bit testname_plusarg;
     uvm_phase u_ph_0;
     uvm_objection run_done;
     ivl_uvm_ll_node #(string, uvm_component) run_node;
     uvm_component run_comp;
-    if (test_name != "") begin
-      tn = test_name;
-    end
-    else if (!`IVL_UVM_VPA ("UVM_TESTNAME=%s", tn)) begin
+    tn = test_name;
+    testname_plusarg = `IVL_UVM_VPA ("UVM_TESTNAME=%s", tn);
+    // ivl_uvm addition: the compile-time `UVM_TESTNAME is used when neither the
+    // argument nor the plusarg gives a name; its built-in default uvm_test is
+    // abstract, so it counts as no test.
+    if (tn == "") begin
       tn = `GO2UVM_DISP_ARG (`UVM_TESTNAME);
+      if (tn == "uvm_test") begin
+        tn = "";
+      end
     end
-    `g2u_printf (( "Using UVM_TESTNAME: %s", tn ))
     m_ivl_init_factory();
-    uvm_test_top = factory.create_component_by_name (tn, "", "uvm_test_top", null);
-    if (uvm_test_top == null) begin
-      uvm_report_fatal ("INVTST", $sformatf ("Requested test %s not found (not registered with `uvm_component_utils, or abstract like uvm_test?)", tn), UVM_NONE, `uvm_file, `uvm_line);
+    if (tn != "") begin
+      `g2u_printf (( "Using UVM_TESTNAME: %s", tn ))
+      if (uvm_top.has_child(.name("uvm_test_top"))) begin
+        uvm_report_fatal ("TTINST", "An uvm_test_top already exists via a previous call to run_test", UVM_NONE, `uvm_file, `uvm_line);
+        #0;
+        return;
+      end
+      uvm_test_top = factory.create_component_by_name (tn, "", "uvm_test_top", null);
+      if (uvm_test_top == null) begin
+        uvm_report_fatal ("INVTST", $sformatf ("Requested test from %s not found (not registered with `uvm_component_utils, or abstract like uvm_test?)", testname_plusarg ? {"command line +UVM_TESTNAME=", tn} : {"call to run_test(", tn, ")"}), UVM_NONE, `uvm_file, `uvm_line);
+        return;
+      end
+    end
+    if (uvm_top.get_num_children() == 0) begin
+      uvm_report_fatal ("NOCOMP", {"No components instantiated. You must either instantiate",
+                                   " at least one component before calling run_test or use",
+                                   " run_test to do so. To run a test using run_test,",
+                                   " use +UVM_TESTNAME or supply the test name in",
+                                   " the argument to run_test(). Exiting simulation."}, UVM_NONE, `uvm_file, `uvm_line);
       return;
+    end
+    if (tn == "") begin
+      uvm_report_info ("RNTST", "Running test ...", UVM_LOW, `uvm_file, `uvm_line);
+    end
+    else if (tn == uvm_test_top.get_type_name()) begin
+      uvm_report_info ("RNTST", {"Running test ", tn, "..."}, UVM_LOW, `uvm_file, `uvm_line);
+    end
+    else begin
+      uvm_report_info ("RNTST", {"Running test ", uvm_test_top.get_type_name(), " (via factory override for test \"", tn, "\")..."}, UVM_LOW, `uvm_file, `uvm_line);
     end
     // Stand-in for the root component's phasing: every phase is run over the
     // whole tree, one phase after the other (build, run and final top-down, as
     // in the BCL; the others bottom-up).
     u_ph_0 = new();
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_BUILD, u_ph_0, IVL_UVM_TOP_DOWN_PH);
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_CONNECT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_END_OF_ELABORATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_START_OF_SIMULATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_BUILD, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_CONNECT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_END_OF_ELABORATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_START_OF_SIMULATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
     // The run phases are forked, one per component, from this block (a fork
     // started inside another task would not be stopped by disable fork). The
     // run phase ends when every objection is dropped; the tasks still running
@@ -94,7 +137,7 @@ package ivl_uvm_pkg;
     fork
       begin
         // Collects the components; run_phase itself is not called here.
-        uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_RUN, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+        uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_RUN, u_ph_0, IVL_UVM_TOP_DOWN_PH);
         run_node = u_ph_0.m_ivl_uvm_first_run_comp();
         while (run_node != null) begin
           run_comp = run_node.val;
@@ -111,10 +154,15 @@ package ivl_uvm_pkg;
         disable fork;
       end
     join
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_EXTRACT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_CHECK, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_REPORT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_FINAL, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_EXTRACT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_CHECK, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_REPORT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
+    uvm_top.m_ivl_uvm_walk_children(IVL_UVM_PHASE_FINAL, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+  endtask : m_ivl_uvm_run_test
+
+  // The BCL global run_test: forwards to the root component.
+  task run_test (string test_name = "");
+    uvm_top.run_test(.test_name(test_name));
   endtask : run_test
 
 endpackage : ivl_uvm_pkg

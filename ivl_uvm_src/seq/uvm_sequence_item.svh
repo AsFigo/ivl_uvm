@@ -49,47 +49,68 @@ class uvm_sequence_item extends uvm_transaction;
   protected  uvm_sequence_base  m_parent_sequence;
   bit        print_sequence_info;
 
+  // Creates a sequence item with the given name.
   extern function new(string name = "uvm_sequence_item");
 
+  // Returns the type name of the item.
   extern virtual function string get_type_name();
 
+  // Sets the id of the sequence that owns the item.
   extern function void set_sequence_id(int id);
 
+  // Returns the id of the sequence that owns the item.
   extern function int get_sequence_id();
 
+  // Sets the parent sequence, the sequencer (default: the parent's) and the depth.
   extern function void set_item_context(uvm_sequence_base parent_seq,
                                         uvm_sequencer_base sequencer = null);
 
+  // Enables or disables the use of the sequence information.
   extern function void set_use_sequence_info(bit value);
 
+  // Returns 1 when the sequence information is used.
   extern function bit get_use_sequence_info();
 
+  // Copies the sequence and transaction ids from another item.
   extern function void set_id_info(uvm_sequence_item item);
 
+  // Sets the sequencer the item is sent to.
   extern virtual function void set_sequencer(uvm_sequencer_base sequencer);
 
+  // Returns the sequencer the item is sent to.
   extern function uvm_sequencer_base get_sequencer();
 
+  // Sets the sequence that owns the item.
   extern function void set_parent_sequence(uvm_sequence_base parent);
 
+  // Returns the sequence that owns the item.
   extern function uvm_sequence_base get_parent_sequence();
 
+  // Sets the depth of the item in the sequence tree.
   extern function void set_depth(int value);
 
+  // Returns the depth of the item in the sequence tree.
   extern function int get_depth();
 
+  // Returns 1 for an item (a sequence overrides it to return 0).
   extern virtual function bit is_item();
 
+  // Returns the full name: the parent sequence path and the item name.
   extern virtual function string get_full_name();
 
+  // Returns the name of the root sequence, or an empty string.
   extern function string get_root_sequence_name();
 
+  // Internal: sets the typed sequencer handle of a sequence (does nothing for an item).
   extern virtual function void m_set_p_sequencer();
 
+  // Returns the root sequence of the item, or null.
   extern function uvm_sequence_base get_root_sequence();
 
+  // Returns the path of sequence names down to the item.
   extern function string get_sequence_path();
 
+  // Prints the depth and the parent sequence names of the item.
   extern virtual function void do_print(uvm_printer printer);
 
 endclass : uvm_sequence_item

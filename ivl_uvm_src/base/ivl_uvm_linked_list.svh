@@ -40,54 +40,52 @@
 // Notes for Icarus: a member of a class-handle property (head.next) is not
 // supported, so handles are copied to locals before the member is selected.
 
-class ivl_uvm_ll_node #(type K, type V);
-  K key;
-  V val;
-  ivl_uvm_ll_node #(K, V) next;
-endclass : ivl_uvm_ll_node
-
 class ivl_uvm_linked_list #(type K, type V);
-  local ivl_uvm_ll_node #(K, V) m_ivl_uvm_head;
-  local int m_ivl_uvm_size;
+  protected ivl_uvm_ll_node #(K, V) m_ivl_uvm_head;
+  protected int m_ivl_uvm_size;
 
+  // Creates an empty list.
   extern function new();
 
   // Returns the node holding key, or null when the key is not in the list.
-  // Defined inline: Icarus cannot parse an out-of-body definition whose return
-  // type is a parameterized class.
-  function ivl_uvm_ll_node #(K, V) find_node(K key);
-    ivl_uvm_ll_node #(K, V) n;
-    n = m_ivl_uvm_head;
-    while (n != null) begin
-      if (n.key == key) begin
-        return n;
-      end
-      n = n.next;
-    end
-    return null;
-  endfunction : find_node
+  extern virtual function ivl_uvm_ll_node #(K, V) find_node(K key);
 
   // Returns the node added last (the head), or null when the list is empty.
-  // Defined inline for the same reason as find_node.
-  function ivl_uvm_ll_node #(K, V) first_node();
-    return m_ivl_uvm_head;
-  endfunction : first_node
+  extern virtual function ivl_uvm_ll_node #(K, V) first_node();
 
   // Adds key/val, or replaces the value when the key is already present.
-  extern function void set(K key, V val);
+  extern virtual function void set(K key, V val);
 
   // Removes the entry for key; does nothing when the key is not present.
-  extern function void remove_key(K key);
+  extern virtual function void remove_key(K key);
 
-  extern function void clear();
+  // Removes every entry (the list is empty afterwards).
+  extern virtual function void clear();
 
-  extern function int size();
+  // Returns the number of entries.
+  extern virtual function int size();
 endclass : ivl_uvm_linked_list
 
 function ivl_uvm_linked_list::new();
   m_ivl_uvm_head = null;
   m_ivl_uvm_size = 0;
 endfunction : new
+
+function ivl_uvm_ll_node #(K, V) ivl_uvm_linked_list::find_node(K key);
+  ivl_uvm_ll_node #(K, V) n;
+  n = m_ivl_uvm_head;
+  while (n != null) begin
+    if (n.key == key) begin
+      return n;
+    end
+    n = n.next;
+  end
+  return null;
+endfunction : find_node
+
+function ivl_uvm_ll_node #(K, V) ivl_uvm_linked_list::first_node();
+  return m_ivl_uvm_head;
+endfunction : first_node
 
 function void ivl_uvm_linked_list::set(K key, V val);
   ivl_uvm_ll_node #(K, V) n;

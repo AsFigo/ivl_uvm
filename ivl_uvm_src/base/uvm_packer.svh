@@ -58,34 +58,91 @@ class uvm_packer;
   bit [(`UVM_PACKER_MAX_BYTES*8)-1:0] m_bits;
   int m_packed_size;
 
+  // Packs an integral value of the given size.
   extern virtual function void pack_field(uvm_bitstream_t value, int size);
+
+  // Packs an integral value up to 64 bits.
   extern virtual function void pack_field_int(logic [63:0] value, int size);
+
+  // Packs a string, with a terminating null.
   extern virtual function void pack_string(string value);
+
+  // Packs a time value.
   extern virtual function void pack_time(time value);
+
+  // Packs a real value.
   extern virtual function void pack_real(real value);
+
+  // Packs an object, preceded by a null marker when it is null.
   extern virtual function void pack_object(uvm_object value);
+
+  // Returns 1 when the next 4 bits are zero (the marker of a null object).
   extern virtual function bit is_null();
+
+  // Unpacks an integral value up to 64 bits.
   extern virtual function logic [63:0] unpack_field_int(int size);
+
+  // Unpacks an integral value of the given size.
   extern virtual function uvm_bitstream_t unpack_field(int size);
+
+  // Unpacks a string.
   extern virtual function string unpack_string(int num_chars = -1);
+
+  // Unpacks a time value.
   extern virtual function time unpack_time();
+
+  // Unpacks a real value.
   extern virtual function real unpack_real();
+
+  // Unpacks an object.
   extern virtual function void unpack_object(uvm_object value);
+
+  // Returns the number of bits packed.
   extern virtual function int get_packed_size();
+
+  // Unpacks an object (extended form of unpack_object).
   extern virtual function void unpack_object_ext(uvm_object value);
+
+  // Returns the packed bits as a bit array.
   extern virtual function uvm_pack_bitstream_t get_packed_bits();
+
+  // Returns bit i of the packed data.
   extern virtual function bit unsigned get_bit(int unsigned index);
+
+  // Returns byte i of the packed data.
   extern virtual function byte unsigned get_byte(int unsigned index);
+
+  // Returns int i of the packed data.
   extern virtual function int unsigned get_int(int unsigned index);
+
+  // Copies the packed data to a bit array.
   extern virtual function void get_bits(ref bit unsigned bits[]);
+
+  // Copies the packed data to a byte array.
   extern virtual function void get_bytes(ref byte unsigned bytes[]);
+
+  // Copies the packed data to an int array.
   extern virtual function void get_ints(ref int unsigned ints[]);
+
+  // Loads the packed data from a bit array.
   extern virtual function void put_bits(ref bit unsigned bitstream[]);
+
+  // Loads the packed data from a byte array.
   extern virtual function void put_bytes(ref byte unsigned bytestream[]);
+
+  // Loads the packed data from an int array.
   extern virtual function void put_ints(ref int unsigned intstream[]);
+
+  // Sets the packed size to the current position.
   extern virtual function void set_packed_size();
+
+  // Reports an index outside the packed data.
   extern function void index_error(int index, string id, int sz);
+
+  // Returns 1 when enough bits are left to unpack; reports an error otherwise.
   extern function bit enough_bits(int needed, string id);
+
+  // Clears the packed data and the position.
   extern function void reset();
   // uvm_object is compiled before this class, where the global below is not
   // declared yet, so uvm_object reaches the default packer through this.

@@ -40,47 +40,63 @@ class ivl_uvm_mbx extends uvm_object;
   int m_size;
   `IVL_UVM_MBX_T m_mbx_val;
 
-  function new (string name = "mailbox_int");
-    super.new (name);
-    is_full = 0;
-    is_empty = 1;
-  endfunction : new 
+  // Creates an empty mailbox.
+  extern function new (string name = "mailbox_int");
 
-  virtual task put (input `IVL_UVM_MBX_T in_xn);
-    //wait (is_full == 0);
-    while (is_full == 1) begin
-      #1;
-    end
-    m_mbx_val = in_xn;
-    //`g2u_printf (("MBX: Put: 0x%0h", in_xn))
-    is_full = 1;
-    is_empty = 0;
-  endtask : put 
+  // Blocks while the mailbox is full, then stores in_xn.
+  extern virtual task put (input `IVL_UVM_MBX_T in_xn);
 
-  virtual task get (output `IVL_UVM_MBX_T out_xn);
-    //wait (is_empty == 0);
-    while (is_empty == 1) begin
-      #1;
-    end
-    out_xn = m_mbx_val;
-    //`g2u_printf (("MBX: Get: 0x%0h", out_xn))
-    is_full = 0;
-    is_empty = 1;
-  endtask : get 
+  // Blocks while the mailbox is empty, then returns and removes the value.
+  extern virtual task get (output `IVL_UVM_MBX_T out_xn);
 
-  virtual task peek (output `IVL_UVM_MBX_T out_xn);
-    //wait (is_empty == 0);
-    while (is_empty == 1) begin
-      #1;
-    end
-    out_xn = m_mbx_val;
-    //`g2u_printf (("MBX: Peek: 0x%0h", out_xn))
-  endtask : peek 
+  // Blocks while the mailbox is empty, then returns the value without removing it.
+  extern virtual task peek (output `IVL_UVM_MBX_T out_xn);
 
-  virtual function int num ();
-    return (is_full);
-  endfunction : num 
+  // Returns 1 when the mailbox holds a value, else 0.
+  extern virtual function int num ();
 
 
 endclass : ivl_uvm_mbx
+
+function ivl_uvm_mbx::new (string name = "mailbox_int");
+  super.new (name);
+  is_full = 0;
+  is_empty = 1;
+endfunction : new
+
+task ivl_uvm_mbx::put (input `IVL_UVM_MBX_T in_xn);
+  //wait (is_full == 0);
+  while (is_full == 1) begin
+    #1;
+  end
+  m_mbx_val = in_xn;
+  //`g2u_printf (("MBX: Put: 0x%0h", in_xn))
+  is_full = 1;
+  is_empty = 0;
+endtask : put
+
+task ivl_uvm_mbx::get (output `IVL_UVM_MBX_T out_xn);
+  //wait (is_empty == 0);
+  while (is_empty == 1) begin
+    #1;
+  end
+  out_xn = m_mbx_val;
+  //`g2u_printf (("MBX: Get: 0x%0h", out_xn))
+  is_full = 0;
+  is_empty = 1;
+endtask : get
+
+task ivl_uvm_mbx::peek (output `IVL_UVM_MBX_T out_xn);
+  //wait (is_empty == 0);
+  while (is_empty == 1) begin
+    #1;
+  end
+  out_xn = m_mbx_val;
+  //`g2u_printf (("MBX: Peek: 0x%0h", out_xn))
+endtask : peek
+
+function int ivl_uvm_mbx::num ();
+  return (is_full);
+endfunction : num
+
 

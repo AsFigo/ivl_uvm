@@ -20,6 +20,10 @@
 // Unless required by applicable law or agreed to in
 // writing, software distributed under the License is
 // distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied.  See
+// the License for the specific language governing
+// permissions and limitations under the License.
+// ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 // Test of the forked run phase. A test has four children: three timed
 // components (d10, d30, d20) that raise an objection, wait 10, 30 and 20 time

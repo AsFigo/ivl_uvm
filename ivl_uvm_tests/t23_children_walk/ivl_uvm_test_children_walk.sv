@@ -22,12 +22,14 @@
 // distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 // CONDITIONS OF ANY KIND, either express or implied.  See
 // the License for the specific language governing
+// permissions and limitations under the License.
+// ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 // Test of the children walk done by run_test: a test creates an env in
 // build_phase, the env creates two agents in its build_phase, and every
 // phase reaches every component. Each component appends its name to a trace
 // per phase; the test checks the order (build top-down, the later function
-// phases bottom-up, run one component after another, oldest child first) and
+// phases bottom-up, run one component after another, children in name order) and
 // the full names. Prints PASS or FAIL per check and a final summary line.
 package children_walk_pkg;
   import ivl_uvm_pkg::*;
@@ -95,12 +97,13 @@ package children_walk_pkg;
 
     function void build_phase(uvm_phase phase);
       super.build_phase(phase);
-      agent_a = walk_comp::type_id::create(
-        .name("agent_a"),
-        .parent(this)
-      );
+      // Created out of name order on purpose: the walk follows name order.
       agent_b = walk_comp::type_id::create(
         .name("agent_b"),
+        .parent(this)
+      );
+      agent_a = walk_comp::type_id::create(
+        .name("agent_a"),
         .parent(this)
       );
     endfunction : build_phase

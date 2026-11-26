@@ -12,7 +12,7 @@ AF_RUN_ARGS = +UVM_VERBOSITY=UVM_DEBUG
 # Optional: space-separated test numbers for check/gold, e.g. make check TESTS="1 4" (default: all)
 TESTS ?=
 
-all: vw0 vw1 vw2 vw3 vw4 vw5 vw6 vw7 vw8 vw9 vw10 vw11 vw12 vw13 vw14 vw15 vw16 vw17 vw18 vw19 vw20 vw21 vw22 vw23 vw24 vw25 vw26 vw27
+all: vw0 vw1 vw2 vw3 vw4 vw5 vw6 vw7 vw8 vw9 vw10 vw11 vw12 vw13 vw14 vw15 vw16 vw17 vw18 vw19 vw20 vw21 vw22 vw23 vw24 vw25 vw26 vw27 vw28 vw29 vw30 vw31 vw32 vw33 vw34 vw35 vw36
 vw0: clean
 	$(IVL_UVM_CMD) -f flist.t0 2>&1 | tee ivl_uvm_comp_0.log 	
 	vvp -l ivl_uvm_run_0.log vw_ivl_ivl_uvm.vvp +UVM_MAX_QUIT_COUNT=10 $(AF_RUN_ARGS)
@@ -127,6 +127,42 @@ vw26: clean
 vw27: clean
 	$(IVL_UVM_CMD) -s t_nba_raise -f flist.t27 2>&1 | tee ivl_uvm_comp_27.log 
 	vvp -l ivl_uvm_run_27.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw28: clean
+	$(IVL_UVM_CMD) -s t_orphan -f flist.t28 2>&1 | tee ivl_uvm_comp_28.log 
+	vvp -l ivl_uvm_run_28.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw29: clean
+	$(IVL_UVM_CMD) -s t_sorted_list -f flist.t29 2>&1 | tee ivl_uvm_comp_29.log 
+	vvp -l ivl_uvm_run_29.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw30: clean
+	$(IVL_UVM_CMD) -s t_uvm_root -f flist.t30 2>&1 | tee ivl_uvm_comp_30.log 
+	vvp -l ivl_uvm_run_30.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw31: clean
+	$(IVL_UVM_CMD) -s t_run_test_nocomp -f flist.t31 2>&1 | tee ivl_uvm_comp_31.log 
+	vvp -l ivl_uvm_run_31.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw32: clean
+	$(IVL_UVM_CMD) -s t_run_test_twice -f flist.t32 2>&1 | tee ivl_uvm_comp_32.log 
+	vvp -l ivl_uvm_run_32.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw33: clean
+	$(IVL_UVM_CMD) -s t_find_topology -f flist.t33 2>&1 | tee ivl_uvm_comp_33.log 
+	vvp -l ivl_uvm_run_33.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw34: clean
+	$(IVL_UVM_CMD) -f flist.t34 2>&1 | tee ivl_uvm_comp_34.log 
+	vvp -l ivl_uvm_run_34.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw35: clean
+	$(IVL_UVM_CMD) -f flist.t35 2>&1 | tee ivl_uvm_comp_35.log 
+	vvp -l ivl_uvm_run_35.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS)
+
+vw36: clean
+	$(IVL_UVM_CMD) -f flist.t36 2>&1 | tee ivl_uvm_comp_36.log 
+	vvp -l ivl_uvm_run_36.log vw_ivl_ivl_uvm.vvp $(AF_RUN_ARGS) +UVM_TIMEOUT=2,NO
 
 # Regression against golden logs (../goldLogs): make check [TESTS="1 4"], make gold to refresh
 check:

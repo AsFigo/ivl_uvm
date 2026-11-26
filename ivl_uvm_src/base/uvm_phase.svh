@@ -49,22 +49,33 @@ class uvm_phase extends uvm_object;
   // Components whose run_phase run_test starts (newest first).
   protected ivl_uvm_linked_list #(string, uvm_component) m_ivl_uvm_run_comps;
 
-  function new (string name = "uvm_phase");
-    super.new (name);
-    phase_done = new ();
-    m_ivl_uvm_run_comps = new ();
-  endfunction : new
+  // Creates the phase with its objection.
+  extern function new (string name = "uvm_phase");
 
+  // Returns the objection the run phase waits on.
   extern virtual function uvm_objection get_objection();
+
+  // Internal: records comp as a component whose run_phase run_test starts.
   extern virtual function void m_ivl_uvm_add_run_comp(uvm_component comp);
+
+  // Internal: returns the recorded run components in walk order (first one).
   extern virtual function ivl_uvm_ll_node #(string, uvm_component) m_ivl_uvm_first_run_comp();
+
+  // Raises the phase objection by count.
   extern virtual function void raise_objection(uvm_object obj,
                                                string description = "",
                                                int count = 1);
+  // Drops the phase objection by count.
   extern virtual function void drop_objection(uvm_object obj,
                                               string description = "",
                                               int count = 1);
 endclass : uvm_phase
+
+function uvm_phase::new (string name = "uvm_phase");
+  super.new (name);
+  phase_done = new ();
+  m_ivl_uvm_run_comps = new ();
+endfunction : new
 
 function uvm_objection uvm_phase::get_objection();
   return this.phase_done;

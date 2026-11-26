@@ -1,6 +1,6 @@
 UVM_INFO @ 0 [COMPONENT] PASS  top name                   got='top'
 UVM_INFO @ 0 [COMPONENT] PASS  top full name              got='top'
-UVM_INFO @ 0 [COMPONENT] PASS  top has no parent          got=1
+UVM_INFO @ 0 [COMPONENT] PASS  top parent is uvm_top      got=1
 UVM_INFO @ 0 [COMPONENT] PASS  top depth                  got=1
 UVM_INFO @ 0 [COMPONENT] PASS  top children               got=0
 UVM_INFO @ 0 [COMPONENT] PASS  child full name            got='top.a'

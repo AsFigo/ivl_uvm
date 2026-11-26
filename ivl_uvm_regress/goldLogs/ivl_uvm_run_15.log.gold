@@ -14,19 +14,19 @@ UVM_INFO @ 0 [FIELD_MACROS] PASS  UVM_NOCOMPARE is copied              got=12
 UVM_INFO @ 0 [FIELD_MACROS] PASS  copy keeps the name                  matches
 UVM_INFO @ 0 [FIELD_MACROS] PASS  compare equal                        got=1
 UVM_INFO @ 0 [MISCMP] Miscompare for p1.a: lhs = 'h5 : rhs = 'h6
-UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@9 vs. p1@6
 UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in an int            got=0
 UVM_INFO @ 0 [MISCMP] Miscompare for p1.s: lhs = "abc" : rhs = "abd"
-UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@9 vs. p1@6
 UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in a string          got=0
 UVM_INFO @ 0 [MISCMP] Miscompare for p1.c: lhs = BLUE : rhs = RED
-UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@9 vs. p1@6
 UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in an enum           got=0
 UVM_INFO @ 0 [MISCMP] Miscompare for p1.r: lhs = 2.50000 : rhs = 2.75000
-UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@9 vs. p1@6
 UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in a real            got=0
 UVM_INFO @ 0 [MISCMP] Miscompare for p1.kid.kv: lhs = 'h4d : rhs = 'h4e
-UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@8 vs. p1@5
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object p2@9 vs. p1@6
 UVM_INFO @ 0 [FIELD_MACROS] PASS  compare differs in an object field   got=0
 UVM_INFO @ 0 [FIELD_MACROS] PASS  UVM_NOCOMPARE is ignored             got=1
 UVM_INFO @ 0 [FIELD_MACROS] PASS  print row for the int                count=1
@@ -68,7 +68,7 @@ UVM_INFO @ 0 [FIELD_MACROS] PASS  derived copy base field              got=1
 UVM_INFO @ 0 [FIELD_MACROS] PASS  derived copy own field               got=9
 UVM_INFO @ 0 [FIELD_MACROS] PASS  derived compare equal                got=1
 UVM_INFO @ 0 [MISCMP] Miscompare for s1.w: lhs = 'h9 : rhs = 'ha
-UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object s2@15 vs. s1@14
+UVM_INFO @ 0 [MISCMP] 1 Miscompare(s) for object s2@16 vs. s1@15
 UVM_INFO @ 0 [FIELD_MACROS] PASS  derived compare differs in own field got=0
 UVM_INFO @ 0 [FIELD_MACROS] PASS  derived print has the own field      count=1
 UVM_INFO @ 0 [FIELD_MACROS] PASS  derived print has the base field     count=1

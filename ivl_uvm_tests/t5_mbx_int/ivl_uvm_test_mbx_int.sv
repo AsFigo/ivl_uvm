@@ -1,7 +1,7 @@
 // ========== Copyright Header Begin ==========================
 // 
 // Project: IVL_UVM
-// File: ivl_uvm_run_test.sv
+// File: ivl_uvm_test_mbx_int.sv
 // Author(s): Srinivasan Venkataramanan 
 //            Ajeetha Kumari Venkatesan
 //

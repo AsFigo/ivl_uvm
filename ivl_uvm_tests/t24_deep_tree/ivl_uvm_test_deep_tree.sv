@@ -22,6 +22,8 @@
 // distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 // CONDITIONS OF ANY KIND, either express or implied.  See
 // the License for the specific language governing
+// permissions and limitations under the License.
+// ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 // Test of the children walk on a deeper tree with branches. The test creates
 // env1 and env2; env1 creates a1 and a2; a2 creates leaf; env2 creates b1.

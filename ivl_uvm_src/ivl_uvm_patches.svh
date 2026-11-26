@@ -135,28 +135,11 @@
 
   typedef class uvm_object;
   typedef class uvm_component;
+  typedef class uvm_root;
 
-  // The BCL declares get_type_name pure virtual; Icarus does not support that
-  // yet, so the base method has a trivial body (and every method keeps a body,
-  // because Icarus skips overrides when the base body is empty).
-  virtual class uvm_object_wrapper;
-    virtual function uvm_object create_object (string name="");
-      return null;
-    endfunction : create_object
+  `include "base/uvm_object_wrapper.svh"
+  `include "base/uvm_recorder.svh"
 
-    virtual function uvm_component create_component (string name,
-                                                     uvm_component parent);
-      return null;
-    endfunction : create_component
-
-    virtual function string get_type_name();
-      return "<unknown>";
-    endfunction : get_type_name
-  endclass : uvm_object_wrapper
-  
-  class uvm_recorder;
-  endclass : uvm_recorder
-  
   // typedef bit uvm_bitstream_t;
   
 `define IVL_UVM_REF 

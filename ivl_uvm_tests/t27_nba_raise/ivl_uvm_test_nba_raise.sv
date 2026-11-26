@@ -20,6 +20,10 @@
 // Unless required by applicable law or agreed to in
 // writing, software distributed under the License is
 // distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied.  See
+// the License for the specific language governing
+// permissions and limitations under the License.
+// ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 // Test of the end of the run phase when an objection is raised in the first
 // time step but only after a nonblocking assignment has taken effect, as the

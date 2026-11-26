@@ -40,21 +40,14 @@ typedef class uvm_printer_knobs;
 
 parameter UVM_STDOUT = 1;  // Writes to standard out and logfile
 
-class uvm_printer_row_info;
-  int    level;
-  string name;
-  string type_name;
-  string size;
-  string val;
-  // the next row of the printer
-  uvm_printer_row_info m_ivl_uvm_next;
-endclass : uvm_printer_row_info
-
+`include "base/uvm_printer_row_info.svh"
+`include "base/uvm_printer_knobs.svh"
 
 virtual class uvm_printer;
 
   uvm_printer_knobs knobs = new;
 
+  // Prints an integral field, in the radix given (default: the knob).
   extern virtual function void print_int(string name,
                                          uvm_bitstream_t value,
                                          int size,
@@ -62,6 +55,7 @@ virtual class uvm_printer;
                                          byte scope_separator = ".",
                                          string type_name = "");
 
+  // Prints an integral field (the BCL name for print_int).
   extern virtual function void print_field(string name,
                                            uvm_bitstream_t value,
                                            int size,
@@ -69,60 +63,78 @@ virtual class uvm_printer;
                                            byte scope_separator = ".",
                                            string type_name = "");
 
+  // Prints a sub-object: its fields, then its component children.
   extern virtual function void print_object(string name,
                                             uvm_object value,
                                             byte scope_separator = ".");
 
+  // Prints the row of a sub-object: its name, type and instance id.
   extern virtual function void print_object_header(string name,
                                                    uvm_object value,
                                                    byte scope_separator = ".");
 
+  // Prints a string field.
   extern virtual function void print_string(string name,
                                             string value,
                                             byte scope_separator = ".");
 
+  // Prints a time field.
   extern virtual function void print_time(string name,
                                           time value,
                                           byte scope_separator = ".");
 
+  // Prints a real field.
   extern virtual function void print_real(string name,
                                           real value,
                                           byte scope_separator = ".");
 
+  // Prints a field described by its type name, size and value string.
   extern virtual function void print_generic(string name,
                                              string type_name,
                                              int size,
                                              string value,
                                              byte scope_separator = ".");
 
+  // Returns the collected rows as one formatted string.
   extern virtual function string emit();
 
+  // Returns one row formatted as text.
   extern virtual function string format_row(uvm_printer_row_info row);
 
+  // Returns the header of the output.
   extern virtual function string format_header();
 
+  // Returns the footer of the output.
   extern virtual function string format_footer();
 
+  // Returns the name as shown: the id itself for the root or with full_name, else its leaf.
   extern virtual function string adjust_name(string id,
                                                     byte scope_separator = ".");
 
+  // Prints the header row of an array field.
   extern virtual function void print_array_header(string name,
                                                   int size,
                                                   string arraytype = "array",
                                                   byte scope_separator = ".");
 
+  // Prints one "..." row for the elements between min and max that are not shown.
   extern virtual function void print_array_range(int min,
                                                  int max);
 
+  // Closes an array field (pops the array scope).
   extern virtual function void print_array_footer(int size = 0);
 
+  // Returns 1 when no scope is open, i.e. at the top level.
   extern function bit istop();
 
+  // Returns name[index].
   extern function string index_string(int index,
                                       string name = "");
 
+  // Internal: returns the default printer (uvm_default_printer).
   extern static function uvm_printer m_ivl_uvm_default_printer();
 
+  // Internal: returns c repeated count times (replaces the BCL string replication).
   extern function string m_ivl_uvm_pad(string c,
                                        int n);
 
@@ -135,101 +147,10 @@ virtual class uvm_printer;
   protected uvm_printer_row_info m_rows;
   protected uvm_printer_row_info m_ivl_uvm_last_row;
 
+  // Internal: appends a row to the end of the row list.
   extern function void m_ivl_uvm_add_row(uvm_printer_row_info row);
 
 endclass : uvm_printer
-
-
-class uvm_table_printer extends uvm_printer;
-
-  extern function new();
-
-  extern virtual function string emit();
-
-  protected int m_max_name;
-  protected int m_max_type;
-  protected int m_max_size;
-  protected int m_max_value;
-
-  extern function void calculate_max_widths();
-
-endclass : uvm_table_printer
-
-
-class uvm_printer_knobs;
-
-  bit header = 1;
-  bit footer = 1;
-  bit full_name = 0;
-  bit identifier = 1;
-  bit type_name = 1;
-  bit size = 1;
-  int depth = -1;
-  bit reference = 1;
-  int begin_elements = 5;
-  int end_elements = 5;
-  string prefix = "";
-  int indent = 2;
-  bit show_root = 0;
-  int mcd = UVM_STDOUT;
-  string separator = "{}";
-  bit show_radix = 1;
-  uvm_radix_enum default_radix = UVM_HEX;
-  string dec_radix = "'d";
-  string bin_radix = "'b";
-  string oct_radix = "'o";
-  string unsigned_radix = "'d";
-  string hex_radix = "'h";
-
-  extern function string get_radix_str(uvm_radix_enum radix);
-
-  int max_width = 999;
-  string truncation = "+";
-  int name_width = -1;
-  int type_width = -1;
-  int size_width = -1;
-  int value_width = -1;
-  bit sprint = 1;
-
-endclass : uvm_printer_knobs
-
-
-typedef uvm_printer_knobs uvm_table_printer_knobs;
-typedef uvm_printer_knobs uvm_tree_printer_knobs;
-
-
-// uvm_printer_knobs
-// -----------------
-
-function string uvm_printer_knobs::get_radix_str(uvm_radix_enum radix);
-  if (show_radix == 0) begin
-    return "";
-  end
-  if (radix == UVM_NORADIX) begin
-    radix = default_radix;
-  end
-  case (radix)
-    UVM_BIN: begin
-      return bin_radix;
-    end
-    UVM_OCT: begin
-      return oct_radix;
-    end
-    UVM_DEC: begin
-      return dec_radix;
-    end
-    UVM_HEX: begin
-      return hex_radix;
-    end
-    UVM_UNSIGNED: begin
-      return unsigned_radix;
-    end
-    default: begin
-      return "";
-    end
-  endcase
-endfunction : get_radix_str
-
 
 // uvm_printer
 // -----------
@@ -239,21 +160,17 @@ function string uvm_printer::emit();
   return "";
 endfunction : emit
 
-
 function string uvm_printer::format_row(uvm_printer_row_info row);
   return "";
 endfunction : format_row
-
 
 function string uvm_printer::format_header();
   return "";
 endfunction : format_header
 
-
 function string uvm_printer::format_footer();
   return "";
 endfunction : format_footer
-
 
 function void uvm_printer::m_ivl_uvm_add_row(uvm_printer_row_info row);
   if (m_rows == null) begin
@@ -265,7 +182,6 @@ function void uvm_printer::m_ivl_uvm_add_row(uvm_printer_row_info row);
   m_ivl_uvm_last_row = row;
 endfunction : m_ivl_uvm_add_row
 
-
 function string uvm_printer::m_ivl_uvm_pad(string c,
                                            int n);
   string s;
@@ -275,7 +191,6 @@ function string uvm_printer::m_ivl_uvm_pad(string c,
   end
   return s;
 endfunction : m_ivl_uvm_pad
-
 
 function void uvm_printer::print_array_header(string name,
                                               int size,
@@ -296,14 +211,12 @@ function void uvm_printer::print_array_header(string name,
   m_array_stack.push_back(1);
 endfunction : print_array_header
 
-
 function void uvm_printer::print_array_footer(int size = 0);
   if (m_array_stack.size() != 0) begin
     m_scope.up();
     void'(m_array_stack.pop_front());
   end
 endfunction : print_array_footer
-
 
 function void uvm_printer::print_array_range(int min,
                                              int max);
@@ -321,7 +234,6 @@ function void uvm_printer::print_array_range(int min,
   end
   print_generic("...", "...", -2, "...");
 endfunction : print_array_range
-
 
 function void uvm_printer::print_object_header(string name,
                                                uvm_object value,
@@ -358,10 +270,12 @@ function void uvm_printer::print_object_header(string name,
   m_ivl_uvm_add_row(row_info);
 endfunction : print_object_header
 
-
 function void uvm_printer::print_object(string name,
                                         uvm_object value,
                                         byte scope_separator = ".");
+  uvm_component comp;
+  uvm_component child_comp;
+  string cname;
   uvm_status_container sc;
   ivl_uvm_linked_list #(uvm_object, bit) cyc;
   uvm_printer_knobs kn;
@@ -379,7 +293,17 @@ function void uvm_printer::print_object(string name,
       else begin
         m_scope.down(name);
       end
-      // the children of a component are not printed yet
+      // the children of a component (as in the BCL)
+      if ($cast(comp, value)) begin
+        if (comp.get_first_child(cname)) begin
+          do begin
+            child_comp = comp.get_child(cname);
+            if (child_comp.print_enabled) begin
+              this.print_object("", child_comp);
+            end
+          end while (comp.get_next_child(cname));
+        end
+      end
       void'(value.sprint(this));
       if (name != "" && name[0] == "[") begin
         m_scope.up("[");
@@ -392,11 +316,9 @@ function void uvm_printer::print_object(string name,
   end
 endfunction : print_object
 
-
 function bit uvm_printer::istop();
   return (m_scope.depth() == 0);
 endfunction : istop
-
 
 function string uvm_printer::adjust_name(string id,
                                          byte scope_separator = ".");
@@ -407,7 +329,6 @@ function string uvm_printer::adjust_name(string id,
   end
   return uvm_leaf_scope(id, scope_separator);
 endfunction : adjust_name
-
 
 function void uvm_printer::print_generic(string name,
                                          string type_name,
@@ -428,7 +349,6 @@ function void uvm_printer::print_generic(string name,
   m_ivl_uvm_add_row(row_info);
 endfunction : print_generic
 
-
 function void uvm_printer::print_field(string name,
                                        uvm_bitstream_t value,
                                        int size,
@@ -437,7 +357,6 @@ function void uvm_printer::print_field(string name,
                                        string type_name = "");
   print_int(name, value, size, radix, scope_separator, type_name);
 endfunction : print_field
-
 
 function void uvm_printer::print_int(string name,
                                      uvm_bitstream_t value,
@@ -479,13 +398,11 @@ function void uvm_printer::print_int(string name,
   m_ivl_uvm_add_row(row_info);
 endfunction : print_int
 
-
 function void uvm_printer::print_time(string name,
                                       time value,
                                       byte scope_separator = ".");
   print_int(name, value, 64, UVM_TIME, scope_separator);
 endfunction : print_time
-
 
 function void uvm_printer::print_string(string name,
                                         string value,
@@ -502,7 +419,6 @@ function void uvm_printer::print_string(string name,
   row_info.val = (value == "") ? "\"\"" : value;
   m_ivl_uvm_add_row(row_info);
 endfunction : print_string
-
 
 function void uvm_printer::print_real(string name,
                                       real value,
@@ -521,154 +437,12 @@ function void uvm_printer::print_real(string name,
   m_ivl_uvm_add_row(row_info);
 endfunction : print_real
 
-
 function string uvm_printer::index_string(int index,
                                           string name = "");
   string idx;
   idx.itoa(index);
   return {name, "[", idx, "]"};
 endfunction : index_string
-
-
-// uvm_table_printer
-// -----------------
-
-function uvm_table_printer::new();
-  super.new();
-endfunction : new
-
-
-function void uvm_table_printer::calculate_max_widths();
-  uvm_printer_row_info row;
-  int name_len;
-  int type_len;
-  int size_len;
-  int val_len;
-  string nm;
-  string ty;
-  string sz;
-  string vl;
-  uvm_printer_knobs kn;
-  kn = knobs;
-  m_max_name = 4;
-  m_max_type = 4;
-  m_max_size = 4;
-  m_max_value = 5;
-  row = m_rows;
-  while (row != null) begin
-    nm = row.name;
-    ty = row.type_name;
-    sz = row.size;
-    vl = row.val;
-    name_len = nm.len();
-    type_len = ty.len();
-    size_len = sz.len();
-    val_len = vl.len();
-    name_len = kn.indent * row.level + name_len;
-    if (name_len > m_max_name) begin
-      m_max_name = name_len;
-    end
-    if (type_len > m_max_type) begin
-      m_max_type = type_len;
-    end
-    if (size_len > m_max_size) begin
-      m_max_size = size_len;
-    end
-    if (val_len > m_max_value) begin
-      m_max_value = val_len;
-    end
-    row = row.m_ivl_uvm_next;
-  end
-endfunction : calculate_max_widths
-
-
-function string uvm_table_printer::emit();
-  string s;
-  string user_format;
-  string dashes;
-  string header;
-  string row_str;
-  string linefeed;
-  string nm;
-  string ty;
-  string sz;
-  string vl;
-  uvm_printer_row_info row;
-  uvm_printer_knobs kn;
-  kn = knobs;
-  s = "";
-  dashes = "";
-  linefeed = {"\n", kn.prefix};
-
-  this.calculate_max_widths();
-
-  if (kn.header) begin
-    user_format = this.format_header();
-    if (user_format == "") begin
-      header = "";
-      if (kn.identifier) begin
-        dashes = this.m_ivl_uvm_pad("-", m_max_name + 2);
-        header = {"Name", this.m_ivl_uvm_pad(" ", m_max_name - 2)};
-      end
-      if (kn.type_name) begin
-        dashes = {dashes, this.m_ivl_uvm_pad("-", m_max_type + 2)};
-        header = {header, "Type", this.m_ivl_uvm_pad(" ", m_max_type - 2)};
-      end
-      if (kn.size) begin
-        dashes = {dashes, this.m_ivl_uvm_pad("-", m_max_size + 2)};
-        header = {header, "Size", this.m_ivl_uvm_pad(" ", m_max_size - 2)};
-      end
-      dashes = {dashes, this.m_ivl_uvm_pad("-", m_max_value), linefeed};
-      header = {header, "Value", this.m_ivl_uvm_pad(" ", m_max_value - 5), linefeed};
-      s = {s, dashes, header, dashes};
-    end
-    else begin
-      s = {s, user_format, linefeed};
-    end
-  end
-
-  row = m_rows;
-  while (row != null) begin
-    nm = row.name;
-    ty = row.type_name;
-    sz = row.size;
-    vl = row.val;
-    user_format = this.format_row(row);
-    if (user_format == "") begin
-      row_str = "";
-      if (kn.identifier) begin
-        row_str = {this.m_ivl_uvm_pad(" ", row.level * kn.indent), nm,
-                   this.m_ivl_uvm_pad(" ", m_max_name - nm.len() - (row.level * kn.indent) + 2)};
-      end
-      if (kn.type_name) begin
-        row_str = {row_str, ty, this.m_ivl_uvm_pad(" ", m_max_type - ty.len() + 2)};
-      end
-      if (kn.size) begin
-        row_str = {row_str, sz, this.m_ivl_uvm_pad(" ", m_max_size - sz.len() + 2)};
-      end
-      s = {s, row_str, vl, this.m_ivl_uvm_pad(" ", m_max_value - vl.len()), linefeed};
-    end
-    else begin
-      s = {s, user_format, linefeed};
-    end
-    row = row.m_ivl_uvm_next;
-  end
-
-  if (kn.footer) begin
-    user_format = this.format_footer();
-    if (user_format == "") begin
-      s = {s, dashes};
-    end
-    else begin
-      s = {s, user_format, linefeed};
-    end
-  end
-
-  m_rows = null;
-  m_ivl_uvm_last_row = null;
-  return s;
-endfunction : emit
-
 
 // The global printers. uvm_object is compiled before this file and Icarus
 // needs a variable declared before it is used, so uvm_object reaches
@@ -679,6 +453,11 @@ uvm_printer uvm_default_printer = uvm_default_table_printer;
 function uvm_printer uvm_printer::m_ivl_uvm_default_printer();
   return uvm_default_printer;
 endfunction : m_ivl_uvm_default_printer
+
+typedef uvm_printer_knobs uvm_table_printer_knobs;
+typedef uvm_printer_knobs uvm_tree_printer_knobs;
+
+`include "base/uvm_table_printer.svh"
 
 `else
 

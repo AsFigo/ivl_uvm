@@ -25,22 +25,9 @@
 // Authors: Srinivasan Venkataramanan, Ajeetha Kumari Venkatesan
 // SPDX-License-Identifier: Apache-2.0
 
+`ifdef IVL_UVM
 
-//------------------------------------------------------------------------------
-//
-// Topic: uvm_void
-//
-// The ~uvm_void~ class is the base class for all UVM classes. It is an abstract
-// class with no data members or functions. It allows for generic containers of
-// objects to be created, similar to a void pointer in the C programming
-// language. User classes derived directly from ~uvm_void~ inherit none of the
-// UVM functionality, but such classes may be placed in ~uvm_void~-typed
-// containers along with other UVM objects.
-//
-//------------------------------------------------------------------------------
-
-virtual class uvm_void;
-endclass : uvm_void
+`include "base/uvm_void.svh"
 
 // Append/prepend symbolic values for order-dependent APIs
 typedef enum {UVM_APPEND, UVM_PREPEND} uvm_apprepend;
@@ -48,294 +35,12 @@ typedef enum {UVM_APPEND, UVM_PREPEND} uvm_apprepend;
 // Forward declaration since scope stack uses uvm_objects now
 typedef class uvm_object;
 
-//----------------------------------------------------------------------------
-//
-// CLASS- uvm_scope_stack
-//
-//----------------------------------------------------------------------------
-
-class uvm_scope_stack;
-  local string m_arg;
-  local string m_stack[$];
-
-  // depth
-  // -----
-  
-  function int depth();
-    return m_stack.size();
-  endfunction : depth
-  
-  
-  // scope
-  // -----
-  
-  function string get();
-    string v;
-    if(m_stack.size() == 0) begin
-      return m_arg;
-    end
-    get = m_stack[0];
-    for(int i=1; i<m_stack.size(); ++i) begin
-      v = m_stack[i];
-      if(v != "" && (v[0] == "[" || v[0] == "(" || v[0] == "{")) begin
-        get = {get,v};
-      end
-      else begin
-        get = {get,".",v};
-      end
-    end
-    if(m_arg != "") begin
-      if(get != "") begin
-        get = {get, ".", m_arg};
-      end
-      else begin
-        get = m_arg;
-      end
-    end
-  endfunction : get
-  
-  
-  // scope_arg
-  // ---------
-  
-  function string get_arg();
-    return m_arg;
-  endfunction : get_arg
-  
-  
-  // set_scope
-  // ---------
-  
-  function void set (string s);
-    m_stack.delete();
-
-    m_stack.push_back(s);
-    m_arg = "";
-  endfunction : set
-  
-  
-  // down
-  // ----
-  
-  function void down (string s);
-    m_stack.push_back(s);
-    m_arg = "";
-  endfunction : down
-  
-  
-  // down_element
-  // ------------
-  
-  function void down_element (int element);
-    m_stack.push_back($sformatf("[%0d]",element));
-    m_arg = "";
-  endfunction : down_element
-  
-
-  // up_element
-  // ------------
-  
-  function void up_element ();
-    string s;
-    if(!m_stack.size()) begin
-      return;
-    end
-    s = m_stack.pop_back();
-    if(s != "" && s[0] != "[") begin
-      m_stack.push_back(s);
-    end
-  endfunction : up_element
-  
-  // up
-  // --
-  
-  function void up (byte separator =".");
-    bit found;
-    string s;
-    while(m_stack.size() && !found ) begin
-      s = m_stack.pop_back();
-      if(separator == ".") begin
-        if (s == "" || (s[0] != "[" && s[0] != "(" && s[0] != "{")) begin
-          found = 1;
-        end
-      end
-      else begin
-        if(s != "" && s[0] == separator) begin
-          found = 1;
-        end
-      end
-    end
-    m_arg = "";
-  endfunction : up
-  
-  
-  // set_arg
-  // -------
-  
-  function void set_arg (string arg);
-    if(arg=="") begin
-      return;
-    end
-    m_arg = arg;
-  endfunction : set_arg
-  
-  
-  // set_arg_element
-  // ---------------
-  
-  function void set_arg_element (string arg, int ele);
-    string tmp_value_str;
-    tmp_value_str.itoa(ele);
-    m_arg = {arg, "[", tmp_value_str, "]"};
-  endfunction : set_arg_element
-  
-
-  // unset_arg
-  // ---------
-  
-  function void unset_arg (string arg);
-    if(arg == m_arg) begin
-      m_arg = "";
-    end
-  endfunction : unset_arg
-endclass : uvm_scope_stack
-
-`ifdef IVL_UVM
-// uvm_copy_map: the BCL class keys an associative array by object handle,
-// which Icarus does not support, so it keeps the same API on a linked list.
+`include "base/uvm_scope_stack.svh"
+`include "base/ivl_uvm_ll_node.svh"
 `include "base/ivl_uvm_linked_list.svh"
-
-class uvm_copy_map;
-  local ivl_uvm_linked_list #(uvm_object, uvm_object) m_ivl_uvm_map;
-
-  extern function new();
-  extern function void set(uvm_object key, uvm_object obj);
-  extern function uvm_object get(uvm_object key);
-  extern function void clear();
-  extern function void delete(uvm_object v);
-endclass : uvm_copy_map
-
-function uvm_copy_map::new();
-  m_ivl_uvm_map = new;
-endfunction : new
-
-function void uvm_copy_map::set(uvm_object key, uvm_object obj);
-  m_ivl_uvm_map.set(key, obj);
-endfunction : set
-
-function uvm_object uvm_copy_map::get(uvm_object key);
-  ivl_uvm_ll_node #(uvm_object, uvm_object) n;
-  n = m_ivl_uvm_map.find_node(key);
-  if (n == null) begin
-    return null;
-  end
-  return n.val;
-endfunction : get
-
-function void uvm_copy_map::clear();
-  m_ivl_uvm_map.clear();
-endfunction : clear
-
-function void uvm_copy_map::delete(uvm_object v);
-  m_ivl_uvm_map.remove_key(v);
-endfunction : delete
-
-// uvm_status_container: the BCL class with its three containers (static
-// field_array[string], cycle_check[uvm_object], m_uvm_cycle_scopes[$] of
-// handles) kept in linked lists, because Icarus does not support those yet.
-class uvm_status_container;
-  bit             clone = 1;
-
-  bit          warning;
-  bit          status;
-  uvm_bitstream_t  bitstream;
-  int          intv;
-  int          element;
-  string       stringv;
-  string       scratch1;
-  string       scratch2;
-  string       key;
-  uvm_object   object;
-  bit          array_warning_done;
-
-  static ivl_uvm_linked_list #(string, bit) field_array = new;
-
-  static bit print_matches;
-
-  uvm_scope_stack scope  = new;
-
-  // Used for checking cycles (see the BCL): the objects seen so far.
-  ivl_uvm_linked_list #(uvm_object, bit) cycle_check = new;
-
-  uvm_comparer    comparer;
-  uvm_packer      packer;
-  uvm_recorder    recorder;
-  uvm_printer     printer;
-
-  // The scopes of the current call stack, newest first.
-  ivl_uvm_linked_list #(uvm_object, bit) m_uvm_cycle_scopes = new;
-
-  extern function void do_field_check(string field, uvm_object obj);
-  extern function string get_function_type(int what);
-  extern function string get_full_scope_arg();
-  extern function bit m_do_cycle_check(uvm_object scope);
-endclass : uvm_status_container
-
-function void uvm_status_container::do_field_check(string field, uvm_object obj);
-  `ifdef UVM_ENABLE_FIELD_CHECKS
-  ivl_uvm_ll_node #(string, bit) n;
-  n = field_array.find_node(field);
-  if (n != null) begin
-    uvm_report_error("MLTFLD", $sformatf("Field %s is defined multiple times in type '%s'",
-       field, obj.get_type_name()), UVM_NONE);
-  end
-  `endif
-  field_array.set(field, 1);
-endfunction : do_field_check
-
-function string uvm_status_container::get_function_type(int what);
-  case (what)
-    UVM_COPY:    return "copy";
-    UVM_COMPARE: return "compare";
-    UVM_PRINT:   return "print";
-    UVM_RECORD:  return "record";
-    UVM_PACK:    return "pack";
-    UVM_UNPACK:  return "unpack";
-    UVM_FLAGS:   return "get_flags";
-    UVM_SETINT:  return "set";
-    UVM_SETOBJ:  return "set_object";
-    UVM_SETSTR:  return "set_string";
-    default:     return "unknown";
-  endcase
-endfunction : get_function_type
-
-function string uvm_status_container::get_full_scope_arg();
-  get_full_scope_arg = scope.get();
-endfunction : get_full_scope_arg
-
-// Same logic as the BCL: it is a cycle only when the scope is not the one
-// entered last AND it is already in the list of scopes.
-function bit uvm_status_container::m_do_cycle_check(uvm_object scope);
-  ivl_uvm_ll_node #(uvm_object, bit) last;
-  ivl_uvm_ll_node #(uvm_object, bit) found;
-  uvm_object l;
-  last = m_uvm_cycle_scopes.first_node();
-  l = null;
-  if (last != null) begin
-    l = last.key;
-  end
-  if (l == scope) begin
-    // right before (a super/derived context of the same object): not a cycle
-    return 0;
-  end
-  found = m_uvm_cycle_scopes.find_node(scope);
-  if (found != null) begin
-    return 1;
-  end
-  m_uvm_cycle_scopes.set(scope, 1);
-  return 0;
-endfunction : m_do_cycle_check
-
+`include "base/ivl_uvm_string_list.svh"
+`include "base/uvm_copy_map.svh"
+`include "base/uvm_status_container.svh"
 
 // Function- uvm_object_value_str
 //
@@ -475,9 +180,191 @@ function uvm_radix_enum m_ivl_uvm_radix(int flag);
     end
   endcase
 endfunction : m_ivl_uvm_radix
-`endif // IVL_UVM
 
-`ifndef IVL_UVM
+`else
+
+//------------------------------------------------------------------------------
+//   Copyright 2007-2011 Mentor Graphics Corporation
+//   Copyright 2007-2011 Cadence Design Systems, Inc. 
+//   Copyright 2010 Synopsys, Inc.
+//   All Rights Reserved Worldwide
+//
+//   Licensed under the Apache License, Version 2.0 (the
+//   "License"); you may not use this file except in
+//   compliance with the License.  You may obtain a copy of
+//   the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in
+//   writing, software distributed under the License is
+//   distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+//   CONDITIONS OF ANY KIND, either express or implied.  See
+//   the License for the specific language governing
+//   permissions and limitations under the License.
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//
+// Topic: uvm_void
+//
+// The ~uvm_void~ class is the base class for all UVM classes. It is an abstract
+// class with no data members or functions. It allows for generic containers of
+// objects to be created, similar to a void pointer in the C programming
+// language. User classes derived directly from ~uvm_void~ inherit none of the
+// UVM functionality, but such classes may be placed in ~uvm_void~-typed
+// containers along with other UVM objects.
+//
+//------------------------------------------------------------------------------
+
+virtual class uvm_void;
+endclass
+
+// Append/prepend symbolic values for order-dependent APIs
+typedef enum {UVM_APPEND, UVM_PREPEND} uvm_apprepend;
+
+// Forward declaration since scope stack uses uvm_objects now
+typedef class uvm_object;
+
+//----------------------------------------------------------------------------
+//
+// CLASS- uvm_scope_stack
+//
+//----------------------------------------------------------------------------
+
+class uvm_scope_stack;
+  local string m_arg;
+  local string m_stack[$];
+
+  // depth
+  // -----
+  
+  function int depth();
+    return m_stack.size();
+  endfunction
+  
+  
+  // scope
+  // -----
+  
+  function string get();
+    string v;
+    if(m_stack.size() == 0) return m_arg;
+    get = m_stack[0];
+    for(int i=1; i<m_stack.size(); ++i) begin
+      v = m_stack[i];
+      if(v != "" && (v[0] == "[" || v[0] == "(" || v[0] == "{"))
+        get = {get,v};
+      else
+        get = {get,".",v};
+    end
+    if(m_arg != "") begin
+      if(get != "")
+        get = {get, ".", m_arg};
+      else
+        get = m_arg;
+    end
+  endfunction
+  
+  
+  // scope_arg
+  // ---------
+  
+  function string get_arg();
+    return m_arg;
+  endfunction
+  
+  
+  // set_scope
+  // ---------
+  
+  function void set (string s);
+    m_stack.delete();
+    
+    m_stack.push_back(s);
+    m_arg = "";
+  endfunction
+  
+  
+  // down
+  // ----
+  
+  function void down (string s);
+    m_stack.push_back(s);
+    m_arg = "";
+  endfunction
+  
+  
+  // down_element
+  // ------------
+  
+  function void down_element (int element);
+    m_stack.push_back($sformatf("[%0d]",element));
+    m_arg = "";
+  endfunction
+  
+
+  // up_element
+  // ------------
+  
+  function void up_element ();
+    string s;
+    if(!m_stack.size())
+      return;
+    s = m_stack.pop_back();
+    if(s != "" && s[0] != "[")
+      m_stack.push_back(s);
+  endfunction
+  
+  // up
+  // --
+  
+  function void up (byte separator =".");
+    bit found;
+    string s;
+    while(m_stack.size() && !found ) begin
+      s = m_stack.pop_back();
+      if(separator == ".") begin
+        if (s == "" || (s[0] != "[" && s[0] != "(" && s[0] != "{"))
+          found = 1;
+      end
+      else begin
+        if(s != "" && s[0] == separator)
+          found = 1;
+      end
+    end
+    m_arg = "";
+  endfunction
+  
+  
+  // set_arg
+  // -------
+  
+  function void set_arg (string arg);
+    if(arg=="") return;
+    m_arg = arg;
+  endfunction
+  
+  
+  // set_arg_element
+  // ---------------
+  
+  function void set_arg_element (string arg, int ele);
+    string tmp_value_str;
+    tmp_value_str.itoa(ele);
+    m_arg = {arg, "[", tmp_value_str, "]"};
+  endfunction
+  
+
+  // unset_arg
+  // ---------
+  
+  function void unset_arg (string arg);
+    if(arg == m_arg)
+      m_arg = "";
+  endfunction
+endclass
 
 
 
@@ -1007,4 +894,3 @@ endclass
 `endif
 
 `endif // IVL_UVM
-

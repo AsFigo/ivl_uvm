@@ -1,0 +1,14 @@
+UVM_FATAL @ 0 [NOCOMP] No components instantiated. You must either instantiate at least one component before calling run_test or use run_test to do so. To run a test using run_test, use +UVM_TESTNAME or supply the test name in the argument to run_test(). Exiting simulation.
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO : 0
+UVM_WARNING : 0
+UVM_ERROR : 0
+UVM_FATAL : 1
+[5;34m
+*** Congratulations! Test PASSED with NO UVM_ERRORs ***
+[0m
+UVM_INFO @ 0 [IVL_GO2UVM] Thanks for using IVL_UVM Package
+$finish(2) called at 0 (10ps)

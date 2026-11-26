@@ -44,30 +44,51 @@ class uvm_comparer;
   uvm_copy_map compare_map = new;
   uvm_scope_stack scope = new;
 
+  // Compares two integral values of the given size; returns 1 when equal.
   extern virtual function bit compare_field(string name,
                                             uvm_bitstream_t lhs,
                                             uvm_bitstream_t rhs,
                                             int size,
                                             uvm_radix_enum radix = UVM_NORADIX);
+
+  // Compares two integral values up to 64 bits; returns 1 when equal.
   extern virtual function bit compare_field_int(string name,
                                                 logic [63:0] lhs,
                                                 logic [63:0] rhs,
                                                 int size,
                                                 uvm_radix_enum radix = UVM_NORADIX);
+
+  // Compares two real values; returns 1 when equal.
   extern virtual function bit compare_field_real(string name,
                                                  real lhs,
                                                  real rhs);
+
+  // Compares two objects (deep or by handle, per the policy); returns 1 when equal.
   extern virtual function bit compare_object(string name,
                                              uvm_object lhs,
                                              uvm_object rhs);
+
+  // Compares two strings; returns 1 when equal.
   extern virtual function bit compare_string(string name,
                                              string lhs,
                                              string rhs);
+
+  // Records a miscompare message and counts it.
   extern function void print_msg(string msg);
+
+  // Prints the miscompare summary for the objects compared.
   extern function void print_rollup(uvm_object rhs, uvm_object lhs);
+
+  // Records a miscompare between two objects that cannot be compared.
   extern function void print_msg_object(uvm_object lhs, uvm_object rhs);
+
+  // Returns the default comparer, creating it on first use.
   extern static function uvm_comparer init();
+
+  // Internal: returns the scope stack of the shared status container.
   extern function uvm_scope_stack m_ivl_uvm_scope();
+
+  // Internal: returns "lhs = .. : rhs = .." for two values in the given radix.
   extern function string m_ivl_uvm_diff_text(logic [UVM_STREAMBITS-1:0] lhs,
                                              logic [UVM_STREAMBITS-1:0] rhs,
                                              uvm_radix_enum radix);

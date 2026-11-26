@@ -40,7 +40,7 @@ t1             txn_t     -     -
   accept_time  time      64    10 ns
   begin_time   time      64    30 ns
   end_time     time      64    30 ns
-  initiator    comp_t    -1    @1   
+  initiator    comp_t    -1    @2   
 ------------------------------------
 UVM_INFO @ 30 ns [TRANSACTION] PASS  copy accept time                     got=10
 UVM_INFO @ 30 ns [TRANSACTION] PASS  copy begin time                      got=30

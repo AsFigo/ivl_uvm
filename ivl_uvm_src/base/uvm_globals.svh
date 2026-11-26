@@ -53,6 +53,47 @@ task uvm_wait_for_nba_region;
 
 endtask
 
+// Function: uvm_is_match
+//
+// Returns 1 if str matches the glob pattern expr (* = any characters, ? = one
+// character, everything else literally), anchored at both ends. The BCL
+// converts the glob to a regular expression and matches it through DPI; there
+// is no DPI here, so the glob is matched directly (no [..] classes, no
+// /regex/ form).
+function bit uvm_is_match (string expr, string str);
+  int pi;
+  int si;
+  int star;
+  int mark;
+  pi = 0;
+  si = 0;
+  star = -1;
+  mark = 0;
+  while (si < str.len()) begin
+    if (pi < expr.len() && (expr.getc(pi) == "?" || expr.getc(pi) == str.getc(si))) begin
+      pi++;
+      si++;
+    end
+    else if (pi < expr.len() && expr.getc(pi) == "*") begin
+      star = pi;
+      mark = si;
+      pi++;
+    end
+    else if (star != -1) begin
+      pi = star + 1;
+      mark++;
+      si = mark;
+    end
+    else begin
+      return 0;
+    end
+  end
+  while (pi < expr.len() && expr.getc(pi) == "*") begin
+    pi++;
+  end
+  return (pi == expr.len());
+endfunction : uvm_is_match
+
 `endif // IVL_UVM_GLOBALS_SVH
 
 `else

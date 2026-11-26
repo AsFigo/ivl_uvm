@@ -41,45 +41,64 @@ typedef class uvm_component;
 
 class uvm_transaction extends uvm_object;
 
+  // Creates a transaction with the given name.
   extern function new(string name = "",
                       uvm_component initiator = null);
 
+  // Records the accept time of the transaction.
   extern function void accept_tr(time accept_time = 0);
 
+  // Hook for accept_tr (does nothing here).
   extern virtual function void do_accept_tr();
 
+  // Starts the transaction at begin_time (default: now); returns 0, as recording is not ported.
   extern function integer begin_tr(time begin_time = 0);
 
+  // Starts the transaction as a child of parent_handle (same as begin_tr here).
   extern function integer begin_child_tr(time begin_time = 0,
                                          integer parent_handle = 0);
 
+  // Hook for begin_tr (does nothing here).
   extern virtual function void do_begin_tr();
 
+  // Ends the transaction at end_time (default: now).
   extern function void end_tr(time end_time = 0,
                               bit free_handle = 1);
 
+  // Hook for end_tr (does nothing here).
   extern virtual function void do_end_tr();
 
+  // Returns 1 between begin_tr and end_tr.
   extern function bit is_active();
 
+  // Sets the component that started the transaction.
   extern function void set_initiator(uvm_component initiator);
 
+  // Returns the component that started the transaction.
   extern function uvm_component get_initiator();
 
+  // Returns the accept time.
   extern function time get_accept_time();
 
+  // Returns the begin time.
   extern function time get_begin_time();
 
+  // Returns the end time.
   extern function time get_end_time();
 
+  // Sets the transaction id.
   extern function void set_transaction_id(integer id);
 
+  // Returns the transaction id.
   extern function integer get_transaction_id();
 
+  // Prints the accept, begin and end times and the initiator.
   extern virtual function void do_print(uvm_printer printer);
 
+  // Copies the transaction's own fields from rhs.
   extern virtual function void do_copy(uvm_object rhs);
 
+  // Internal: sets the begin time and calls do_begin_tr; returns the handle (0).
   extern protected function integer m_begin_tr(time begin_time = 0,
                                                integer parent_handle = 0,
                                                bit has_parent = 0);

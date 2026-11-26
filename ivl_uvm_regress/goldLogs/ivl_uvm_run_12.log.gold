@@ -55,7 +55,7 @@ UVM_INFO @ 0 [PACKER] PASS  unpack_object count                got=60
 UVM_INFO @ 0 [PACKER] PASS  pack_object null bits              got=4
 UVM_INFO @ 0 [PACKER] PASS  is_null for null                   got=1
 UVM_INFO @ 0 [PACKER] PASS  pack_object reference policy       got=4
-UVM_WARNING @ 0 [CYCFND] Cycle detected for object @3 during pack
+UVM_WARNING @ 0 [CYCFND] Cycle detected for object @4 during pack
 UVM_INFO @ 0 [PACKER] PASS  cycle detected, one bit packed     got=1
 UVM_INFO @ 0 [PACKER] PASS  reset clears count                 got=0
 UVM_INFO @ 0 [PACKER] PASS  pack returns size                  got=56

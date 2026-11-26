@@ -1,0 +1,40 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [UVM_ROOT] PASS  uvm_top exists            
+UVM_INFO @ 0 [UVM_ROOT] PASS  get() is uvm_top          
+UVM_INFO @ 0 [UVM_ROOT] PASS  uvm_top name               got=''
+UVM_INFO @ 0 [UVM_ROOT] PASS  uvm_top full name          got=''
+UVM_INFO @ 0 [UVM_ROOT] PASS  orphan parent is uvm_top  
+UVM_INFO @ 0 [UVM_ROOT] PASS  uvm_top has a_orph        
+UVM_INFO @ 0 [UVM_ROOT] PASS  uvm_top get_child         
+UVM_INFO @ 0 [UVM_ROOT] PASS  orphan full name           got='a_orph'
+UVM_INFO @ 0 [UVM_ROOT] PASS  kid full name              got='a_orph.kid'
+UVM_INFO @ 0 [UVM_ROOT] PASS  children before run        got='a_orph z_orph '
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: root_test
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [RNTST] Running test root_test...
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [UVM_ROOT] PASS  test is a child of top    
+UVM_INFO @ 0 [UVM_ROOT] PASS  test parent is uvm_top    
+UVM_INFO @ 0 [UVM_ROOT] PASS  children after run         got='a_orph uvm_test_top z_orph '
+UVM_INFO @ 0 [UVM_ROOT] PASS  test full name             got='uvm_test_top'
+UVM_INFO @ 0 [UVM_ROOT] PASS  builds of a_orph           got='1'
+UVM_INFO @ 0 [UVM_ROOT] UVM_ROOT: PASS (15 checks, 0 failed)

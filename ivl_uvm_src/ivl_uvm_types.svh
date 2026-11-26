@@ -40,7 +40,6 @@ int uvm_fatal_counter;
 int ivl_uvm_glb_verb;
 bit report_summarize_done;
 
-time ivl_uvm_glb_timeout;
 int unsigned ivl_uvm_max_quit_count = '1;
 
 string log_id = "IVL_GO2UVM";

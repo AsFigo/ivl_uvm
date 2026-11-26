@@ -35,27 +35,31 @@
 // callbacks yet. A drop below zero is a fatal OBJTN_ZERO, as in the BCL. The
 // full BCL uvm_objection is not ported yet.
 
-// Triggered on every change of any objection total. It lives in the package
-// because Icarus has no event members in a class and no wait on a class
-// property; a waiter rechecks its own total each time.
-event m_ivl_uvm_objection_changed;
+// The change event m_ivl_uvm_objection_changed is in ivl_uvm_pkg_globals.svh.
 
 class uvm_objection extends uvm_report_object;
   protected int m_ivl_uvm_total;
 
-  function new (string name = "uvm_objection");
-    super.new (name);
-  endfunction : new
+  // Creates an objection with a total of zero.
+  extern function new (string name = "uvm_objection");
 
+  // Raises the total by count.
   extern virtual function void raise_objection(uvm_object obj = null,
                                                string description = "",
                                                int count = 1);
+  // Lowers the total by count (fatal below zero) and signals the change event.
   extern virtual function void drop_objection(uvm_object obj = null,
                                               string description = "",
                                               int count = 1);
+  // Returns the current total.
   extern virtual function int get_objection_total(uvm_object obj = null);
+  // Internal: waits until the total is zero.
   extern virtual task m_ivl_uvm_wait_all_dropped();
 endclass : uvm_objection
+
+function uvm_objection::new (string name = "uvm_objection");
+  super.new (name);
+endfunction : new
 
 function void uvm_objection::raise_objection(uvm_object obj = null,
                                              string description = "",

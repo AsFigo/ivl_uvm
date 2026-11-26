@@ -1,0 +1,2 @@
+${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
+../../ivl_uvm_tests/t36_set_timeout_cmdline/ivl_uvm_test_set_timeout_cmdline.sv

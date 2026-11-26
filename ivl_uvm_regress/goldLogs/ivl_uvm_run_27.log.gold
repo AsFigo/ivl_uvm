@@ -1,6 +1,7 @@
 UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
 UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: nba_test
 UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [RNTST] Running test nba_test...
 UVM_INFO @ 0 [IVL_GO2UVM] build_phase
 UVM_INFO @ 0 [IVL_GO2UVM] build_phase
 UVM_INFO @ 0 [IVL_GO2UVM] connect_phase

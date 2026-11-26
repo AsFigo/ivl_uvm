@@ -1,0 +1,25 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: twice_test
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [RNTST] Running test twice_test...
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [TWICE_T] first run_test returned
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: twice_test
+UVM_FATAL @ 0 [TTINST] An uvm_test_top already exists via a previous call to run_test
+
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO : 18
+UVM_WARNING : 0
+UVM_ERROR : 0
+UVM_FATAL : 1
+[5;34m
+*** Congratulations! Test PASSED with NO UVM_ERRORs ***
+[0m
+UVM_INFO @ 0 [IVL_GO2UVM] Thanks for using IVL_UVM Package
+$finish(2) called at 0 (10ps)

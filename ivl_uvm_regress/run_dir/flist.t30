@@ -1,0 +1,2 @@
+${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
+../../ivl_uvm_tests/t30_uvm_root/ivl_uvm_test_uvm_root.sv

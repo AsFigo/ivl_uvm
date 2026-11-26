@@ -22,6 +22,8 @@
 // distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 // CONDITIONS OF ANY KIND, either express or implied.  See
 // the License for the specific language governing
+// permissions and limitations under the License.
+// ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 // Direct test of the component registry: my_comp::type_id::create(name,
 // parent) for a component with uvm_component_utils, a subclass with its own

@@ -50,6 +50,6 @@ UVM_INFO @ 0 ns [SEQUENCE_ITEM] PASS  clone data                               g
 UVM_INFO @ 0 ns [SEQUENCE_ITEM] PASS  clone leaves the sequence id             got=-1
 UVM_INFO @ 0 ns [SEQUENCE_ITEM] PASS  compare equal                            got=1
 UVM_INFO @ 0 ns [MISCMP] Miscompare for cp.data: lhs = 'h0 : rhs = 'hb
-UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object it4@9 vs. cp@12
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object it4@10 vs. cp@13
 UVM_INFO @ 0 ns [SEQUENCE_ITEM] PASS  compare different                        got=0
 UVM_INFO @ 0 ns [SEQUENCE_ITEM] SEQUENCE_ITEM: PASS (52 checks, 0 failed)

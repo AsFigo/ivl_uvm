@@ -46,7 +46,7 @@ UVM_INFO @ 0 [COMPARER] PASS  compare vs null result             got=1
 UVM_INFO @ 0 [COMPARER] PASS  compare other type                 got=0
 UVM_INFO @ 0 [COMPARER] PASS  compare other type result          got=1
 UVM_INFO @ 0 [COMPARER] PASS  compare other type text           
-UVM_WARNING @ 0 [MISCMP] 2 Miscompare(s) (0 shown) for object pkt@2 vs. pkt@0
+UVM_WARNING @ 0 [MISCMP] 2 Miscompare(s) (0 shown) for object pkt@3 vs. pkt@1
 UVM_INFO @ 0 [COMPARER] PASS  compare warning rollup result      got=2
 UVM_INFO @ 0 [COMPARER] PASS  cyclic equal result                got=0
 UVM_INFO @ 0 [COMPARER] PASS  cyclic differ result               got=1

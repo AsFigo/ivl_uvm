@@ -22,6 +22,8 @@
 // distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 // CONDITIONS OF ANY KIND, either express or implied.  See
 // the License for the specific language governing
+// permissions and limitations under the License.
+// ========== Copyright Header End ============================
 ////////////////////////////////////////////////////////////////////////
 // Direct test of uvm_component hierarchy: name, parent, full name, depth,
 // children (get_child, has_child, get_num_children, first/next iteration)
@@ -108,8 +110,8 @@ module t_component;
       .exp("top")
     );
     chk_i(
-      .what("top has no parent"),
-      .got(top.get_parent() == null),
+      .what("top parent is uvm_top"),
+      .got(top.get_parent() == uvm_top),
       .exp(1)
     );
     chk_i(

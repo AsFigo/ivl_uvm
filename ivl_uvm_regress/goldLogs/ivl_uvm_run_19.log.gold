@@ -28,16 +28,16 @@ UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received kind                            got=1
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received tag                             got='beat2'
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  received item equals the sent one        got=1
 UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.data: lhs = 'hc8 : rhs = 'hc9
-UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@4 vs. tr2@3
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in an int                got=0
 UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.kind: lhs = READ : rhs = WRITE
-UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@4 vs. tr2@3
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in an enum               got=0
 UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.tag: lhs = "beat2" : rhs = "beat9"
-UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@4 vs. tr2@3
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in a string              got=0
 UVM_INFO @ 0 ns [MISCMP] Miscompare for tr2.scale: lhs = 1.00000 : rhs = 7.50000
-UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@3 vs. tr2@2
+UVM_INFO @ 0 ns [MISCMP] 1 Miscompare(s) for object rx@4 vs. tr2@3
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  compare differs in a real                got=0
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  equal again after restoring              got=1
 UVM_INFO @ 0 ns [ITEM_FLOW] PASS  clone is a bus_item                      got=1

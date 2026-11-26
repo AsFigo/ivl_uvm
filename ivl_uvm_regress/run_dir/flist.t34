@@ -1,0 +1,2 @@
+${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
+../../ivl_uvm_tests/t34_set_timeout_short/ivl_uvm_test_set_timeout_short.sv

@@ -1,1 +1,5 @@
 7|Reached Timeout value of|the APB test ends at the global timeout (1 ms) with one UVM_ERROR; its log shows no completed transaction
+31|[NOCOMP]|run_test with no test name and no component ends with the NOCOMP fatal, as in the BCL
+32|[TTINST]|the second run_test call ends with the TTINST fatal, as in the BCL
+34|Reached Timeout value of: 300.000 ns|set_timeout locks the timeout at 300 ns (overridable = 0), so the run ends with the timeout error there
+36|Reached Timeout value of: 2000000.000 ns|+UVM_TIMEOUT=2,NO locks the timeout at 2 ms, so the run ends with the timeout error there

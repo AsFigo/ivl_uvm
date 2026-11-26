@@ -1,0 +1,16 @@
+UVM_INFO @ 0 [SORTED_LIST] PASS  empty                  got=
+UVM_INFO @ 0 [SORTED_LIST] PASS  one key                got=m
+UVM_INFO @ 0 [SORTED_LIST] PASS  before head            got=c,m
+UVM_INFO @ 0 [SORTED_LIST] PASS  after tail             got=c,m,x
+UVM_INFO @ 0 [SORTED_LIST] PASS  in the middle          got=c,m,q,x
+UVM_INFO @ 0 [SORTED_LIST] PASS  new smallest           got=a,c,m,q,x
+UVM_INFO @ 0 [SORTED_LIST] PASS  size                   got=5
+UVM_INFO @ 0 [SORTED_LIST] PASS  replace keeps order    got=a,c,m,q,x
+UVM_INFO @ 0 [SORTED_LIST] PASS  replace size           got=5
+UVM_INFO @ 0 [SORTED_LIST] PASS  replaced value         got=40
+UVM_INFO @ 0 [SORTED_LIST] PASS  other value            got=1
+UVM_INFO @ 0 [SORTED_LIST] PASS  longer names           got=Z,a,agent,agent_b,c,m,q,x
+UVM_INFO @ 0 [SORTED_LIST] PASS  remove keeps order     got=Z,a,agent_b,c,m,q,x
+UVM_INFO @ 0 [SORTED_LIST] PASS  set is newest first    got=a,b
+UVM_INFO @ 0 [SORTED_LIST] PASS  set newest first 2     got=c,a,b
+UVM_INFO @ 0 [SORTED_LIST] SORTED_LIST: PASS (15 checks, 0 failed)

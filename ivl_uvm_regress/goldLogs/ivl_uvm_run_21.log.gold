@@ -1,6 +1,7 @@
 UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
 UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: my_test
 UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [RNTST] Running test my_test...
 UVM_INFO @ 0 [IVL_GO2UVM] build_phase
 UVM_INFO @ 0 [RUN_PHASES] build_phase: item created
 UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
@@ -10,7 +11,7 @@ UVM_INFO @ 0 [IVL_GO2UVM] run_phase
 ------------------------------
 Name    Type      Size  Value 
 ------------------------------
-item    my_item   -     @5    
+item    my_item   -     @6    
   addr  integral  16    'h1000
   data  integral  32    'd42  
   kind  kind_e    32    WRITE 

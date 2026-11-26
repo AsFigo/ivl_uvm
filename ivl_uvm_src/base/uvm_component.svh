@@ -293,7 +293,11 @@ task uvm_component::m_ivl_uvm_do_one_phase(ivl_uvm_phase_e id,
     IVL_UVM_PHASE_CONNECT: this.connect_phase(phase);
     IVL_UVM_PHASE_END_OF_ELABORATION: this.end_of_elaboration_phase(phase);
     IVL_UVM_PHASE_START_OF_SIMULATION: this.start_of_simulation_phase(phase);
-    IVL_UVM_PHASE_RUN: this.run_phase(phase);
+    IVL_UVM_PHASE_RUN: begin
+      // Not run here: the component is collected on the phase and run_test
+      // forks every run_phase, then waits for the objections.
+      phase.m_ivl_uvm_add_run_comp(this);
+    end
     IVL_UVM_PHASE_EXTRACT: this.extract_phase(phase);
     IVL_UVM_PHASE_CHECK: this.check_phase(phase);
     IVL_UVM_PHASE_REPORT: this.report_phase(phase);

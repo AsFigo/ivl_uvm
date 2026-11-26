@@ -4,6 +4,17 @@ Changelog
 2026-11
 -------
 
+Parallel run phase and objections
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* The ``run_phase`` tasks of all components now start together and run in parallel. ``run_test``
+  waits until the objections of the run phase are dropped and then stops the tasks that are still
+  running (``t26``, ``t27``). See :doc:`phasing`.
+* ``uvm_objection`` counts the objections of a phase: ``raise_objection``, ``drop_objection`` and
+  ``get_objection_total``, with one total per phase (``t25``). ``uvm_phase`` has ``get_objection()``
+  and its ``raise_objection`` and ``drop_objection`` use it. An objection raised after a nonblocking
+  assignment in the first time step is honoured, as in standard UVM (``t27``).
+
 Component hierarchy and phasing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -13,7 +24,6 @@ Component hierarchy and phasing
 * ``run_test`` runs the phases ``build`` to ``final`` over the whole component tree, not only the test:
   ``build``, ``run`` and ``final`` top-down, the others bottom-up, oldest child first (``t21``,
   ``t23``, ``t24``). See :doc:`phasing`.
-* ``uvm_phase`` accepts ``raise_objection`` and ``drop_objection`` (they have no effect yet).
 * The old ``ivl_uvm_run_all_phases`` call is gone; ``run_test`` starts the phases.
 
 Objects, transactions and the registry
@@ -38,7 +48,7 @@ Factory and test selection
 Regression
 ^^^^^^^^^^
 
-* Tests ``t0`` to ``t24``; ``make check`` and ``make gold`` compare runs with golden logs.
+* Tests ``t0`` to ``t27``; ``make check`` and ``make gold`` compare runs with golden logs.
 * ``make check`` now fails on an unknown test number, a failing ``make``, or a missing log, and an
   expected failure (the APB example) is listed in ``expected_fail.list``. A self-test of the runner,
   ``ivl_uvm_check_selftest.sh``, was added. See :doc:`regression`.

@@ -42,6 +42,7 @@ package ivl_uvm_pkg;
   `include "ivl_uvm_patches.svh"
   `include "ivl_uvm_msg.svh"
   `include "base/uvm_misc.svh"
+  `include "base/uvm_globals.svh"
   `include "base/uvm_object.svh"
   `include "base/uvm_comparer.svh"
   `include "base/uvm_packer.svh"
@@ -61,8 +62,15 @@ package ivl_uvm_pkg;
   task run_test (string test_name = "");
     string tn;
     uvm_phase u_ph_0;
-    if (test_name != "") tn = test_name;
-    else if (!`IVL_UVM_VPA ("UVM_TESTNAME=%s", tn)) tn = `GO2UVM_DISP_ARG (`UVM_TESTNAME);
+    uvm_objection run_done;
+    ivl_uvm_ll_node #(string, uvm_component) run_node;
+    uvm_component run_comp;
+    if (test_name != "") begin
+      tn = test_name;
+    end
+    else if (!`IVL_UVM_VPA ("UVM_TESTNAME=%s", tn)) begin
+      tn = `GO2UVM_DISP_ARG (`UVM_TESTNAME);
+    end
     `g2u_printf (( "Using UVM_TESTNAME: %s", tn ))
     m_ivl_init_factory();
     uvm_test_top = factory.create_component_by_name (tn, "", "uvm_test_top", null);
@@ -78,7 +86,31 @@ package ivl_uvm_pkg;
     uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_CONNECT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
     uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_END_OF_ELABORATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
     uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_START_OF_SIMULATION, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
-    uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_RUN, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+    // The run phases are forked, one per component, from this block (a fork
+    // started inside another task would not be stopped by disable fork). The
+    // run phase ends when every objection is dropped; the tasks still running
+    // are then stopped.
+    run_done = u_ph_0.get_objection();
+    fork
+      begin
+        // Collects the components; run_phase itself is not called here.
+        uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_RUN, u_ph_0, IVL_UVM_TOP_DOWN_PH);
+        run_node = u_ph_0.m_ivl_uvm_first_run_comp();
+        while (run_node != null) begin
+          run_comp = run_node.val;
+          fork
+            run_comp.run_phase(u_ph_0);
+          join_none
+          // The new thread copies run_comp before the next one is started.
+          #0;
+          run_node = run_node.next;
+        end
+        // Give the run phases a chance to object (BCL: wait for the NBA region).
+        uvm_wait_for_nba_region();
+        run_done.m_ivl_uvm_wait_all_dropped();
+        disable fork;
+      end
+    join
     uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_EXTRACT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
     uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_CHECK, u_ph_0, IVL_UVM_BOTTOM_UP_PH);
     uvm_test_top.m_ivl_uvm_walk_subtree(IVL_UVM_PHASE_REPORT, u_ph_0, IVL_UVM_BOTTOM_UP_PH);

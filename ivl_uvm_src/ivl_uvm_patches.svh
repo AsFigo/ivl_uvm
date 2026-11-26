@@ -154,8 +154,6 @@
     endfunction : get_type_name
   endclass : uvm_object_wrapper
   
-  class uvm_objection;
-  endclass : uvm_objection
   class uvm_recorder;
   endclass : uvm_recorder
   

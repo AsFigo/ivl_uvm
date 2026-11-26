@@ -12,7 +12,7 @@ UVM_INFO @ 100.000 ns [IVL_UVM] UVM_MEDIUM: Hello World
 ----------------------------
 Name  Type       Size  Value
 ----------------------------
-u_0   <unknown>  -     @3   
+u_0   <unknown>  -     @4   
 ----------------------------
 $finish(2) called at 10000 (10ps)
 

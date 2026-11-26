@@ -10,7 +10,7 @@ UVM_INFO @ 0 [IVL_GO2UVM] run_phase
 ------------------------------
 Name    Type      Size  Value 
 ------------------------------
-item    my_item   -     @4    
+item    my_item   -     @5    
   addr  integral  16    'h1000
   data  integral  32    'd42  
   kind  kind_e    32    WRITE 

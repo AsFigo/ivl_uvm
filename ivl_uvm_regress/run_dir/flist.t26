@@ -1,0 +1,2 @@
+${IVL_UVM_HOME}/ivl_uvm_src/ivl_uvm_pkg.sv
+../../ivl_uvm_tests/t26_fork_run_phase/ivl_uvm_test_fork_run_phase.sv

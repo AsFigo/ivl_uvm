@@ -36,30 +36,9 @@ class uvm_report_object extends uvm_object;
 
 endclass : uvm_report_object 
 
-class uvm_phase extends uvm_object;
-  function new (string name = "uvm_phase");
-    super.new (name);
-  endfunction : new 
+`include "base/uvm_objection.svh"
 
-  // BCL signatures. Objections are accepted and ignored for now: the run
-  // phase ends when the component's run_phase returns.
-  extern virtual function void raise_objection(uvm_object obj,
-                                               string description = "",
-                                               int count = 1);
-  extern virtual function void drop_objection(uvm_object obj,
-                                              string description = "",
-                                              int count = 1);
-endclass : uvm_phase 
-
-function void uvm_phase::raise_objection(uvm_object obj,
-                                         string description = "",
-                                         int count = 1);
-endfunction : raise_objection
-
-function void uvm_phase::drop_objection(uvm_object obj,
-                                        string description = "",
-                                        int count = 1);
-endfunction : drop_objection
+`include "base/uvm_phase.svh"
 
 `include "base/uvm_component.svh"
 

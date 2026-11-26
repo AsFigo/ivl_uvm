@@ -1,0 +1,23 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: obj_test
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [OBJECTIONS] PASS  objection object     got=1
+UVM_INFO @ 0 [OBJECTIONS] PASS  c1 totals            got='0 1 3 2 0 '
+UVM_INFO @ 0 [OBJECTIONS] PASS  c2 total             got='0 '
+UVM_INFO @ 0 [OBJECTIONS] PASS  total at report      got=0
+UVM_INFO @ 0 [OBJECTIONS] OBJECTIONS: PASS (4 checks, 0 failed)

@@ -9,12 +9,10 @@ IVL_UVM follows standard UVM wherever Icarus allows it. These are the difference
 
    * - Standard UVM
      - In IVL_UVM
-   * - All ``run_phase`` tasks start together and run in parallel.
-     - They run one after another, parent before child, oldest sibling first. A ``run_phase`` that
-       waits or loops forever holds up the components after it, and ``run_test`` does not return.
-       Planned. See :doc:`phasing`.
-   * - Objections decide when the run phase ends.
-     - ``raise_objection`` and ``drop_objection`` are accepted and ignored.
+   * - The objection of a phase counts per object and per level of the hierarchy, and has a drain
+       time.
+     - The run phase keeps one total. There is no hierarchy, drain time or callbacks, and the object
+       you pass is not recorded. See :doc:`phasing`.
    * - Every component without a parent is a child of the root component and is phased.
      - Only the tree under the test (``uvm_test_top``) is phased. A component created with
        ``parent = null`` anywhere else gets no phases. There is no ``uvm_root``.
@@ -55,7 +53,7 @@ standard UVM source depends on are not supported by Icarus yet, for example asso
 queues and dynamic arrays of class handles, and virtual interfaces. IVL_UVM works around them where it
 can; where it cannot, the feature is listed above.
 
-Two Icarus behaviours to watch for in your own code:
+Icarus behaviours to watch for in your own code:
 
 * Calling an overridden virtual method through a base-class handle does nothing when the base method
   has an empty body. Put a ``return;`` in an empty base method that must be overridable.
@@ -63,3 +61,13 @@ Two Icarus behaviours to watch for in your own code:
   (``this.get_name()``, not ``get_name()``). Without it Icarus may report that it cannot find the
   function, or, in a method defined outside the class body, call a different function with the same
   name.
+* Do not declare an ``event`` as a member of a class (Icarus reports a syntax error). Declare it in a
+  package or a module and use it from the class methods.
+* Do not use ``wait (expr)`` where ``expr`` reads a class property (the Icarus compiler stops with
+  an internal error). Loop on an event instead: ``while (cond) @(ev);``.
+* Do not put ``fork ... join_none`` inside a class task or an ``automatic`` task: ``vvp`` aborts when
+  it runs. ``fork ... join`` works there.
+* ``disable fork`` stops only the threads that were forked in the same block. Threads that were
+  forked inside a task you called are not stopped. Fork them in the block that calls
+  ``disable fork`` and put that block in an outer ``fork begin ... end join``, so threads your own
+  code forked earlier are left alone.

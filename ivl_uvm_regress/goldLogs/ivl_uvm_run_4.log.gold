@@ -14,7 +14,7 @@ UVM_INFO @ 100.000 ns [IVL_UVM] UVM_MEDIUM: Hello World
 ----------------------------------
 Name        Type       Size  Value
 ----------------------------------
-uvm_object  <unknown>  -     @3   
+uvm_object  <unknown>  -     @4   
 ----------------------------------
 $finish(2) called at 10000 (10ps)
 

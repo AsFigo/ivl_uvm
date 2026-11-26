@@ -50,11 +50,17 @@ are listed on the :doc:`regression` page.
    * - Phases ``build`` to ``final`` over the whole component tree
      - Works
      - The phases are run one after another over the test and all its children, in the order of
-       standard UVM. Tests ``t21``, ``t23``, ``t24``. The ``run_phase`` tasks run one after another
-       instead of in parallel, and a component without a parent is not phased. See :doc:`phasing`.
-   * - Objections
+       standard UVM. Tests ``t21``, ``t23``, ``t24``. A component without a parent is not phased.
+       See :doc:`phasing`.
+   * - Parallel ``run_phase``
+     - Works
+     - The ``run_phase`` tasks of all components start together and run in parallel. The run phase
+       ends when the objections are dropped, and the tasks still running (for example a ``forever``
+       loop) are stopped. Tests ``t26``, ``t27``. See :doc:`phasing`.
+   * - Objections: ``raise_objection``, ``drop_objection``, ``get_objection_total``
      - Partial
-     - ``raise_objection`` and ``drop_objection`` are accepted and ignored. Test ``t21``.
+     - One total for the run phase. Tests ``t25``, ``t26``, ``t27``. The object you pass is not
+       recorded, and there is no hierarchy, drain time or callbacks yet.
    * - Factory
      - Partial
      - ``create_component_by_name``, ``create_component_by_type``, ``create_object_by_name``,
@@ -75,9 +81,6 @@ are listed on the :doc:`regression` page.
      - Module-based master and slave DUT, test ``t7``. It ends on the global timeout, and the
        regression records that as the expected result.
    * - ``uvm_config_db``, ``uvm_root``, factory overrides
-     - Not yet
-     - Planned.
-   * - Parallel ``run_phase`` and objection counting
      - Not yet
      - Planned.
    * - Sequences and sequencers

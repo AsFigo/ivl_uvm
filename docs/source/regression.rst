@@ -2,7 +2,7 @@ Regression
 ==========
 
 The tests live in ``ivl_uvm_tests/`` and run from ``ivl_uvm_regress/run_dir`` with
-``make vw0`` to ``make vw24``.
+``make vw0`` to ``make vw27``.
 
 .. list-table::
    :header-rows: 1
@@ -87,6 +87,18 @@ The tests live in ``ivl_uvm_tests/`` and run from ``ivl_uvm_regress/run_dir`` wi
    * - ``vw24``
      - ``t24_deep_tree``
      - The same on a deeper tree with branches: order, full names, depth and child counts.
+   * - ``vw25``
+     - ``t25_objections``
+     - The objection counter of the run phase: totals after raise and drop with counts, a component
+       that never raises, and the total at the end.
+   * - ``vw26``
+     - ``t26_fork_run_phase``
+     - Parallel ``run_phase``: all tasks start at time 0, ``run_test`` returns when the longest
+       objection is dropped, a ``forever`` task is stopped, and a thread the test forked before
+       ``run_test`` keeps running.
+   * - ``vw27``
+     - ``t27_nba_raise``
+     - An objection raised after a nonblocking assignment in the first time step is honoured.
 
 Golden logs
 -----------

@@ -46,9 +46,9 @@ phases visit the components in this order:
      - bottom-up
      - ``agent_a``, ``agent_b``, ``env``, ``uvm_test_top``
    * - ``run``
-     - top-down
-     - ``uvm_test_top``, ``env``, ``agent_a``, ``agent_b`` (one after another, see
-       :ref:`phasing-limits`)
+     - top-down start
+     - ``uvm_test_top``, ``env``, ``agent_a``, ``agent_b`` (started together and run in parallel,
+       see :ref:`phasing-run`)
    * - ``extract``, ``check``, ``report``
      - bottom-up
      - ``agent_a``, ``agent_b``, ``env``, ``uvm_test_top``
@@ -100,6 +100,42 @@ The children of a component are kept in a linked list with the newest child at t
 Icarus cannot hold class handles in an array or an associative array. Going to the older sibling
 first, before handling the current one, is what turns "newest first" into "oldest first".
 
+.. _phasing-run:
+
+The run phase
+-------------
+
+The ``run`` phase differs from the others: ``run_phase`` is a task, and in UVM the tasks of all
+components run in parallel. ``run_test`` does this in four steps.
+
+#. It walks the tree top-down, as for the other phases, but the walk only collects the components.
+   It does not call ``run_phase``.
+#. It starts the ``run_phase`` task of every component, in the order of the walk (``uvm_test_top``
+   first). All of them start at the same simulation time and run in parallel.
+#. It gives the tasks a chance to raise their objections and then waits until the objection count
+   of the phase is zero.
+#. It stops the ``run_phase`` tasks that are still running (for example a ``forever`` loop that
+   never raised an objection) and goes on with the ``extract`` phase.
+
+Objections work as in UVM from the user's side:
+
+.. code-block:: systemverilog
+
+   task run_phase(uvm_phase phase);
+     super.run_phase(phase);
+     phase.raise_objection(this);
+     #100;
+     phase.drop_objection(this);
+   endtask : run_phase
+
+``raise_objection`` and ``drop_objection`` take the BCL arguments (the object, a description, a
+count). As in the BCL, raise the objection in the first time step of the run phase: an objection
+raised after time has advanced is not seen, and the run phase has ended by then. A task that
+never raises an objection does not hold the run phase open.
+
+A thread that your own test forked before it called ``run_test`` is not stopped when the run phase
+ends.
+
 Call stack
 ----------
 
@@ -140,13 +176,11 @@ Differences from standard UVM
 
    * - Standard UVM
      - In IVL_UVM
-   * - All ``run_phase`` tasks start together and run in parallel.
-     - The ``run_phase`` tasks run one after another, in the order above. A ``run_phase`` that waits
-       or loops forever holds up the components after it, and ``run_test`` does not return, so the
-       later phases do not run. Planned: start them together.
-   * - Objections decide when the run phase ends.
-     - ``raise_objection`` and ``drop_objection`` are accepted and ignored. The run phase ends when
-       each ``run_phase`` task has returned. Planned.
+   * - The objection of a phase counts per object and per level of the hierarchy, and has a drain
+       time.
+     - The objection of the run phase keeps one total. ``get_objection_total`` returns it; the object
+       you pass to ``raise_objection`` and ``drop_objection`` is not recorded. There is no
+       hierarchy, no drain time and no callbacks. Dropping below zero is a fatal error, as in UVM.
    * - Every component without a parent is phased (they are all children of the root component).
      - Only the tree under ``uvm_test_top`` is phased. A component created with ``parent = null``
        anywhere else gets no phases. Planned: a root component.

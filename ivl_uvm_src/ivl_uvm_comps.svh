@@ -43,4 +43,6 @@
 
 `include "seq/uvm_sequencer_base.svh"
 
+`include "comps/uvm_env.svh"
+
 `include "comps/uvm_test.svh"

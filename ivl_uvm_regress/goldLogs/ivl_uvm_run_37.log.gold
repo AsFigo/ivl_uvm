@@ -1,0 +1,37 @@
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [ENV] PASS  default name               got='env'
+UVM_INFO @ 0 [ENV] PASS  default parent is uvm_top  got=1
+UVM_INFO @ 0 [ENV] PASS  uvm_env type name          got='uvm_env'
+UVM_INFO @ 0 [ENV] PASS  component casts to env     got=1
+UVM_INFO @ 0 [IVL_GO2UVM] Using UVM_TESTNAME: env_test
+UVM_INFO @ 0 [IVL_GO2UVM] ivl_uvm_pkg::uvm_object.uvm_report_info
+UVM_INFO @ 0 [RNTST] Running test env_test...
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] build_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] connect_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] end_of_elaboration_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] start_of_simulation_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [IVL_GO2UVM] run_phase
+UVM_INFO @ 0 [ENV] PASS  build order                got='uvm_test_top env sub_env '
+UVM_INFO @ 0 [ENV] PASS  connect order              got='sub_env env uvm_test_top '
+UVM_INFO @ 0 [ENV] PASS  run start order            got='uvm_test_top env sub_env '
+UVM_INFO @ 0 [ENV] PASS  env full name              got='uvm_test_top.env'
+UVM_INFO @ 0 [ENV] PASS  env type name              got='top_env'
+UVM_INFO @ 0 [ENV] PASS  sub env full name          got='uvm_test_top.env.sub_env'
+UVM_INFO @ 0 [ENV] PASS  sub env parent is env      got=1
+UVM_INFO @ 0 [ENV] PASS  by name is a uvm_env       got=1
+UVM_INFO @ 0 [ENV] ENV: PASS (12 checks, 0 failed)
